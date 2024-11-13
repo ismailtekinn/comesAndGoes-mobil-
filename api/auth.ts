@@ -31,8 +31,10 @@ export async function login(params: SignIn) {
   }
 
   export async function register(params: Register) {
+    console.log("Register data verileri ekrana yazdırıldı", params)
     try {
-      const url = API_URL + 'register';
+      // const url = API_URL + 'register';
+      const url = 'http://192.168.1.105:3000/api/register';
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -49,9 +51,14 @@ export async function login(params: SignIn) {
       }
   
       const userData = await response.json();
+      console.log("Burası register methodu ", userData.message)
       return userData;
     } catch (error) {
       console.error(error);
       throw new Error('An error occurred during register');
     }
   }
+
+
+
+  

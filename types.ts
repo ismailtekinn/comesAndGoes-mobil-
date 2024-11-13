@@ -15,6 +15,7 @@ export type RootStackParamList = {
     AddCustomer: undefined;
     DebtDetail: { customer: Customers }; 
     Login : undefined
+    Register: undefined
 
 }
 

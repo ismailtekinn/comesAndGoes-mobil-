@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Alert, TextInput, Button, Text, StyleSheet } from 'react-native';
+import { View, Alert, TextInput, Button, Text, StyleSheet,TouchableOpacity } from 'react-native';
 import { SignIn } from '../types/authType'; // SignIn tipinin bulunduğu dosyayı içe aktarıyoruz.
 import { login } from '../api/auth';
 import { useUser } from '../contex/useContext';
@@ -62,6 +62,12 @@ const LoginScreen = () => {
         title="Login" 
         color="#007BFF" 
       />
+       <View style={styles.signUpText}>
+          <Text style={styles.text}>Already have an account?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+            <Text style={styles.linkText}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
     </View>
   );
 };
@@ -87,6 +93,19 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 16,
     backgroundColor: '#fff', // Girdi alanının arka plan rengi
+  },
+  signUpText: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  text: {
+    color: 'grey',
+  },
+  linkText: {
+    color: 'blue',
+    textAlign: 'center',
+    marginTop: 10,
   },
 });
 

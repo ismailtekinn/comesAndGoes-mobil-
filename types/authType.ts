@@ -10,5 +10,6 @@ export type SignIn = {
     email: string;
     password: string;
     phone: string;
+    roleId: 3;
   };
   

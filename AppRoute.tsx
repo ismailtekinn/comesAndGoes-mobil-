@@ -17,6 +17,7 @@ import AddDebt from "./screens/AddDebt";
 import AddCustomer from "./screens/AddCustomer";
 import DebtDetail from "./screens/DebtDetail";
 import { useUser } from "./contex/useContext";
+import RegisterScreen from "./screens/RegisterScreen";
 
 const Stack = createStackNavigator();
 
@@ -73,6 +74,7 @@ const AppRoute: React.FC = () => {
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="AccountInfoForm" component={AccountInfoForm} />
         <Stack.Screen name="Clock" component={Clock} />
