@@ -13,10 +13,14 @@ import { MoneyTransfer } from "../types/customerType";
 import { useCustomerForm } from "../hooks/useCustomerForm";
 import { moneyTransfer } from "../api/customer";
 import BottomBar from "./BottomBar";
+import { useUser } from "../contex/useContext";
 
 const AddDebt = () => {
   const [paraBirimi, setParaBirimi] = useState<string>("TL");
-  const userId = 1;
+  const {handleLogout, userData,userId} = useUser()
+
+
+  const userIdNumber = userId ? Number(userId) : 0;
   const {
     customers,
     transferFormData,
@@ -25,7 +29,7 @@ const AddDebt = () => {
     handleMoneyTransferInputChange,
     handleMoneyTransferCustomerChange,
     handleSenderCustomerChange,
-  } = useCustomerForm(userId);
+  } = useCustomerForm(userIdNumber);
 
   const handleSubmit = async () => {
     const moneyTransferData: MoneyTransfer = {
@@ -33,7 +37,7 @@ const AddDebt = () => {
       moneyCurrency: paraBirimi, // Dikkat! Para birimi burada kullanılacak
       senderId: selectedCustomer ? selectedCustomer.id : 0,
       receiverId: receiverCustomer ? receiverCustomer.id : 0,
-      intermediaryId: userId,
+      intermediaryId: userIdNumber,
       receivedDate: new Date(transferFormData.receivedDate),
       transferDate: new Date(transferFormData.transferDate),
     };

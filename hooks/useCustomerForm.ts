@@ -45,8 +45,8 @@ export function useCustomerForm(userId: number) {
     receivedAmount:'',
     moneyCurrency: 'TL',
     receivedName:'',
-    receivedDate: '',
-    transferDate: '',
+    receivedDate: '2024-07-17',
+    transferDate: '2024-07-24',
   });
 
   useEffect(() => {

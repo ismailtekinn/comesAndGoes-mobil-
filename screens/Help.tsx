@@ -49,11 +49,11 @@ const Help: React.FC = () => {
           <View style={styles.contactBox}>
             <View style={styles.contactItem}>
               <Text style={styles.contactLabel}>Müşteri Hizmetleri:</Text>
-              <Text style={styles.contactInfo}>tkn.ism200@gmail.com</Text>
+              <Text style={styles.contactInfo}>baysoftworks@gmail.com</Text>
             </View>
             <View style={styles.contactItem}>
               <Text style={styles.contactLabel}>Bize Ulaşın:</Text>
-              <Text style={styles.contactInfo}>55114888516</Text>
+              <Text style={styles.contactInfo}>5357970059</Text>
             </View>
           </View>
         </ScrollView>

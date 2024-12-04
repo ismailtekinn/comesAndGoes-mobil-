@@ -15,6 +15,7 @@ export async function login(params: SignIn) {
           phone: params.phone,
           password: params.password
         })
+        
       });
   
       if (!response.ok) {
@@ -33,8 +34,8 @@ export async function login(params: SignIn) {
   export async function register(params: Register) {
     console.log("Register data verileri ekrana yazdırıldı", params)
     try {
-      // const url = API_URL + 'register';
-      const url = 'http://192.168.1.105:3000/api/register';
+      const url = API_URL + 'register';
+      // const url = 'http://192.168.1.105:3000/api/register';
       const response = await fetch(url, {
         method: 'POST',
         headers: {

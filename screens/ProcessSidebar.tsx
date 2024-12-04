@@ -3,13 +3,13 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useUser } from "../contex/useContext";
 
 export type RootStackParamList = {
   AccountInfoForm: undefined;
   Clock: undefined;
   Language: undefined;
   Help: undefined;
-  // Diğer ekranlar...
 };
 
 export interface ProcessSidebarProps {
@@ -22,6 +22,8 @@ const ProcessSidebar: React.FC<ProcessSidebarProps> = ({
   toggleSidebar,
 }) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const {handleLogout,userData,userId} = useUser()
+
 
   if (!isSidebarOpen) return null;
 
@@ -58,6 +60,10 @@ const ProcessSidebar: React.FC<ProcessSidebarProps> = ({
         <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Help')}>
           <Ionicons name="help-circle-outline" size={24} />
           <Text style={styles.menuText}>Yardım</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menuItem} onPress={()=> handleLogout()}>
+        <Ionicons name="log-out-outline" size={24} color="#333" />
+          <Text style={styles.menuText}>Çıkış</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -5,15 +5,20 @@ import { Customer } from "../types/customerType";
 import { addCustomer } from "../api/customer";
 import { FontAwesome } from "@expo/vector-icons";
 import BottomBar from "./BottomBar";
+import { useUser } from "../contex/useContext";
 
 const AddCustomer: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const {handleLogout, userData,userId} = useUser()
+
+
+  const userIdNumber = userId ? Number(userId) : 0;
   const [formData, setFormData] = useState<Customer>({
     clientName: 'Kerim',
     clientSurname: 'Araz',
     clientPhone: '551148',
-    userId: 1,
-    id: 1,
+    userId : userIdNumber ,
+    id : 0,
   });
 
   const handleInputChange = (field: string, value: string) => {

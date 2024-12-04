@@ -6,16 +6,69 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Button,
 } from "react-native";
 import DatePicker from "react-native-date-picker";
 import BottomBar from "./BottomBar";
 import { Picker } from "@react-native-picker/picker";
+import { Debt } from "../types/customerType";
+import { useUser } from "../contex/useContext";
+import { useCustomerForm } from "../hooks/useCustomerForm";
+import { addCashReceivable } from "../api/customer";
 
 const CashReceivable = () => {
   const [paraBirimi, setParaBirimi] = useState("TL");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [musteriAdi, setMusteriAdi] = useState("");
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const { handleLogout, userData, userId } = useUser();
+
+  const userIdNumber = userId ? Number(userId) : 0;
+
+  const {
+    customers,
+    formData,
+    selectedCustomer,
+    transferFormData,
+    setFormData,
+    handleCustomerChange,
+    setSelectedCustomer,
+    handleInputChange,
+    handleMoneyTransferInputChange,
+    handleSenderCustomerChange,
+  } = useCustomerForm(userIdNumber);
+
+  const handleSubmit = async () => {
+    const debtData: Debt = {
+      debtAmount: parseInt(formData.cashAmount),
+      debtCurrency: formData.debtCurrency,
+      debtorId: userIdNumber,
+      creditorId: selectedCustomer ? selectedCustomer.id : 0,
+      debtIssuanceDate: new Date(formData.debtDate),
+      debtRepaymentDate: new Date(formData.repaymentDate),
+    };
+    try {
+      const response = await addCashReceivable(debtData);
+      setSuccessMessage(response);
+      setFormData({
+        name: "",
+        surname: "",
+        phone: "",
+        cashAmount: "",
+        debtDate: "2024-07-17",
+        repaymentDate: "2024-07-17",
+        debtCurrency: "TL",
+      });
+
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 2000);
+    } catch (error) {
+      console.error("registration failed", error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -31,27 +84,43 @@ const CashReceivable = () => {
             <View style={styles.formControl}>
               <Text style={styles.label}>Müşteri Adı</Text>
               <Picker
-                selectedValue={musteriAdi}
-                onValueChange={(itemValue) => setMusteriAdi(itemValue)}
-                style={styles.picker}
+                selectedValue={selectedCustomer?.id.toString() || ""}
+                onValueChange={(value) =>
+                  handleSenderCustomerChange(parseInt(value))
+                }
               >
-                <Picker.Item label="Müşteri Seçin" value="" />
-                <Picker.Item label="Müşteri 1" value="musteri1" />
-                <Picker.Item label="Müşteri 2" value="musteri2" />
-                <Picker.Item label="Müşteri 3" value="musteri3" />
+                <Picker.Item label="Seçiniz" value="" />
+                {customers.map((customer) => (
+                  <Picker.Item
+                    key={customer.id}
+                    label={`${customer.clientName} ${customer.clientSurname}`}
+                    value={customer.id.toString()}
+                  />
+                ))}
               </Picker>
             </View>
             <View style={styles.formControl}>
               <Text style={styles.label}>Müşteri Telefon</Text>
-              <TextInput style={styles.input} placeholder="Müşteri Telefon" />
+              {/* <TextInput style={styles.input} placeholder="Müşteri Telefon" /> */}
+              <TextInput
+                style={styles.input}
+                placeholder="Müşteri Telefon"
+                value={transferFormData.phone}
+                onChangeText={(text) =>
+                  handleMoneyTransferInputChange("phone", text)
+                }
+              />
             </View>
             <View style={styles.formControl}>
               <Text style={styles.label}>Nakit Miktarı</Text>
               <View style={styles.currencyContainer}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Nakit Miktarı"
+                <TextInput style={styles.input} placeholder="Nakit Miktarı" 
+                value={transferFormData.receivedAmount}
+                onChangeText={(text) =>
+                  handleMoneyTransferInputChange("receivedAmount", text)
+                }
                 />
+                              
                 <Picker
                   selectedValue={paraBirimi}
                   onValueChange={(itemValue) => setParaBirimi(itemValue)}
@@ -65,16 +134,32 @@ const CashReceivable = () => {
             </View>
             <View style={styles.formControl}>
               <Text style={styles.label}>Borç Veriliş Tarihi</Text>
-              <TextInput style={styles.input} placeholder="YYYY-MM-DD" />
+              <TextInput
+                style={styles.input}
+                placeholder="YYYY-MM-DD"
+                value={transferFormData.receivedDate}
+                onChangeText={(text) =>
+                  handleMoneyTransferInputChange("receivedDate", text)
+                }
+              />
             </View>
             <View style={styles.formControl}>
               <Text style={styles.label}>Borç Geri Ödeme Tarihi</Text>
-              <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+              <TouchableOpacity>
+                {/* <TouchableOpacity onPress={() => setShowDatePicker(true)}>
                 <TextInput
                   style={styles.input}
                   placeholder="YYYY-MM-DD"
                   value={selectedDate.toDateString()}
                   editable={false}
+                /> */}
+                <TextInput
+                  style={styles.input}
+                  placeholder="YYYY-MM-DD"
+                  value={transferFormData.transferDate}
+                  onChangeText={(text) =>
+                    handleMoneyTransferInputChange("receivedDate", text)
+                  }
                 />
               </TouchableOpacity>
               {showDatePicker && (
@@ -92,9 +177,12 @@ const CashReceivable = () => {
                 />
               )}
             </View>
-            <TouchableOpacity style={styles.submitButton}>
+            {/* <TouchableOpacity style={styles.submitButton}>
               <Text style={styles.submitButtonText}>Borç Al</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <View style={styles.submitButton}>
+            <Button title="Borç Ver" onPress={handleSubmit}  />
+          </View>
           </View>
         </View>
       </ScrollView>
@@ -108,7 +196,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: "#f8f8f8",
-    
   },
   scrollView: {
     flexGrow: 1,
@@ -174,6 +261,10 @@ const styles = StyleSheet.create({
   submitButtonText: {
     color: "#fff",
     fontWeight: "bold",
+  },
+  buttonContainer: {
+    marginTop: 20,
+    alignItems: "center",
   },
 });
 

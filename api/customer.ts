@@ -1,5 +1,5 @@
 import { API_URL } from "../constants/constant";
-import { Customer, DebtDetail, MoneyTransfer } from "../types/customerType";
+import { Customer, Debt, DebtDetail, MoneyTransfer } from "../types/customerType";
 
 export async function getCustomerList(userId: number) {
   try {
@@ -75,6 +75,29 @@ export async function addCustomer(params: Customer): Promise<{ success: boolean;
      throw new Error('An error occurred during register');
   }
  }
+
+export async function addCashReceivable(params: Debt) {
+  try{
+      const url = API_URL + 'comesandgoes/addCashReceivable';
+      const response = await fetch(url, {
+          method: 'Post',
+          headers:{
+              'Content-Type': 'application/json'
+          },
+          body :JSON.stringify({
+              ...params
+          })
+      });
+      if(!response.ok){
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'addCashReceivable failed');
+          
+      }
+      const result = await response.json();
+      return result.message;
+  }catch(error){}
+
+}
  
  export async function homeCustomerList(userId: number){
   try{
@@ -218,3 +241,4 @@ export async function accountInfo(userId: number){
       throw new Error('An error occurred during register');
    }
 }
+
