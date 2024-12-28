@@ -11,6 +11,7 @@ const AccountInfoForm = () => {
   const {handleLogout,userData,userId} = useUser()
   const [userInfo, setUserInfo] = useState<User>({
     email: '',
+    
     id: 0,
     name: '',
     password: '',

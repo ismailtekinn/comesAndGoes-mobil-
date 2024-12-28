@@ -31,7 +31,7 @@ const LoginScreen = () => {
     } else {
       const { user, token } = await login(formData);
       console.log("user and token: ",user, token);
-      if (token && user) {
+      if (token && user) {""
         handleToken(token);
         console.log("burası login sayfası user yazdırdım: ",user)
         handleLogin(user)
@@ -65,6 +65,9 @@ const LoginScreen = () => {
        <View style={styles.signUpText}>
           <Text style={styles.text}>Already have an account?</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+            <Text style={styles.linkText}>Sign Up</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <Text style={styles.linkText}>Sign Up</Text>
           </TouchableOpacity>
         </View>

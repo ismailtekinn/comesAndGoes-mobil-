@@ -1,11 +1,18 @@
+import axios from "axios";
 import { API_URL } from "../constants/constant";
 import { Register, SignIn } from "../types/authType";
+import Constants from 'expo-constants';
+
 
 export async function login(params: SignIn) {
     try {
         console.log("form data backende gönderilmek üzere alındı", params)
-      const url = API_URL + 'login';
-      // const url = "http://localhost:3000/api/login";
+      // const url = API_URL + 'login';
+      // const url = 'http://92.113.27.13:3000/api/login';
+      const API_URL = Constants.expoConfig?.extra?.API_URL;
+      const url = `${API_URL}/Login`;
+      // const url = Constants.manifest?.extra?.apiUrl; ;
+      console.log("backend url ekrana yazdırılıyor : ", url)
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -14,7 +21,8 @@ export async function login(params: SignIn) {
         body: JSON.stringify({
           phone: params.phone,
           password: params.password
-        })
+        }),
+        mode: 'cors' 
         
       });
   
@@ -30,6 +38,31 @@ export async function login(params: SignIn) {
       throw new Error('An error occurred during login');
     }
   }
+// export async function login(params: SignIn) {
+//   try {
+//     console.log("form data backende gönderilmek üzere alındı", params);
+//     // const url = API_URL + 'login';
+//     const url = 'http://92.113.27.13:3000/api/login';
+//     console.log("backend url ekrana yazdırılıyor : ", url);
+
+//     const response = await axios.post(url, {
+//       phone: params.phone,
+//       password: params.password
+//     }, {
+//       headers: {
+//         "Content-Type": "application/x-www-form-urlencoded",
+//       }
+//     });
+
+//     console.log("response ekrana yazdırıldı ", response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//     throw new Error('An error occurred during login');
+//   }
+// }
+
+
 
   export async function register(params: Register) {
     console.log("Register data verileri ekrana yazdırıldı", params)
@@ -62,4 +95,4 @@ export async function login(params: SignIn) {
 
 
 
-  
+ 12342354546 
