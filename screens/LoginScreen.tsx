@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Alert, TextInput, Button, Text, StyleSheet,TouchableOpacity } from 'react-native';
 import { SignIn } from '../types/authType'; // SignIn tipinin bulunduğu dosyayı içe aktarıyoruz.
-import { login } from '../api/auth';
+import {  login } from '../api/auth';
 import { useUser } from '../contex/useContext';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
@@ -39,6 +39,24 @@ const LoginScreen = () => {
     }
   };
 
+  // const handleSubmit =  async() => {
+  //   const { phone, password } = formData;
+
+  //   const preLoginResult = await fetchDogImage();
+  //   console.log("test apiden çekilden veriler konsole yazdiriliyor : ", preLoginResult);
+  //   if (phone === '' || password === '') {
+  //     Alert.alert('Error', 'Please enter both phone number and password.');
+  //   } else {
+  //     const { user, token } = await login(formData);
+  //     console.log("user and token: ",user, token);
+  //     if (token && user) {""
+  //       handleToken(token);
+  //       console.log("burası login sayfası user yazdırdım: ",user)
+  //       handleLogin(user)
+  //     }
+  //   }
+  // };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
@@ -65,9 +83,6 @@ const LoginScreen = () => {
        <View style={styles.signUpText}>
           <Text style={styles.text}>Already have an account?</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={styles.linkText}>Sign Up</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <Text style={styles.linkText}>Sign Up</Text>
           </TouchableOpacity>
         </View>

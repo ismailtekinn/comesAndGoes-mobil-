@@ -74,6 +74,7 @@ const CashPaylesList = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: 550,
   },
   scrollContainer: {
     padding: 30,

@@ -28,35 +28,35 @@ const DebtList = () => {
     navigation.navigate('AddDebt')
   };
 
-  const customers = [
-    {
-      firstName: 'Ahmet',
-      lastName: 'Yılmaz',
-      nakit: '500 ₺',
-      islem: 'verdim',
-      vt: '28.01.2000',
-      at: '20.01.2000',
-    },
-    {
-      firstName: 'Ahmet',
-      lastName: 'Yılmaz',
-      nakit: '500 ₺',
-      islem: 'verdim',
-      vt: '28.01.2000',
-      at: '20.01.2000',
-    },
-    {
-      firstName: 'Ahmet',
-      lastName: 'Yılmaz',
-      nakit: '500 ₺',
-      islem: 'verdim',
-      vt: '28.01.2000',
-      at: '20.01.2000',
-    },
-  ];
 
+  // const customers = [
+  //   {
+  //     firstName: 'Ahmet',
+  //     lastName: 'Yılmaz',
+  //     nakit: '500 ₺',
+  //     islem: 'verdim',
+  //     vt: '28.01.2000',
+  //     at: '20.01.2000',
+  //   },
+  //   {
+  //     firstName: 'Ahmet',
+  //     lastName: 'Yılmaz',
+  //     nakit: '500 ₺',
+  //     islem: 'verdim',
+  //     vt: '28.01.2000',
+  //     at: '20.01.2000',
+  //   },
+  //   {
+  //     firstName: 'Ahmet',
+  //     lastName: 'Yılmaz',
+  //     nakit: '500 ₺',
+  //     islem: 'verdim',
+  //     vt: '28.01.2000',
+  //     at: '20.01.2000',
+  //   },
+  // ];
   return (
-    <View style={{ flex: 1, justifyContent: 'space-between' }}>
+    <View style={{ flex: 1, justifyContent: 'space-between' }}>  
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.listContainer}>
           {customerss.map((customer, index) => (
@@ -73,13 +73,16 @@ const DebtList = () => {
 };
 
 const styles = StyleSheet.create({
+
   container: {
     padding: 16,
     backgroundColor: '#fff',
+    // borderStartColor: 'green',
     flexGrow: 1,
   },
-  listContainer: {
-    marginBottom: 20,
+
+  listContainer: { 
+    backgroundColor: 'green',
   },
   button: {
     backgroundColor: '#f31137',
@@ -88,8 +91,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    bottom: 20,
+    // bottom: 20,
     right: 20,
+    zIndex: 1,
   },
   buttonText: {
     color: '#fff',
@@ -98,3 +102,5 @@ const styles = StyleSheet.create({
 });
 
 export default DebtList;
+
+

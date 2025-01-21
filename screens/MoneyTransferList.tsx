@@ -6,6 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 import BottomBar from './BottomBar';
 import { getMoneyTransfers } from '../api/customer';
+import { green } from 'react-native-reanimated/lib/typescript/Colors';
 
 const MoneyTransferList = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -85,8 +86,10 @@ const MoneyTransferList = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     padding: 10,
+    height: 550,
+    // backgroundColor: 'green',
   },
   listContainer: {
     flexDirection: 'column',
@@ -98,9 +101,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    bottom: 10,
+    bottom:20,
     right: 20,
-  
+    zIndex: 1,
   },
   buttonText: {
     color: '#ffffff',

@@ -25,15 +25,15 @@ const AppRoute: React.FC = () => {
   const navigationRef = useRef<NavigationContainerRef<any>>(null);
   const { userData , token } = useUser();
 
-  // useEffect(() => {
-  //   if (navigationRef.current) {
-  //     if (token) {
-  //       navigationRef.current.navigate("Home");
-  //     } else {
-  //       navigationRef.current.navigate("Login");
-  //     }
-  //   }
-  // }, [token]);
+  useEffect(() => {
+    if (navigationRef.current) {
+      if (token) {
+        navigationRef.current.navigate("Home");
+      } else {
+        navigationRef.current.navigate("Login");
+      }
+    }
+  }, [token]);
 
   console.log("token ekrana yazdırıldı burası app root", userData,token)
   return (

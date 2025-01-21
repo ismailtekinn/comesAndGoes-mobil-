@@ -8,7 +8,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AccountInfoForm = () => {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  const {handleLogout,userData,userId} = useUser()
+  // const {handleLogout,userData,userId} = useUser()
+  const {handleLogout,userData} = useUser()
+  const userId  = 4;
   const [userInfo, setUserInfo] = useState<User>({
     email: '',
     
@@ -30,7 +32,7 @@ const AccountInfoForm = () => {
     const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
       setKeyboardVisible(false);
     }); 
-
+ 
     const fetchCustomers = async () => {
       try {
         if (userId !== undefined) { 

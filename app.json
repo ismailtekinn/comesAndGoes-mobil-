@@ -20,6 +20,9 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "plugins": [
+        "./android-manifest.plugin.js"
+      ],
       "package": "com.bybrstekin.deneme2",
       "permissions": ["INTERNET"],
       "usesCleartextTraffic": true

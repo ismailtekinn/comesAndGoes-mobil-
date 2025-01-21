@@ -219,26 +219,54 @@ export async function getMoneyTransfers(userId: number){
    }
 }
 
-export async function accountInfo(userId: number){
-  try{
-      const url = `${API_URL}comesandgoes/getAccountInfo?userId=${userId}`;
-      const response = await fetch(url, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        if(!response.ok){
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'addCustomer failed');
+// export async function accountInfo(userId: number){
+//   try{
+//       const url = `${API_URL}comesandgoes/getAccountInfo?userId=${userId}`;
+//       const response = await fetch(url, {
+//           method: 'GET',
+//           headers: {
+//             'Content-Type': 'application/json'
+//           }
+//         });
+//         if(!response.ok){
+//           const errorData = await response.json();
+//           throw new Error(errorData.error || 'addCustomer failed');
           
-      }
-      const accountInfo = await response.json();
-      console.log("Account bilgileri api fonksiyonu : " , accountInfo)
-      return accountInfo;
-  }catch(error){
-      console.error(error);
-      throw new Error('An error occurred during register');
-   }
+//       }
+//       const accountInfo = await response.json();
+//       console.log("Account bilgileri api fonksiyonu : " , accountInfo)
+//       return accountInfo;
+//   }catch(error){
+//       console.error(error);
+//       throw new Error('An error occurred during register');
+//    }
+// }
+export async function accountInfo(userId: number){
+  try {
+    const url = `${API_URL}comesandgoes/getAccountInfo?userId=${userId}`;
+    console.log("Request URL:", url);
+
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    console.log("Response status:", response.status);
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error response:", errorData);
+        throw new Error(errorData.error || 'getAccountInfo failed');
+    }
+
+    const accountInfo = await response.json();
+    console.log("Account bilgileri:", accountInfo);
+    return accountInfo;
+} catch (error) {
+    console.error("Network request failed error:", error);
+    throw new Error('An error occurred during getAccountInfo');
+}
 }
 
