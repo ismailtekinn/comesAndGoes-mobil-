@@ -7,10 +7,13 @@ import { RootStackParamList } from '../types';
 import BottomBar from './BottomBar';
 import { getMoneyTransfers } from '../api/customer';
 import { green } from 'react-native-reanimated/lib/typescript/Colors';
+import { useTranslations } from '../hooks/useTranslation';
 
 const MoneyTransferList = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [customerss, setCustomers] = useState([]);
+  const t = useTranslations();
+
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -78,7 +81,7 @@ const MoneyTransferList = () => {
       </ScrollView>
       {/* <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MoneyTransfer')}> */}
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MoneyTransferScreen')}>
-        <Text style={styles.buttonText}>Transfer Et</Text>
+        <Text style={styles.buttonText}>{t.accountTransferTabMenu.transferButton}</Text>
       </TouchableOpacity>
     </View>
   );

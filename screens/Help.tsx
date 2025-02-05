@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useContext, useLayoutEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import BottomBar from './BottomBar';
+import { useTranslations } from "../hooks/useTranslation";
+import { LanguageContext } from "../contex/languageContext";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types";
+import { useNavigation } from "@react-navigation/native";
+
 
 const Help: React.FC = () => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const t = useTranslations();
+  const { activeLanguage } = useContext(LanguageContext);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t.helpPage.pageTitle,
+    });
+  }, [navigation, activeLanguage]);
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView

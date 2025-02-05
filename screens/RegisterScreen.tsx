@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useLayoutEffect, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { Register } from '../types/authType'; // Register tipi burada tanımlı olmalı
 import { register } from '../api/auth'; // Register işlevi burada tanımlı olmalı
@@ -6,6 +6,8 @@ import { useUser } from '../contex/useContext'; // Kullanıcı işlemleri için
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslations } from '../hooks/useTranslation';
+import { LanguageContext } from '../contex/languageContext';
 
 
 const RegisterScreen: React.FC = () => {
@@ -22,6 +24,14 @@ const RegisterScreen: React.FC = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const { handleLogin, handleToken } = useUser();
   const [error, setError] = useState<string | null>(null);
+  const t = useTranslations();
+  const { activeLanguage } = useContext(LanguageContext);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t.registerPage.pageTitle,
+    });
+  }, [navigation, activeLanguage]);
 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,53 +70,54 @@ const RegisterScreen: React.FC = () => {
       <View style={styles.card}>
       {error && <Text style={styles.errorText}>{error}</Text>}
 
-        <Text style={styles.cardTitle}>Sign Up</Text>
+        <Text style={styles.cardTitle}>{t.registerPage.pageTitle}</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter your name"
+          placeholder={t.registerPage.firstName}
           value={formData.name}
           onChangeText={(text) => setFormData({ ...formData, name: text })}
         />
         <TextInput
           style={styles.input}
-          placeholder="Enter your surname"
+          placeholder={t.registerPage.lastName}
           value={formData.surname}
           onChangeText={(text) => setFormData({ ...formData, surname: text })}
         />
         <TextInput
           style={styles.input}
-          placeholder="Enter your username"
+          placeholder={t.registerPage.userName}
           value={formData.username}
           onChangeText={(text) => setFormData({ ...formData, username: text })}
         />
         <TextInput
           style={styles.input}
-          placeholder="Enter your email"
+          placeholder={t.registerPage.email}
           keyboardType="email-address"
           value={formData.email}
           onChangeText={(text) => setFormData({ ...formData, email: text })}
         />
         <TextInput
           style={styles.input}
-          placeholder="Enter your password"
+          placeholder={t.registerPage.phoneNumber}
+          value={formData.phone}
+          onChangeText={(text) => setFormData({ ...formData, phone: text })}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder={t.registerPage.password}
           secureTextEntry
           value={formData.password}
           onChangeText={(text) => setFormData({ ...formData, password: text })}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your phone number"
-          value={formData.phone}
-          onChangeText={(text) => setFormData({ ...formData, phone: text })}
-        />
-        <Button title="Sign Up" onPress={handleSubmit} />
+
+        <Button title={t.registerPage.signUp} onPress={handleSubmit} />
         <TouchableOpacity>
-          <Text style={styles.linkText}>Forgot Password?</Text>
+          <Text style={styles.linkText}>{t.registerPage.passwordReturn}</Text>
         </TouchableOpacity>
         <View style={styles.signInText}>
-          <Text style={styles.text}>Already have an account?</Text>
+          <Text style={styles.text}>{t.registerPage.haveAccount}</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.linkText}>Sign In</Text>
+            <Text style={styles.linkText}>{t.registerPage.signIn}</Text>
           </TouchableOpacity>
         </View>
       </View>

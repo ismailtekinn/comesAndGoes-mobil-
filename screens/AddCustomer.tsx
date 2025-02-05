@@ -1,15 +1,30 @@
-import React, { useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { View, Text, TextInput, Alert, StyleSheet, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { Customer } from "../types/customerType";
 import { addCustomer } from "../api/customer";
 import { FontAwesome } from "@expo/vector-icons";
 import BottomBar from "./BottomBar";
 import { useUser } from "../contex/useContext";
+import { useTranslations } from "../hooks/useTranslation";
+import { LanguageContext } from "../contex/languageContext";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types";
+import { useNavigation } from "@react-navigation/native";
 
 const AddCustomer: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  
   const {handleLogout, userData,userId} = useUser()
+  const t = useTranslations();
+  const { activeLanguage } = useContext(LanguageContext);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t.addCustomerPage.addCustomer,
+    });
+  }, [navigation, activeLanguage]);
+
 
 
   const userIdNumber = userId ? Number(userId) : 0;
@@ -56,26 +71,26 @@ const AddCustomer: React.FC = () => {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Ad"
+            placeholder={t.addCustomerPage.enterYourName}
             value={formData.clientName}
             onChangeText={(text) => handleInputChange("clientName", text)}
           />
           <TextInput
             style={styles.input}
-            placeholder="Soyad"
+            placeholder={t.addCustomerPage.enterYourSurname}
             value={formData.clientSurname}
             onChangeText={(text) => handleInputChange("clientSurname", text)}
           />
           <TextInput
             style={styles.input}
-            placeholder="Telefon"
+            placeholder={t.addCustomerPage.enterYourPhoneNumber}
             value={formData.clientPhone}
             keyboardType="phone-pad"
             onChangeText={(text) => handleInputChange("clientPhone", text)}
           />
         </View>
         <TouchableOpacity style={styles.addButton} onPress={handleSubmit}>
-          <Text style={styles.addButtonText}>Müşteri Ekle</Text>
+          <Text style={styles.addButtonText}>{t.addCustomerPage.addCustomer}</Text>
         </TouchableOpacity>
       </View>
       <BottomBar />

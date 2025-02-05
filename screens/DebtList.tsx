@@ -5,11 +5,14 @@ import { useNavigation } from '@react-navigation/native'; // navigation kullanı
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 import { debCustomerList } from '../api/customer';
+import { useTranslations } from '../hooks/useTranslation';
 
 
 const DebtList = () => {
   const [customerss, setCustomers] = useState([]);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+    const t = useTranslations();
+  
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -66,7 +69,7 @@ const DebtList = () => {
       </ScrollView>
 
       <TouchableOpacity style={styles.button} onPress={handleAddCustomerClick}>
-        <Text style={styles.buttonText}>Borç Ver</Text>
+        <Text style={styles.buttonText}>{t.accountPageDebtsTabMenu.lendButton}</Text>
       </TouchableOpacity>
     </View>
   );

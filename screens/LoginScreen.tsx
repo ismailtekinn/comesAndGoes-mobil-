@@ -1,91 +1,94 @@
-import React, { useState } from 'react';
-import { View, Alert, TextInput, Button, Text, StyleSheet,TouchableOpacity } from 'react-native';
-import { SignIn } from '../types/authType'; // SignIn tipinin bulunduğu dosyayı içe aktarıyoruz.
-import {  login } from '../api/auth';
-import { useUser } from '../contex/useContext';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../types';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useContext, useLayoutEffect } from "react";
+import {
+  View,
+  Alert,
+  TextInput,
+  Button,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { SignIn } from "../types/authType";
+import { login } from "../api/auth";
+import { useUser } from "../contex/useContext";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types";
+import { useNavigation } from "@react-navigation/native";
+import { LanguageContext } from "../contex/languageContext";
+
+import { useTranslations } from "../hooks/useTranslation";
 
 const LoginScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const { handleToken, handleLogin } = useUser();
+  const t = useTranslations();
+  const { activeLanguage } = useContext(LanguageContext);
 
-  const { handleToken,handleLogin } = useUser();
+  
+  useLayoutEffect(() => {
+    if (t?.loginPage?.pageTitle) {
+      navigation.setOptions({
+        title: t.loginPage.pageTitle,
+      });
+    }
+  }, [navigation, activeLanguage]);
+
   const [formData, setFormData] = useState<SignIn>({
-    phone: '',
-    password: '',
+    phone: "",
+    password: "",
   });
 
-  // Parametrelerin tiplerini belirtiyoruz.
   const handleChange = (name: keyof SignIn, value: string) => {
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  const handleSubmit =  async() => {
+  const handleSubmit = async () => {
     const { phone, password } = formData;
-    if (phone === '' || password === '') {
-      Alert.alert('Error', 'Please enter both phone number and password.');
+    if (phone === "" || password === "") {
+      Alert.alert("Error", "Please enter both phone number and password.");
     } else {
       const { user, token } = await login(formData);
-      console.log("user and token: ",user, token);
-      if (token && user) {""
+      console.log("user and token: ", user, token);
+      if (token && user) {
         handleToken(token);
-        console.log("burası login sayfası user yazdırdım: ",user)
-        handleLogin(user)
+        console.log("LoginScreen user: ", user);
+        handleLogin(user);
       }
     }
   };
 
-  // const handleSubmit =  async() => {
-  //   const { phone, password } = formData;
-
-  //   const preLoginResult = await fetchDogImage();
-  //   console.log("test apiden çekilden veriler konsole yazdiriliyor : ", preLoginResult);
-  //   if (phone === '' || password === '') {
-  //     Alert.alert('Error', 'Please enter both phone number and password.');
-  //   } else {
-  //     const { user, token } = await login(formData);
-  //     console.log("user and token: ",user, token);
-  //     if (token && user) {""
-  //       handleToken(token);
-  //       console.log("burası login sayfası user yazdırdım: ",user)
-  //       handleLogin(user)
-  //     }
-  //   }
-  // };
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <TextInput 
-        style={styles.input} 
-        placeholder="Phone Number" 
-        value={formData.phone} 
-        onChangeText={value => handleChange('phone', value)}
+      <Text style={styles.title}>{t.loginPage.pageTitle}</Text>
+      <TextInput
+        style={styles.input}
+        placeholder={t.loginPage.phoneNumber}
+        value={formData.phone}
+        onChangeText={(value) => handleChange("phone", value)}
         autoCapitalize="none"
       />
-      <TextInput 
-        style={styles.input} 
-        placeholder="Password" 
-        value={formData.password} 
-        onChangeText={value => handleChange('password', value)} 
+      <TextInput
+        style={styles.input}
+        placeholder={t.loginPage.password}
+        value={formData.password}
+        onChangeText={(value) => handleChange("password", value)}
         secureTextEntry
         autoCapitalize="none"
       />
-      <Button 
-        onPress={handleSubmit} 
-        title="Login" 
-        color="#007BFF" 
+      <Button
+        onPress={handleSubmit}
+        title={t.loginPage.pageTitle || "Login"}
+        color="#007BFF"
       />
-       <View style={styles.signUpText}>
-          <Text style={styles.text}>Already have an account?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={styles.linkText}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.signUpText}>
+        <Text style={styles.text}>{t.loginPage.haveNoAccount}</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+          <Text style={styles.linkText}>{t.loginPage.signUp}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -93,37 +96,38 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: 16,
-    backgroundColor: '#f0f0f0', // Arka plan rengi
+    backgroundColor: "#f0f0f0",
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 16,
-    textAlign: 'center', // Başlığı ortala
+    textAlign: "center",
   },
   input: {
     height: 50,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 8,
     padding: 10,
     marginBottom: 16,
-    backgroundColor: '#fff', // Girdi alanının arka plan rengi
+    backgroundColor: "#fff",
   },
   signUpText: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     marginTop: 10,
   },
   text: {
-    color: 'grey',
+    color: "grey",
   },
   linkText: {
-    color: 'blue',
-    textAlign: 'center',
+    color: "blue",
+    textAlign: "center",
     marginTop: 10,
+    marginLeft: 5,
   },
 });
 

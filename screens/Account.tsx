@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 import DebtList from "./DebtList"; // DebtList bileşeni için uygun yolu kontrol edin
 import Help from "./Help"; // Help bileşeni için uygun yolu kontrol edin
@@ -6,9 +6,24 @@ import BottomBar from "./BottomBar";
 import CashReceivable from "./CashReceivable";
 import CashPaylesList from "./CashPaylesList";
 import MoneyTransferList from "./MoneyTransferList";
+import { useTranslations } from "../hooks/useTranslation";
+import { LanguageContext } from "../contex/languageContext";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types";
+import { useNavigation } from "@react-navigation/native";
 
 const Account = () => {
   const [key, setKey] = useState('alacaklar');
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const t = useTranslations();
+  const { activeLanguage } = useContext(LanguageContext);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t.accounPage.pageTitle,
+    });
+  }, [navigation, activeLanguage]);
+  
 
   return (
     <View style={styles.container}>
@@ -18,19 +33,19 @@ const Account = () => {
             style={[styles.tabButton, key === 'alacaklar' && styles.activeTab]}
             onPress={() => setKey('alacaklar')}
           >
-            <Text style={styles.tabText}>Alacaklar</Text>
+            <Text style={styles.tabText}>{t.accountPageReceivablesTabMenu.receivables}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.tabButton, key === 'borclar' && styles.activeTab]}
             onPress={() => setKey('borclar')}
           >
-            <Text style={styles.tabText}>Borçlar</Text>
+            <Text style={styles.tabText}>{t.accountPageReceivablesTabMenu.payables}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.tabButton, key === 'transferler' && styles.activeTab]}
             onPress={() => setKey('transferler')}
           >
-            <Text style={styles.tabText}>Transferler</Text>
+            <Text style={styles.tabText}>{t.accountPageReceivablesTabMenu.transfers}</Text>
           </TouchableOpacity>
         </View>
 

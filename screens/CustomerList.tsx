@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Button, FlatList, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { getCustomerList, homeCustomerList } from "../api/customer";
+import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 import CustomerCard from "./CustomerCard"; 
 import { ScrollView } from "react-native-gesture-handler";
+import { useTranslations } from "../hooks/useTranslation";
 
 const CustomerList: React.FC = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+    const t = useTranslations();
 //   const [customers, setCustomers] = useState([]);
 
   const customers = [
@@ -64,7 +66,7 @@ const CustomerList: React.FC = () => {
         </View>
     </ScrollView>
       <TouchableOpacity style={styles.addButton} onPress={handleAddCustomerClick}>
-        <Text style={styles.addButtonText}>Müşteri Ekle</Text>
+        <Text style={styles.addButtonText}>{t.homePage.addCustomerButton}</Text>
       </TouchableOpacity>
     </View>
   );

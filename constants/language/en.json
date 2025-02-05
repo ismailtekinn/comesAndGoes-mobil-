@@ -1,0 +1,115 @@
+{
+  "loginPage": {
+    "pageTitle": "Sign In",
+    "phoneNumber": "Phone Number",
+    "password": "Password",
+    "signUp": "Sign Up",
+    "haveNoAccount": "Don't you have an account?"
+  },
+  "registerPage": {
+    "pageTitle": "Register",
+    "firstName": "Enter your name",
+    "lastName": "Enter your surname",
+    "userName": "Enter your username",
+    "email": "Enter your email",
+    "password": "Enter your password",
+    "phoneNumber": "Enter your phone number",
+    "signUp": "Sign Up",
+    "passwordReturn": "Forgot your password?",
+    "haveAccount": "Do you already have an account?",
+    "signIn": "Sign In"
+  },
+  "homePage": {
+    "pageTitle": "Home",
+    "customersTitle": "Customers",
+    "searchButton": "Customer Search",
+    "addCustomerButton": "Add Customer",
+    "homeIcon": "Home",
+    "accountIcon": "Account",
+    "otherIcon": "Other"
+  },
+  "homePageOtherMenu": {
+    "accountDetails": "Account Details",
+    "accountActivity": "Account Activity",
+    "timeAndDate": "Time and Date",
+    "language": "Language",
+    "help": "Help",
+    "logout": "Logout"
+  },
+  "accounPage":{
+    "pageTitle" : "Account"
+  },
+  "accountPageReceivablesTabMenu": {
+    "receivables": "Receivables",
+    "payables": "Payables",
+    "transfers": "Transfers",
+    "receiveCash": "Receive Cash"
+  },
+  "accountPageDebtsTabMenu": {
+    "lendButton": "Lend"
+  },
+  "accountTransferTabMenu": {
+    "transferButton": "Transfer"
+  },
+  "addCustomerPage": {
+    "addCustomer": "Add Customer",
+    "enterYourName": "Enter Your Name",
+    "enterYourSurname": "Enter Your Surname",
+    "enterYourPhoneNumber": "Enter Your Phone Number",
+    "addCustomerButton": "Add Customer"
+  },
+  "cashReceivablePage": {
+    "pageTitle":"CashReceivable",
+    "select": "Select",
+    "customerName": "Customer Name",
+    "customerPhone": "Customer Phone",
+    "cashAmount": "Cash Amount",
+    "tl": "TL",
+    "usd": "Dollar",
+    "euro": "Euro",
+    "toman": "Toman",
+    "afghani": "Afghani",
+    "debtLendingDate": "Date of Lending",
+    "debtRepaymentDate": "Debt Repayment Date",
+    "borrowMoney": "Borrow Money"
+  },
+  "addDebtPage": {
+    "pageTitle":"AddDebt",
+    "select": "Select",
+    "selectCustomer": "Select Customer",
+    "customerPhone": "Customer Phone",
+    "cashAmount": "Cash Amount",
+    "tl": "TL",
+    "usd": "Dollar",
+    "euro": "Euro",
+    "toman": "Toman",
+    "afghani": "Afghani",
+    "debtLendingDate": "Debt Lending Date",
+    "debtRepaymentDate": "Debt Repayment Date",
+    "lend": "Lend"
+  },
+  "moneyTransferPage": {
+    "pageTitle":"MoneyTransfer",
+    "sendCustomer": "Send Customer",
+    "select": "Select",
+    "selectCustomer": "Select Customer",
+    "customerPhone": "Customer Phone",
+    "cashPurchaseDate": "Cash Purchase Date",
+    "cashAmount": "Cash Amount",
+    "buyerCustomer": "Buyer Customer",
+    "cashSendingDate": "Cash Sending Date",
+    "send": "Send"
+  },
+  "helpPage":{
+    "pageTitle" : "Help&Contact"
+  },
+  "accountInfoPage": {
+    "pageTitle": "AccountInfo"
+  },
+  "languagePage": {
+    "pageTitle": "Language",
+    "turkish": "Turkish",
+    "english": "English",
+    "parsi": "Persian"
+  }
+}

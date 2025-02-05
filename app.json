@@ -24,14 +24,13 @@
         "./android-manifest.plugin.js"
       ],
       "package": "com.bybrstekin.deneme2",
-      "permissions": ["INTERNET"],
-      "usesCleartextTraffic": true
+      "permissions": ["INTERNET"]
+     
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "API_URL": "http://92.113.27.13:3000/api",
       "eas": {
         "projectId": "d19cb012-89ca-4d36-8f00-a8f1eca3bbf7"
       }

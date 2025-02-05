@@ -1,0 +1,116 @@
+{
+  "loginPage": {
+    "pageTitle": "Giriş Yap",
+    "phoneNumber": "Telefon Numarası",
+    "password": "Şifre",
+    "signUp": "Kayıt Ol",
+    "haveNoAccount": "Hesabınız yok mu?"
+  },
+  "registerPage": {
+    "pageTitle": "Giriş Yap",
+    "firstName": "Adınızı giriniz",
+    "lastName": "Soyadınız giriniz",
+    "userName": "Kullanıcı adınızı Giriniz",
+    "email": "Mailinizi girin",
+    "password": "Şifrenizi girin",
+    "phoneNumber": "Telefon numaranızı gi",
+    "signUp": "Kayıt Ol",
+    "passwordReturn": "Şifrenizi mi unuttunuz?",
+    "haveAccount": "Hesabınız yok mu?",
+    "signIn": "Giriş Yap"
+  },
+  "homePage": {
+    "pageTitle": "Anasayfa",
+    "customersTitle": "Müşteriler",
+    "searchButton": "Müşteri Ara",
+    "addCustomerButton": "Müşteri Ekle",
+    "homeIcon": "Anasayfa",
+    "accountIcon": "Hesap",
+    "otherIcon": "Diğer"
+  },
+  "homePageOtherMenu": {
+    "accountDetails": "Hesap Bilgileri",
+    "accountActivity": "Hesap Hareketleri",
+    "timeAndDate": "Saat ve Tarih",
+    "language": "Dil",
+    "help": "Yardım",
+    "logout": "Çıkış"
+  },
+  "accounPage": {
+    "pageTitle": "Hesap"
+  },
+  "accountPageReceivablesTabMenu": {
+    "receivables": "Alacaklar",
+    "payables": "Borçlar",
+    "transfers": "Transferler",
+    "receiveCash": "Nakit Al"
+  },
+  "accountPageDebtsTabMenu": {
+    "lendButton": "Borç Ver"
+  },
+  "accountTransferTabMenu": {
+    "transferButton": "Transfer Et"
+  },
+  "addCustomerPage": {
+    "addCustomer": "Müşteri Ekle",
+    "enterYourName": "Adınızı Girin",
+    "enterYourSurname": "Soyadınızı Girin",
+    "enterYourPhoneNumber": "Telefon numaranızı girin",
+    "addCustomerButton": "Müşteri Ekle"
+  },
+  "cashReceivablePage": {
+    "pageTitle": "Nakit Al",
+    "select": "Seçiniz",
+    "customerName": "Müşteri Adı",
+    "customerPhone": "Müşteri Telefon",
+    "cashAmount": "Nakit Miktarı",
+    "tl": "TL",
+    "usd": "Dolar",
+    "euro": "Euro",
+    "toman": "Tümen",
+    "afghani": "Afgani",
+    "debtLendingDate": "Borç veriliş tarihi",
+    "debtRepaymentDate": "Borç geri ödeme tarihi",
+    "borrowMoney": "Borç Al"
+  },
+  "addDebtPage": {
+    "pageTitle": "Borç Ver",
+    "select": "Seçiniz",
+    "selectCustomer": "Müşteri Seç",
+    "customerPhone": "Müşteri Telefon",
+    "cashAmount": "Nakit Miktarı",
+    "tl": "TL",
+    "usd": "Dolar",
+    "euro": "Euro",
+    "toman": "Tümen",
+    "afghani": "Afgani",
+    "debtLendingDate": "Borç veriliş tarihi",
+    "debtRepaymentDate": "Borç geri ödeme tarihi",
+    "lend": "Borç Ver"
+  },
+
+  "moneyTransferPage": {
+    "pageTitle": "Nakit Transfer",
+    "sendCustomer": "Gönderen Müşteri",
+    "select": "Seçiniz",
+    "customerPhone": "Müşteri Telefon",
+    "selectCustomer": "Müşteri Seç",
+    "cashPurchaseDate": "Nakit Alış Tarihi",
+    "cashAmount": "Nakit Miktarı",
+    "buyerCustomer": "Alıcı Müşteri",
+    "cashSendingDate": "Nakit Gönderim Tarihi",
+    "send": "Gönder"
+  },
+  "helpPage": {
+    "pageTitle": "Yardım&İletişim"
+  },
+  "accountInfoPage": {
+    "pageTitle": "HesapBilgileri"
+  },
+  "languagePage": {
+    "pageTitle": "Dil",
+    "turkish" : "Türkçe",
+    "english" : "İngilizce",
+    "parsi"   : "Farsça"
+  }
+}

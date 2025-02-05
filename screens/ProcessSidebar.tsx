@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useUser } from "../contex/useContext";
+import { useTranslations } from "../hooks/useTranslation";
 
 export type RootStackParamList = {
   AccountInfoForm: undefined;
@@ -22,7 +23,9 @@ const ProcessSidebar: React.FC<ProcessSidebarProps> = ({
   toggleSidebar,
 }) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const {handleLogout,userData,userId} = useUser()
+  const {handleLogout,userData,userId} = useUser();
+  const t = useTranslations();
+  
 
 
   if (!isSidebarOpen) return null;
@@ -43,27 +46,27 @@ const ProcessSidebar: React.FC<ProcessSidebarProps> = ({
       <View style={styles.menu}>
         <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('AccountInfoForm')}>
           <Ionicons name="person-outline" size={24} />
-          <Text style={styles.menuText}>Hesap Bilgileri</Text>
+          <Text style={styles.menuText}>{t.homePageOtherMenu.accountDetails}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem} onPress={() => {/* Hesap Hareketleri için bir fonksiyon ekleyin */}}>
           <Ionicons name="list-outline" size={24} />
-          <Text style={styles.menuText}>Hesap Hareketleri</Text>
+          <Text style={styles.menuText}>{t.homePageOtherMenu.accountActivity}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Clock')}>
           <Ionicons name="time-outline" size={24} />
-          <Text style={styles.menuText}>Saat ve Tarih</Text>
+          <Text style={styles.menuText}>{t.homePageOtherMenu.timeAndDate}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Language')}>
           <Ionicons name="language-outline" size={24} />
-          <Text style={styles.menuText}>Dil</Text>
+          <Text style={styles.menuText}>{t.homePageOtherMenu.language}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Help')}>
           <Ionicons name="help-circle-outline" size={24} />
-          <Text style={styles.menuText}>Yardım</Text>
+          <Text style={styles.menuText}>{t.homePageOtherMenu.help}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem} onPress={()=> handleLogout()}>
         <Ionicons name="log-out-outline" size={24} color="#333" />
-          <Text style={styles.menuText}>Çıkış</Text>
+          <Text style={styles.menuText}>{t.homePageOtherMenu.logout}</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -5,10 +5,13 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 import { useNavigation } from '@react-navigation/native';
 import { cashReceivableList } from '../api/customer';
+import { useTranslations } from '../hooks/useTranslation';
 
 const CashPaylesList = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [customerss, setCustomers] = useState([]);
+    const t = useTranslations();
+  
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
@@ -43,7 +46,7 @@ const CashPaylesList = () => {
       style={styles.nakitButton}
       onPress={() => navigation.navigate('CashReceivable')}
     >
-      <Text style={styles.nakitButtonText}>Nakit Al</Text>
+      <Text style={styles.nakitButtonText}>{t.accountPageReceivablesTabMenu.receiveCash}</Text>
     </TouchableOpacity>
   </View>
   );

@@ -29,3 +29,5 @@ export type User = {
     phone: number;
   };
   
+
+  export type LanguageType = "Türkçe" | "İngilizce" | "Farsça";

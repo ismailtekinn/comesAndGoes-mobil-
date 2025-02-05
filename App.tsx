@@ -27,16 +27,21 @@ import DebtDetailList from "./screens/DebtDetailList";
 import DebtDetail from "./screens/DebtDetail";
 import AppRoute from "./AppRoute";
 import { UserProvider } from "./contex/useContext";
+import { LanguageProvider } from "./contex/languageContext";
 // import MoneyTransferCard from './screens/MoneyTransferCard';
+import './i18n'
 
 const Stack = createStackNavigator();
 
 export default function App() {
+  
   return (
-    <UserProvider>
-      <StatusBar style="auto" />
-      <AppRoute />
-    </UserProvider>
+    <LanguageProvider>
+      <UserProvider>
+        <StatusBar style="auto" />
+        <AppRoute />
+      </UserProvider>
+    </LanguageProvider>
   );
 }
 

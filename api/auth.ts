@@ -10,11 +10,11 @@ export async function login(params: SignIn) {
     try {
         console.log("form data backende gönderilmek üzere alındı", params)
       // const url = API_URL + 'login';
+      // const url = 'http://localhost:3000/api/login';
+    //  const url = 'http://192.168.1.105:3000/api/login';
+
       // const url = `https://92.113.27.13:3000/api/login` ;
       const url = `https://baysoftworks.com/api/login` ;
-      // const API_URL = Constants.expoConfig?.extra?.API_URL;
-      // const url = `${API_URL}/Login`;
-      // const url = Constants.manifest?.extra?.apiUrl; ;
       console.log("backend url ekrana yazdırılıyor : ", url)
       const response = await fetch(url, {
         method: 'POST',
@@ -25,8 +25,6 @@ export async function login(params: SignIn) {
           phone: params.phone,
           password: params.password
         }),
-        mode: 'cors' 
-        
       });
   
       if (!response.ok) {
@@ -41,89 +39,6 @@ export async function login(params: SignIn) {
       throw new Error('An error occurred during login');
     }
   }
-
-
-
-// export async function login(params: SignIn) {
-//   try {
-//     console.log("form data backende gönderilmek üzere alındı", params);
-//     const url = `https://92.113.27.13:3000/api/login`;
-
-//     console.log("backend url ekrana yazdırılıyor : ", url);
-
-//     const response = await axios.post(url, {
-//       phone: params.phone,
-//       password: params.password,
-//     }, {
-//       httpsAgent: agent
-//     });
-
-//     console.log("response ekrana yazdırıldı ", response.data);
-//     return response.data;
-//   } catch (error) {
-//     console.error(error);
-//     throw new Error('An error occurred during login');
-//   }
-// }
-
-
-  // export async function fetchDogImage() {
-  //   const headers = new Headers({
-  //     "Content-Type": "application/json",
-  //     "x-api-key": "DEMO-API-KEY", 
-  //   });
-  
-  //   const requestOptions: RequestInit = {
-  //     method: 'GET',
-  //     headers: headers,
-  //     redirect: 'follow',
-  //   };
-  
-  //   try {
-  //     const response = await fetch("https://api.thedogapi.com/v1/images/search?size=med&mime_types=jpg&format=json&has_breeds=true&order=RANDOM&page=0&limit=1", requestOptions);
-  
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP Hatası! Durum: ${response.status}`);
-  //     }
-  
-  //     const result = await response.json();
-  //     console.log("Gelen veri:", result);
-  //     return result;
-  //   } catch (error: unknown) {
-  //     if (error instanceof Error) {
-  //       console.error("Hata:", error.message);
-  //     } else {
-  //       console.error("Bilinmeyen hata:", error);
-  //     }
-  //     throw error;
-  //   }
-  // }
-
-// export async function login(params: SignIn) {
-//   try {
-//     console.log("form data backende gönderilmek üzere alındı", params);
-//     // const url = API_URL + 'login';
-//     const url = 'http://92.113.27.13:3000/api/login';
-//     console.log("backend url ekrana yazdırılıyor : ", url);
-
-//     const response = await axios.post(url, {
-//       phone: params.phone,
-//       password: params.password
-//     }, {
-//       headers: {
-//         "Content-Type": "application/x-www-form-urlencoded",
-//       }
-//     });
-
-//     console.log("response ekrana yazdırıldı ", response.data);
-//     return response.data;
-//   } catch (error) {
-//     console.error(error);
-//     throw new Error('An error occurred during login');
-//   }
-// }
-
-
 
   export async function register(params: Register) {
     console.log("Register data verileri ekrana yazdırıldı", params)
@@ -153,3 +68,37 @@ export async function login(params: SignIn) {
       throw new Error('An error occurred during register');
     }
   }
+
+
+  export async function fetchDogImage() {
+    const headers = new Headers({
+      "Content-Type": "application/json",
+      "x-api-key": "DEMO-API-KEY", 
+    });
+  
+    const requestOptions: RequestInit = {
+      method: 'GET',
+      headers: headers,
+      redirect: 'follow',
+    };
+  
+    try {
+      const response = await fetch("https://api.thedogapi.com/v1/images/search?size=med&mime_types=jpg&format=json&has_breeds=true&order=RANDOM&page=0&limit=1", requestOptions);
+  
+      if (!response.ok) {
+        throw new Error(`HTTP Hatası! Durum: ${response.status}`);
+      }
+  
+      const result = await response.json();
+      console.log("Gelen veri:", result);
+      return result;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Hata:", error.message);
+      } else {
+        console.error("Bilinmeyen hata:", error);
+      }
+      throw error;
+    }
+  }
+  

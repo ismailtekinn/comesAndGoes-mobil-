@@ -1,0 +1,115 @@
+{
+  "loginPage": {
+    "pageTitle": "وارد شوید",
+    "phoneNumber": "شماره تلفن",
+    "password": "رمز عبور",
+    "signUp": "ثبت نام کنید",
+    "haveNoAccount": "حساب کاربری ندارید؟"
+  },
+  "registerPage": {
+    "pageTitle": "ثبت نام",
+    "firstName": "نام خود را وارد کنید",
+    "lastName": "تخلص خود را وارد کنید",
+    "userName": "نام کاربری خود را وارد کنید",
+    "email": "ایمیل خود را وارد کنید",
+    "password": "رمز عبور خود را وارد کنید",
+    "phoneNumber": "شماره تلفن خود را وارد کنید",
+    "signUp": "ثبت نام کنید",
+    "passwordReturn": "رمز عبور خود را فراموش کرده اید؟",
+    "haveAccount": "آیا حساب کاربری دارید؟",
+    "signIn": "وارد شوید"
+  },
+  "homePage": {
+    "pageTitle": "خانه",
+    "customersTitle": "مشتریان",
+    "searchButton": "جستجوی مشتری",
+    "addCustomerButton": "مشتری اضافه کنید",
+    "homeIcon": "خانه",
+    "accountIcon": "حساب",
+    "otherIcon": "دیگر"
+  },
+  "homePageOtherMenu": {
+    "accountDetails": "جزئیات حساب",
+    "accountActivity": "فعالیت حساب",
+    "timeAndDate": "ساعت و تاریخ",
+    "language": "زبان",
+    "help": "کمک",
+    "logout": "خروج"
+  },
+  "accountPageReceivablesTabMenu": {
+    "receivables": "قابل دریافت ها",
+    "payables": "قرضه ها",
+    "transfers": "انتقالات",
+    "receiveCash": "دریافت پول نقد"
+  },
+  "accounPage": {
+    "pageTitle": "حساب"
+  },
+  "accountPageDebtsTabMenu": {
+    "lendButton": "قرض دادن"
+  },
+  "accountTransferTabMenu": {
+    "transferButton": "انتقال"
+  },
+  "addCustomerPage": {
+    "addCustomer": "مشتری اضافه کنید",
+    "enterYourName": "نام خود را وارد کنید",
+    "enterYourSurname": "تخلص خود را وارد کنید",
+    "enterYourPhoneNumber": "شماره تلفن خود را وارد کنید",
+    "addCustomerButton": "مشتری اضافه کنید"
+  },
+  "cashReceivablePage": {
+    "pageTitle": "دریافت پول نقد",
+    "select": "انتخاب کنید",
+    "customerName": "نام مشتری",
+    "customerPhone": "تیلفون مشتری",
+    "cashAmount": "مقدار پول نقد",
+    "tl": "لیره",
+    "usd": "دلار",
+    "euro": "یورو",
+    "toman": "تومان",
+    "afghani": "افغانی",
+    "debtLendingDate": " تاریخ قرض",
+    "debtRepaymentDate": "تاریخ بازپرداخت قرض",
+    "borrowMoney": "قرض گرفتن"
+  },
+  "addDebtPage": {
+    "pageTitle": "قرض بدهید",
+    "select": "انتخاب کنید",
+    "selectCustomer": "مشتری را انتخاب کنید",
+    "customerPhone": "تلفن مشتری",
+    "cashAmount": "مبلغ نقدی",
+    "tl": "لیره",
+    "usd": "دلار",
+    "euro": "یورو",
+    "toman": "تومان",
+    "afghani": "افغانی",
+    "debtLendingDate": "تاریخ اعطای بدهی",
+    "debtRepaymentDate": "تاریخ بازپرداخت بدهی",
+    "lend": "وام بده"
+  },
+  "moneyTransferPage": {
+    "pageTitle": "انتقال پول",
+    "sendCustomer": "ارسال شده توسط مشتری",
+    "select": "انتخاب کنید",
+    "customerPhone": "تلفن مشتری",
+    "selectCustomer": "مشتری انتخاب کنید",
+    "cashPurchaseDate": "تاریخ خرید نقدی",
+    "cashAmount": "مقدار پول نقد",
+    "buyerCustomer": "خریدار مشتری",
+    "cashSendingDate": "تاریخ انتقال پول نقد",
+    "send": "ارسال"
+  },
+  "helpPage": {
+    "pageTitle": "کمک&ارتباطات"
+  },
+  "accountInfoPage": {
+    "pageTitle": "معلومات حساب"
+  },
+  "languagePage": {
+    "pageTitle": "زبان",
+    "turkish": "ترکی",
+    "english": "انگلیسی",
+    "parsi": "فارسی"
+  }
+}

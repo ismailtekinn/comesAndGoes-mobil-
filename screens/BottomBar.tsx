@@ -6,10 +6,12 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 import { RootStackParamList } from '../types'; 
+import { useTranslations } from "../hooks/useTranslation";
 
 const BottomBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const t = useTranslations();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -20,11 +22,11 @@ const BottomBar = () => {
       <View style={styles.container}>
         <Pressable onPress={() => navigation.navigate('Home')} style={styles.button}>
           <Ionicons name="home-outline" size={28} color="#2895fe" />
-          <Text style={styles.text}>Anasayfa</Text>
+          <Text style={styles.text}>{t.homePage.homeIcon}</Text>
         </Pressable>
         <Pressable onPress={() => navigation.navigate('Account')} style={styles.button}>
           <Ionicons name="person-outline" size={28} color="#2895fe" />
-          <Text style={styles.text}>Hesap</Text>
+          <Text style={styles.text}>{t.homePage.accountIcon}</Text>
         </Pressable>
         <Pressable onPress={toggleSidebar} style={styles.button}>
           <Ionicons 
@@ -32,7 +34,7 @@ const BottomBar = () => {
             size={28} 
             color={isSidebarOpen ? "red" : "#2895fe"} 
           />
-          <Text style={[styles.text, { color: isSidebarOpen ? "red" : "black" }]}>Diğer</Text>
+          <Text style={[styles.text, { color: isSidebarOpen ? "red" : "black" }]}>{t.homePage.otherIcon}</Text>
         </Pressable>
       </View>
 

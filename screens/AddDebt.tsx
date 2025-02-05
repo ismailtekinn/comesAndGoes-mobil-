@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,17 +8,33 @@ import {
   Button,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../types';
 
 import { MoneyTransfer } from "../types/customerType";
 import { useCustomerForm } from "../hooks/useCustomerForm";
 import { moneyTransfer } from "../api/customer";
 import BottomBar from "./BottomBar";
 import { useUser } from "../contex/useContext";
+import { useTranslations } from "../hooks/useTranslation";
+import { LanguageContext } from "../contex/languageContext";
 
 const AddDebt = () => {
-  const [paraBirimi, setParaBirimi] = useState<string>("TL");
-  const {handleLogout, userData,userId} = useUser()
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const { activeLanguage } = useContext(LanguageContext);
+  const [paraBirimi, setParaBirimi] = useState("TL");
+  const {handleLogout, userData,userId} = useUser();
+  const t = useTranslations();
+  
 
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t.addDebtPage.pageTitle,
+    });
+  },[navigation,activeLanguage])
+  
 
   const userIdNumber = userId ? Number(userId) : 0;
   const {
@@ -31,10 +47,11 @@ const AddDebt = () => {
     handleSenderCustomerChange,
   } = useCustomerForm(userIdNumber);
 
+
   const handleSubmit = async () => {
     const moneyTransferData: MoneyTransfer = {
       receivedAmount: parseInt(transferFormData.receivedAmount),
-      moneyCurrency: paraBirimi, // Dikkat! Para birimi burada kullanılacak
+      moneyCurrency: paraBirimi, 
       senderId: selectedCustomer ? selectedCustomer.id : 0,
       receiverId: receiverCustomer ? receiverCustomer.id : 0,
       intermediaryId: userIdNumber,
@@ -50,19 +67,20 @@ const AddDebt = () => {
     }
   };
 
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.card}>
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Müşteri Seç</Text>
+            <Text style={styles.label}>{t.addDebtPage.selectCustomer}</Text>
             <Picker
               selectedValue={selectedCustomer?.id.toString() || ""}
               onValueChange={(value) =>
                 handleSenderCustomerChange(parseInt(value))
               }
             >
-              <Picker.Item label="Seçiniz" value="" />
+              <Picker.Item label={t.addDebtPage.select} value="" />
               {customers.map((customer) => (
                 <Picker.Item
                   key={customer.id}
@@ -76,7 +94,7 @@ const AddDebt = () => {
           <View style={styles.formGroup}>
             <TextInput
               style={styles.input}
-              placeholder="Müşteri Telefon"
+              placeholder={t.addDebtPage.customerPhone}
               value={transferFormData.phone}
               onChangeText={(text) =>
                 handleMoneyTransferInputChange("phone", text)
@@ -86,7 +104,7 @@ const AddDebt = () => {
           <View style={styles.formRow}>
             <TextInput
               style={styles.input}
-              placeholder="Nakit Miktarı"
+              placeholder={t.addDebtPage.cashAmount}
               value={transferFormData.receivedAmount}
               onChangeText={(text) =>
                 handleMoneyTransferInputChange("receivedAmount", text)
@@ -97,14 +115,16 @@ const AddDebt = () => {
               selectedValue={paraBirimi}
               onValueChange={(value) => setParaBirimi(value)}
             >
-              <Picker.Item label="TL" value="TL" />
-              <Picker.Item label="Dollar" value="Dollar" />
-              <Picker.Item label="Euro" value="Euro" />
+              <Picker.Item label={t.addDebtPage.tl} value={t.addDebtPage.tl} />
+              <Picker.Item label={t.addDebtPage.usd} value={t.addDebtPage.usd} />
+              <Picker.Item label={t.addDebtPage.euro} value={t.addDebtPage.euro} />
+              <Picker.Item label={t.addDebtPage.toman} value={t.addDebtPage.toman} />
+              <Picker.Item label={t.addDebtPage.afghani} value={t.addDebtPage.afghani} />
             </Picker>
           </View>
 
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Borç Veriliş Tarihi</Text>
+            <Text style={styles.label}>{t.addDebtPage.debtLendingDate}</Text>
             <TextInput
               style={styles.input}
               placeholder="YYYY-MM-DD"
@@ -116,7 +136,7 @@ const AddDebt = () => {
           </View>
 
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Geri Ödeme Tarihi</Text>
+            <Text style={styles.label}>{t.addDebtPage.debtRepaymentDate}</Text>
             <TextInput
               style={styles.input}
               placeholder="YYYY-MM-DD"
@@ -128,7 +148,7 @@ const AddDebt = () => {
           </View>
 
           <View style={styles.buttonContainer}>
-            <Button title="Borç Ver" onPress={handleSubmit} color="#f31137" />
+            <Button title={t.addDebtPage.lend} onPress={handleSubmit} color="#f31137" />
           </View>
         </View>
       </ScrollView>

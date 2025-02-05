@@ -1,41 +1,68 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
-import BottomBar from './BottomBar';
-import { accountInfo } from '../api/customer';
-import { User } from '../types';
-import { useUser } from '../contex/useContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState, useEffect, useContext, useLayoutEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+} from "react-native";
+import BottomBar from "./BottomBar";
+import { accountInfo } from "../api/customer";
+import { User } from "../types";
+import { useUser } from "../contex/useContext";
+import { useTranslations } from "../hooks/useTranslation";
+import { LanguageContext } from "../contex/languageContext";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types";
+import { useNavigation } from "@react-navigation/native";
 
 const AccountInfoForm = () => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  // const {handleLogout,userData,userId} = useUser()
-  const {handleLogout,userData} = useUser()
-  const userId  = 4;
+  const { handleLogout, userData } = useUser();
+  const userId = 4;
   const [userInfo, setUserInfo] = useState<User>({
-    email: '',
-    
+    email: "",
+
     id: 0,
-    name: '',
-    password: '',
+    name: "",
+    password: "",
     phone: 0,
-    surname: '',
-    username: ''
+    surname: "",
+    username: "",
   });
 
-  console.log("user çekiliyor account info sayfası :  ", userData);
-  
+  const t = useTranslations();
+  const { activeLanguage } = useContext(LanguageContext);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t.accountInfoPage.pageTitle,
+    });
+  }, [navigation, activeLanguage]);
 
   useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardVisible(true);
-    });
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardVisible(false);
-    }); 
- 
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyboardVisible(true);
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardVisible(false);
+      }
+    );
+
     const fetchCustomers = async () => {
       try {
-        if (userId !== undefined) { 
+        if (userId !== undefined) {
           const result = await accountInfo(userId);
           setUserInfo(result[0]);
         } else {
@@ -45,7 +72,7 @@ const AccountInfoForm = () => {
         console.error("Müşteriler yüklenirken hata oluştu:", error);
       }
     };
-  
+
     fetchCustomers();
 
     return () => {
@@ -58,38 +85,49 @@ const AccountInfoForm = () => {
     <View style={styles.container}>
       <KeyboardAvoidingView
         style={styles.formWrapper}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0} 
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
       >
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.avatarContainer}>
             <Image
-              source={{ uri: 'https://via.placeholder.com/150' }}
+              source={{ uri: "https://via.placeholder.com/150" }}
               style={styles.avatar}
             />
           </View>
 
           <View style={styles.formContainer}>
             <Text style={styles.label}>Ad</Text>
-            <TextInput style={styles.input} placeholder="Adınızı girin"
-            value={userInfo.name} />
+            <TextInput
+              style={styles.input}
+              placeholder="Adınızı girin"
+              value={userInfo.name}
+            />
 
             <Text style={styles.label}>Soyad</Text>
-            <TextInput style={styles.input} placeholder="Soyadınızı girin"
-            value={userInfo.surname} />
+            <TextInput
+              style={styles.input}
+              placeholder="Soyadınızı girin"
+              value={userInfo.surname}
+            />
 
             <Text style={styles.label}>Telefon</Text>
-            <TextInput style={styles.input} placeholder="Telefon numaranızı girin" 
-             value={userInfo.phone.toString()}/>
+            <TextInput
+              style={styles.input}
+              placeholder="Telefon numaranızı girin"
+              value={userInfo.phone.toString()}
+            />
           </View>
 
-          <TouchableOpacity style={styles.updateButton} onPress={()=> handleLogout()}>
+          <TouchableOpacity
+            style={styles.updateButton}
+            onPress={() => handleLogout()}
+          >
             <Text style={styles.buttonText}>Güncelle</Text>
           </TouchableOpacity>
         </ScrollView>
         <BottomBar />
       </KeyboardAvoidingView>
-
     </View>
   );
 };
@@ -97,7 +135,7 @@ const AccountInfoForm = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: "#f9f9f9",
   },
   formWrapper: {
     flex: 1,
@@ -105,12 +143,12 @@ const styles = StyleSheet.create({
   scrollContainer: {
     paddingVertical: 20,
     paddingHorizontal: 10,
-    alignItems: 'center',
+    alignItems: "center",
     flexGrow: 1,
     paddingBottom: 80, // BottomBar için boşluk bırak
   },
   avatarContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
     marginTop: -30, // Avatarın taşmasını azaltmak için
     paddingTop: 15,
@@ -120,14 +158,14 @@ const styles = StyleSheet.create({
     height: 120,
     borderRadius: 60,
     borderWidth: 3,
-    borderColor: 'white',
+    borderColor: "white",
   },
   formContainer: {
-    width: '100%',
-    backgroundColor: 'white',
+    width: "100%",
+    backgroundColor: "white",
     borderRadius: 8,
     padding: 20,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -138,29 +176,29 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   label: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   input: {
     height: 40,
-    borderColor: '#007bff',
+    borderColor: "#007bff",
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 15,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
   },
   updateButton: {
-    backgroundColor: '#FF7F00',
+    backgroundColor: "#FF7F00",
     padding: 15,
     borderRadius: 5,
-    alignItems: 'center',
+    alignItems: "center",
     marginHorizontal: 20,
     marginBottom: 10, // Altında biraz boşluk bırak
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 16,
   },
   // bottomBarContainer: {

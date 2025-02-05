@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import {
   View,
   Text,
@@ -15,13 +15,31 @@ import { Debt } from "../types/customerType";
 import { useUser } from "../contex/useContext";
 import { useCustomerForm } from "../hooks/useCustomerForm";
 import { addCashReceivable } from "../api/customer";
+import { useTranslations } from "../hooks/useTranslation";
+import { LanguageContext } from "../contex/languageContext";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types";
+import { useNavigation } from "@react-navigation/native";
+
 
 const CashReceivable = () => {
   const [paraBirimi, setParaBirimi] = useState("TL");
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [musteriAdi, setMusteriAdi] = useState("");
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const t = useTranslations();
+  const { activeLanguage } = useContext(LanguageContext);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t.cashReceivablePage.pageTitle,
+    });
+  }, [navigation, activeLanguage]);
+  
+  
 
   const { handleLogout, userData, userId } = useUser();
 
@@ -74,22 +92,19 @@ const CashReceivable = () => {
     <View style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scrollView}
-        showsVerticalScrollIndicator={false} // Hızlı kaydırma için kaydırıcıyı gizler
+        showsVerticalScrollIndicator={false} 
       >
         <View style={styles.box}>
-          <View style={styles.header}>
-            <Text style={styles.headerText}>User Icon</Text>
-          </View>
           <View style={styles.form}>
             <View style={styles.formControl}>
-              <Text style={styles.label}>Müşteri Adı</Text>
+              <Text style={styles.label}>{t.cashReceivablePage.customerName}</Text>
               <Picker
                 selectedValue={selectedCustomer?.id.toString() || ""}
                 onValueChange={(value) =>
                   handleSenderCustomerChange(parseInt(value))
                 }
               >
-                <Picker.Item label="Seçiniz" value="" />
+                <Picker.Item label={t.cashReceivablePage.select} value="" />
                 {customers.map((customer) => (
                   <Picker.Item
                     key={customer.id}
@@ -100,11 +115,10 @@ const CashReceivable = () => {
               </Picker>
             </View>
             <View style={styles.formControl}>
-              <Text style={styles.label}>Müşteri Telefon</Text>
-              {/* <TextInput style={styles.input} placeholder="Müşteri Telefon" /> */}
+              <Text style={styles.label}>{t.cashReceivablePage.customerPhone}</Text>
               <TextInput
                 style={styles.input}
-                placeholder="Müşteri Telefon"
+                placeholder={t.cashReceivablePage.customerPhone}
                 value={transferFormData.phone}
                 onChangeText={(text) =>
                   handleMoneyTransferInputChange("phone", text)
@@ -112,28 +126,32 @@ const CashReceivable = () => {
               />
             </View>
             <View style={styles.formControl}>
-              <Text style={styles.label}>Nakit Miktarı</Text>
+              <Text style={styles.label}>{t.cashReceivablePage.cashAmount} </Text>
               <View style={styles.currencyContainer}>
-                <TextInput style={styles.input} placeholder="Nakit Miktarı" 
-                value={transferFormData.receivedAmount}
-                onChangeText={(text) =>
-                  handleMoneyTransferInputChange("receivedAmount", text)
-                }
+                <TextInput
+                  style={styles.input}
+                  placeholder={t.cashReceivablePage.cashAmount}
+                  value={transferFormData.receivedAmount}
+                  onChangeText={(text) =>
+                    handleMoneyTransferInputChange("receivedAmount", text)
+                  }
                 />
-                              
+
                 <Picker
                   selectedValue={paraBirimi}
                   onValueChange={(itemValue) => setParaBirimi(itemValue)}
                   style={styles.picker}
                 >
-                  <Picker.Item label="TL" value="TL" />
-                  <Picker.Item label="Dolar" value="Dollar" />
-                  <Picker.Item label="Euro" value="Euro" />
+                  <Picker.Item label={t.cashReceivablePage.tl} value={t.cashReceivablePage.tl} />
+                  <Picker.Item label={t.cashReceivablePage.usd} value={t.cashReceivablePage.usd} />
+                  <Picker.Item label={t.cashReceivablePage.euro} value={t.cashReceivablePage.euro} />
+                  <Picker.Item label={t.cashReceivablePage.toman} value={t.cashReceivablePage.toman} />
+                  <Picker.Item label={t.cashReceivablePage.afghani} value={t.cashReceivablePage.afghani} />
                 </Picker>
               </View>
             </View>
             <View style={styles.formControl}>
-              <Text style={styles.label}>Borç Veriliş Tarihi</Text>
+              <Text style={styles.label}>{t.cashReceivablePage.debtLendingDate}  </Text>
               <TextInput
                 style={styles.input}
                 placeholder="YYYY-MM-DD"
@@ -144,15 +162,8 @@ const CashReceivable = () => {
               />
             </View>
             <View style={styles.formControl}>
-              <Text style={styles.label}>Borç Geri Ödeme Tarihi</Text>
+              <Text style={styles.label}>{t.cashReceivablePage.debtRepaymentDate}</Text>
               <TouchableOpacity>
-                {/* <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="YYYY-MM-DD"
-                  value={selectedDate.toDateString()}
-                  editable={false}
-                /> */}
                 <TextInput
                   style={styles.input}
                   placeholder="YYYY-MM-DD"
@@ -176,13 +187,11 @@ const CashReceivable = () => {
                   }}
                 />
               )}
+
             </View>
-            {/* <TouchableOpacity style={styles.submitButton}>
-              <Text style={styles.submitButtonText}>Borç Al</Text>
-            </TouchableOpacity> */}
             <View style={styles.submitButton}>
-            <Button title="Borç Ver" onPress={handleSubmit}  />
-          </View>
+              <Button title={t.cashReceivablePage.borrowMoney} onPress={handleSubmit} />
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -213,7 +222,7 @@ const styles = StyleSheet.create({
     bottom: 40,
   },
   header: {
-    backgroundColor: "#0e76a8",
+    // backgroundColor: "#0e76a8",
     paddingVertical: 20,
     alignItems: "center",
   },
@@ -252,9 +261,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   submitButton: {
-    backgroundColor: "#0e76a8",
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 20,
     alignItems: "center",
     marginTop: 20,
   },
