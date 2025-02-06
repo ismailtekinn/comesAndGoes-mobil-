@@ -109,8 +109,6 @@
   },
   "languagePage": {
     "pageTitle": "Dil",
-    "turkish" : "Türkçe",
-    "english" : "İngilizce",
-    "parsi"   : "Farsça"
+    "languageTypes": ["Türkçe","İngilizce","Farsça"]
   }
 }

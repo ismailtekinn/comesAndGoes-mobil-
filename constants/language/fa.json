@@ -108,8 +108,7 @@
   },
   "languagePage": {
     "pageTitle": "زبان",
-    "turkish": "ترکی",
-    "english": "انگلیسی",
-    "parsi": "فارسی"
+    "languageTypes": ["ترکی","انگلیسی","فارسی"]
+   
   }
 }
