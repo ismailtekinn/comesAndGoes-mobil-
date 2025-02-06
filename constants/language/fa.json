@@ -104,7 +104,14 @@
     "pageTitle": "کمک&ارتباطات"
   },
   "accountInfoPage": {
-    "pageTitle": "معلومات حساب"
+    "pageTitle": "اطلاعات حساب",
+    "name": "نام",
+    "firstName": "نام خود را وارد کنید",
+    "surname": "تخلص",
+    "lastName":"تخلص خود را وارد کنید" ,
+    "phone": "تلفن",
+    "phoneNumber": "شماره تلفن خود را وارد کنید",
+    "updateButton":"تمدید"
   },
   "languagePage": {
     "pageTitle": "زبان",

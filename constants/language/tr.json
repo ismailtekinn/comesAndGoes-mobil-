@@ -105,7 +105,15 @@
     "pageTitle": "Yardım&İletişim"
   },
   "accountInfoPage": {
-    "pageTitle": "HesapBilgileri"
+    "pageTitle": "HesapBilgileri",
+    "name":"Ad",
+    "firstName":"Adınızı giriniz",
+    "surname": "Soyad",
+    "lastName" : "Soyadınız giriniz",
+    "phone": "Telefon",
+    "phoneNumber" :"Telefon numaranızı gir",
+    "updateButton":"Güncelle"
+
   },
   "languagePage": {
     "pageTitle": "Dil",

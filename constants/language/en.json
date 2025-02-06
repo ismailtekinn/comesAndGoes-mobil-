@@ -104,7 +104,15 @@
     "pageTitle" : "Help&Contact"
   },
   "accountInfoPage": {
-    "pageTitle": "AccountInfo"
+    "pageTitle": "Account Information",
+    "name": "Name",
+    "firstName": "Enter your first name",
+    "surname": "Surname",
+    "lastName": "Enter your last name",
+    "phone": "Phone",
+    "phoneNumber": "Enter your phone number",
+    "updateButton":"  Update"
+
   },
   "languagePage": {
     "pageTitle": "Language",

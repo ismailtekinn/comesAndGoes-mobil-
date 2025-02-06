@@ -15,7 +15,6 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { useNavigation } from "@react-navigation/native";
 import { LanguageContext } from "../contex/languageContext";
-
 import { useTranslations } from "../hooks/useTranslation";
 
 const LoginScreen = () => {

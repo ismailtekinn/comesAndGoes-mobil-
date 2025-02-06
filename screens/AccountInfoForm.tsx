@@ -97,24 +97,24 @@ const AccountInfoForm = () => {
           </View>
 
           <View style={styles.formContainer}>
-            <Text style={styles.label}>Ad</Text>
+            <Text style={styles.label}>{t.accountInfoPage.name}</Text>
             <TextInput
               style={styles.input}
-              placeholder="Adınızı girin"
+              placeholder={t.accountInfoPage.firstName}
               value={userInfo.name}
             />
 
-            <Text style={styles.label}>Soyad</Text>
+            <Text style={styles.label}>{t.accountInfoPage.surname}</Text>
             <TextInput
               style={styles.input}
-              placeholder="Soyadınızı girin"
+              placeholder={t.accountInfoPage.lastName}
               value={userInfo.surname}
             />
 
-            <Text style={styles.label}>Telefon</Text>
+            <Text style={styles.label}>{t.accountInfoPage.phone}</Text>
             <TextInput
               style={styles.input}
-              placeholder="Telefon numaranızı girin"
+              placeholder={t.accountInfoPage.phoneNumber}
               value={userInfo.phone.toString()}
             />
           </View>
@@ -123,7 +123,7 @@ const AccountInfoForm = () => {
             style={styles.updateButton}
             onPress={() => handleLogout()}
           >
-            <Text style={styles.buttonText}>Güncelle</Text>
+            <Text style={styles.buttonText}>{t.accountInfoPage.updateButton}</Text>
           </TouchableOpacity>
         </ScrollView>
         <BottomBar />
