@@ -13,11 +13,18 @@ import { useNavigation } from "@react-navigation/native";
 
 const AddCustomer: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {handleLogout, userData,userId} = useUser()
+  const userIdNumber = userId ? Number(userId) : 0;
   const t = useTranslations();
   const { activeLanguage } = useContext(LanguageContext);
+  const [formData, setFormData] = useState<Customer>({
+    clientName: '',
+    clientSurname: '',
+    clientPhone: '',
+    userId: userIdNumber,
+    id:0,
+  });
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -25,45 +32,31 @@ const AddCustomer: React.FC = () => {
     });
   }, [navigation, activeLanguage]);
 
-
-
-  const userIdNumber = userId ? Number(userId) : 0;
-  const [formData, setFormData] = useState<Customer>({
-    clientName: 'Kerim',
-    clientSurname: 'Araz',
-    clientPhone: '551148',
-    userId : userIdNumber ,
-    id : 0,
-  });
-
   const handleInputChange = (field: string, value: string) => {
     setFormData((prevData) => ({
       ...prevData,
       [field]: value,
     }));
   };
-
   const handleSubmit = async () => {
     try {
-      console.log("form data console yazdırıldı",formData)
       const response = await addCustomer(formData);
       setSuccessMessage(response.message);
-
-      Alert.alert("Başarılı", "Müşteri başarıyla eklendi!");
-
-      setTimeout(() => {
-        setSuccessMessage(null);
-      }, 2000);
-    } catch (error) {
+      if (response.isSuccess) {
+        Alert.alert("Başarılı", "Müşteri başarıyla eklendi!", [
+          { text: "Tamam", onPress: () => navigation.navigate("Home") },
+        ]);
+      } else {
+        Alert.alert(response.message || "Bilinmeyen bir hata oluştu.");
+      }
+    } catch (error: any) {
       console.error("Kayıt başarısız", error);
-      Alert.alert("Hata", "Müşteri eklenirken bir hata oluştu.");
+      const errorMessage = error?.message || "Beklenmeyen bir hata oluştu";
+      Alert.alert("Hata", errorMessage);
     }
   };
-
   return (
     <View style={styles.container}>
-      {successMessage && <Text style={styles.successMessage}>{successMessage}</Text>}
-
       <View style={styles.formContainer}>
         <View style={styles.iconContainer}>
           <FontAwesome name="user" size={50} color="#f6f6f6" />
@@ -97,7 +90,6 @@ const AddCustomer: React.FC = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -146,5 +138,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
 export default AddCustomer;

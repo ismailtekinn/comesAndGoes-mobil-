@@ -6,36 +6,28 @@ import { RootStackParamList } from '../types';
 import { useNavigation } from '@react-navigation/native';
 import { cashReceivableList } from '../api/customer';
 import { useTranslations } from '../hooks/useTranslation';
+import { useUser } from '../contex/useContext';
 
 const CashPaylesList = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [customerss, setCustomers] = useState([]);
-    const t = useTranslations();
-  
+  const t = useTranslations();
+  console.log(t.accountPageReceivablesTabMenu.receiveCash);
+  const { userId } = useUser();
+  const userIdNumber = userId ? Number(userId) : 0;
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const customerData = await cashReceivableList(1);
+        const customerData = await cashReceivableList(userIdNumber);
         console.log("veritabanından çekilen değer ekrana yazdırıldı: ", customerData);
         setCustomers(customerData);
       } catch (error) {
         console.error("Müşteriler yüklenirken hata oluştu:", error);
       }
     };
-
     fetchCustomers();
   }, []);
-
   return (
-    // <ScrollView contentContainerStyle={styles.container}>
-    //   {customerss.map((customer, index) => (
-    //     <CashPayablesCard key={index} customer={customer} islem='aldım' />
-    //   ))}
-
-    //   <TouchableOpacity style={styles.nakitButton}onPress={() => navigation.navigate('CashReceivable')}>
-    //       <Text style={styles.nakitButtonText}>Nakit Al</Text>
-    //    </TouchableOpacity>
-    // </ScrollView>
     <View style={styles.container}>
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       {customerss.map((customer, index) => (
@@ -51,36 +43,14 @@ const CashPaylesList = () => {
   </View>
   );
 };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     padding: 16,
-//     backgroundColor: '#f5f5f5',
-//     flexGrow: 1,
-//   },
-//   nakitButton: {
-//     backgroundColor: '#13603c', // Button color
-//     padding: 15,
-//     borderRadius: 8,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     position: 'absolute',
-//     paddingTop: 30,
-//     bottom: 20,
-//     right: 20,
-//   },
-//   nakitButtonText: {
-//     color: '#fff',
-//     fontWeight: 'bold',
-//   },
-// });
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    height: 550,
+    // flex: 1,
+    // height: 550,
   },
   scrollContainer: {
     padding: 30,
+    marginTop:10,
   },
   nakitButton: {
     backgroundColor: '#13603c',
@@ -89,13 +59,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    bottom: 20, // Ekranın altından mesafe
-    right: 20,  // Sağdan mesafe
+    top: 0,
+    right: 20,  
+    zIndex:1,
   },
   nakitButtonText: {
     color: '#fff',
     fontWeight: 'bold',
   },
+  addButton: {
+    backgroundColor: "#007bff",
+    padding: 15,
+    borderRadius: 5,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  addButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
 });
-
 export default CashPaylesList;

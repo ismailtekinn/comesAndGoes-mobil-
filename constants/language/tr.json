@@ -4,7 +4,8 @@
     "phoneNumber": "Telefon Numarası",
     "password": "Şifre",
     "signUp": "Kayıt Ol",
-    "haveNoAccount": "Hesabınız yok mu?"
+    "haveNoAccount": "Hesabınız yok mu?",
+    "forgetPassword":"Şifreyi Unut"
   },
   "registerPage": {
     "pageTitle": "Giriş Yap",
@@ -13,7 +14,7 @@
     "userName": "Kullanıcı adınızı Giriniz",
     "email": "Mailinizi girin",
     "password": "Şifrenizi girin",
-    "phoneNumber": "Telefon numaranızı gi",
+    "phoneNumber": "Telefon numaranızı giriniz",
     "signUp": "Kayıt Ol",
     "passwordReturn": "Şifrenizi mi unuttunuz?",
     "haveAccount": "Hesabınız yok mu?",
@@ -88,7 +89,6 @@
     "debtRepaymentDate": "Borç geri ödeme tarihi",
     "lend": "Borç Ver"
   },
-
   "moneyTransferPage": {
     "pageTitle": "Nakit Transfer",
     "sendCustomer": "Gönderen Müşteri",
@@ -101,22 +101,67 @@
     "cashSendingDate": "Nakit Gönderim Tarihi",
     "send": "Gönder"
   },
+
   "helpPage": {
-    "pageTitle": "Yardım&İletişim"
+    "pageTitle": "Yardım&İletişim",
+    "title": "Bize Ulaşın",
+    "description": "Sosyal medya hesaplarımızdan bize ulaşabilirsiniz:"
   },
   "accountInfoPage": {
     "pageTitle": "HesapBilgileri",
-    "name":"Ad",
-    "firstName":"Adınızı giriniz",
+    "name": "Ad",
+    "firstName": "Adınızı giriniz",
     "surname": "Soyad",
-    "lastName" : "Soyadınız giriniz",
+    "lastName": "Soyadınız giriniz",
     "phone": "Telefon",
-    "phoneNumber" :"Telefon numaranızı gir",
-    "updateButton":"Güncelle"
-
+    "phoneNumber": "Telefon numaranızı gir",
+    "email": "Email",
+    "updateButton": "Güncelle"
   },
   "languagePage": {
     "pageTitle": "Dil",
-    "languageTypes": ["Türkçe","İngilizce","Farsça"]
+    "languageTypes": ["Türkçe", "İngilizce", "Farsça"]
+  },
+  "moneyTransferCard": {
+    "senderCustomer": "Nakiti Veren",
+    "receiverCustomer": "Nakiti Alan",
+    "receivedDate": "Alış Tarihi",
+    "transferDate": "Gönderim Tarihi",
+    "transaction": "transfer edildi"
+  },
+  "debtCard": {
+    "receivedDate": "Alış Tarihi",
+    "transferDate": "Geri Ödeme Tarihi",
+    "transaction": "verdim"
+  },
+  "cashCard": {
+    "receivedDate": "Alış Tarihi",
+    "transferDate": "Geri Ödeme Tarihi",
+    "transaction": "aldım"
+  },
+  "addUserCashScreen" : {
+    "pageTitle" : "Hesap Nakit",
+    "totalCash" : "Nakit Miktarı",
+    "userCash" : "Hesap Nakit",
+    "labelCashAmount" : "Nakit miktarını giriniz",
+    "cashCurrency":"Nakit Birimi" ,
+    "addCashButton": "Nakit Ekle"
+  },
+  "updatePassword" : {
+    "pageTitle" : "Şifre Güncelleme",
+    "newPassword" : "Yeni Şifre",
+    "newPasswordConfirm" : "Yeni Şifre Tekrar",
+    "updateButton":"Güncelle"
+  },
+  "myCustomerPage": {
+    "pageTitle": "Müşterilerim",
+    "name":"Ad",
+    "surname":"Soyad",
+    "phone" : "Telefon",
+    "proccess":"İşlem",
+    "mofalPage":"Müşteri Düzenle",
+    "saveButton":"Kaydet",
+    "cancelButton":"İptal"
   }
+
 }

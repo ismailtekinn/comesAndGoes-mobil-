@@ -4,7 +4,8 @@
     "phoneNumber": "شماره تلفن",
     "password": "رمز عبور",
     "signUp": "ثبت نام کنید",
-    "haveNoAccount": "حساب کاربری ندارید؟"
+    "haveNoAccount": "حساب کاربری ندارید؟",
+    "forgetPassword": "رمز عبور را فراموش کنید"
   },
   "registerPage": {
     "pageTitle": "ثبت نام",
@@ -101,21 +102,64 @@
     "send": "ارسال"
   },
   "helpPage": {
-    "pageTitle": "کمک&ارتباطات"
+    "pageTitle": "کمک&ارتباطات",
+    "title": "با ما تماس بگیرید",
+    "description": "شما می‌توانید از طریق حساب‌های شبکه‌های اجتماعی با ما در ارتباط باشید:"
   },
   "accountInfoPage": {
     "pageTitle": "اطلاعات حساب",
     "name": "نام",
     "firstName": "نام خود را وارد کنید",
     "surname": "تخلص",
-    "lastName":"تخلص خود را وارد کنید" ,
+    "lastName": "تخلص خود را وارد کنید",
     "phone": "تلفن",
     "phoneNumber": "شماره تلفن خود را وارد کنید",
-    "updateButton":"تمدید"
+    "email": "ایمیل",
+    "updateButton": "تمدید"
   },
   "languagePage": {
     "pageTitle": "زبان",
-    "languageTypes": ["ترکی","انگلیسی","فارسی"]
-   
+    "languageTypes": ["ترکی", "انگلیسی", "فارسی"]
+  },
+  "moneyTransferCard": {
+    "senderCustomer": "فرستنده",
+    "receiverCustomer": "گیرنده",
+    "receivedDate": "تاریخ دریافت",
+    "transferDate": "تاریخ انتقال",
+    "transaction": "انتقال داده شد"
+  },
+  "debtCard": {
+    "receivedDate": "تاریخ دریافت",
+    "transferDate": "تاریخ بازپرداخت",
+    "transaction": "دادم"
+  },
+  "cashCard": {
+    "receivedDate": "تاریخ دریافت",
+    "transferDate": "تاریخ بازپرداخت",
+    "transaction": "گرفتم"
+  },
+  "addUserCashScreen": {
+    "pageTitle": "افزودن نقد به حساب",
+    "totalCash": "مقدار نقد",
+    "cashCurrency": "واحد پول نقد",
+    "labelCashAmount": "مقدار نقد را وارد کنید",
+    "addCashButton": "افزودن نقد",
+    "userCash": "حساب نقدی"
+  },
+  "updatePassword": {
+    "pageTitle": "به‌روزرسانی رمز عبور",
+    "newPassword": "رمز عبور جدید",
+    "newPasswordConfirm": "تأیید رمز عبور جدید",
+    "updateButton": "به‌روزرسانی"
+  },
+  "myCustomerPage": {
+    "pageTitle": "مشتریان من",
+    "name": "نام",
+    "surname": "نام خانوادگی",
+    "phone": "تلفن",
+    "proccess": "عملیات",
+    "mofalPage": "ویرایش مشتری",
+    "saveButton": "ذخیره",
+    "cancelButton": "لغو"
   }
 }

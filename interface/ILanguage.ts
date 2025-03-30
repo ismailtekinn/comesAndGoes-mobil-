@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { LanguageType } from "../types";
 
 export interface LanguageContextProps {
-  activeLanguage: LanguageType;
+  activeLanguage: LanguageType ;
   setActiveLanguage: (language: LanguageType) => void;
 }
 
@@ -10,3 +10,4 @@ export interface LanguageContextProps {
 export interface LanguageProviderProps {
     children: ReactNode;
   }
+

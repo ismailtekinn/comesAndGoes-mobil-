@@ -1,39 +1,42 @@
 {
   "expo": {
-    "name": "deneme2",
-    "slug": "deneme2",
+    "name": "moneytransfer",
+    "slug": "moneytransfer",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "newArchEnabled": true,
+    "icon": "./assets/cmsandgsnewlogo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/cmsandgsnewlogo.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#2f95ac"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "name" : "android.permission.INTERNET",
+      "name": "android.permission.INTERNET",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/cmsandgsnewlogo.png",
         "backgroundColor": "#ffffff"
       },
       "plugins": [
         "./android-manifest.plugin.js"
       ],
-      "package": "com.bybrstekin.deneme2",
-      "permissions": ["INTERNET"]
-     
+      "package": "com.bybrstekin.moneytransfer",
+      "permissions": [
+        "INTERNET"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "d19cb012-89ca-4d36-8f00-a8f1eca3bbf7"
+        "projectId": "3d620241-a2ee-4d56-aed9-e2713a8476d4"
       }
-    }
+    },
+    "owner": "bybrstekin"
   }
 }

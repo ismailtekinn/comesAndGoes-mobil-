@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // AsyncStorage import edildi
 import { User } from "../types";
-import { Text } from 'react-native';
-
+import { Text } from "react-native";
 
 interface AuthContextProps {
   userData?: User | null;
@@ -13,7 +12,6 @@ interface AuthContextProps {
   setUserData: React.Dispatch<React.SetStateAction<User | undefined>>;
   userId?: number;
 }
-
 const UserContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -22,15 +20,16 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userData, setUserData] = useState<User | undefined>();
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  const userId = userData?.id
+  const userId = userData?.id;
 
   useEffect(() => {
     const loadStoredData = async () => {
       try {
         const storedToken = await AsyncStorage.getItem("token");
-        if (storedToken) {
+        const storedUser = await AsyncStorage.getItem("user");
+        if (storedToken && storedUser) {
           setToken(JSON.parse(storedToken));
+          setUserData(JSON.parse(storedUser));
         }
       } catch (error) {
         console.error("Failed to load token:", error);
@@ -44,9 +43,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const handleLogin = async (user: User) => {
     try {
+      console.log("burası useContext user handle login içerisinde console yazdırılıyor",user.id)
       setUserData(user);
       await AsyncStorage.setItem("userData", JSON.stringify(user));
-     console.log("burası handle login user ekrana yazdırıldı", user)
     } catch (error) {
       console.error("Failed to save user data:", error);
     }
@@ -54,9 +53,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const handleToken = async (token: string) => {
     try {
-      console.log("token handle token methoduna geldi")
+      console.log("token handle token methoduna geldi");
       setToken(token);
-      await AsyncStorage.setItem("token", JSON.stringify(token)); // Token'ı kaydet
+      await AsyncStorage.setItem("token", JSON.stringify(token));
     } catch (error) {
       console.error("Failed to save token:", error);
     }
@@ -66,7 +65,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       setUserData(undefined);
       setToken(null);
-      console.log("logout methodu çağrıldı")
+      console.log("logout methodu çağrıldı");
       await AsyncStorage.removeItem("token"); // AsyncStorage'dan token sil
       await AsyncStorage.removeItem("userData"); // Kullanıcı verisini sil
     } catch (error) {

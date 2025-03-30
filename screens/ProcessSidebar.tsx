@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp } from "@react-navigation/stack";
 import { useUser } from "../contex/useContext";
 import { useTranslations } from "../hooks/useTranslation";
 
@@ -11,22 +11,22 @@ export type RootStackParamList = {
   Clock: undefined;
   Language: undefined;
   Help: undefined;
+  AddUserCashScreen: undefined;
+  MyCustomers: undefined;
+  HomeCustomerListScreen: undefined;
+  AccountActivity: undefined;
 };
-
 export interface ProcessSidebarProps {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
 }
-
 const ProcessSidebar: React.FC<ProcessSidebarProps> = ({
   isSidebarOpen,
   toggleSidebar,
 }) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const {handleLogout,userData,userId} = useUser();
+  const { handleLogout, userData, userId } = useUser();
   const t = useTranslations();
-  
-
 
   if (!isSidebarOpen) return null;
 
@@ -38,34 +38,40 @@ const ProcessSidebar: React.FC<ProcessSidebarProps> = ({
 
       <View style={styles.profileContainer}>
         <Image
-          source={{ uri: "/profilresmi.jpg" }} // Profil resminin doğru yolunu kontrol et
+          source={{ uri: "/profilresmi.jpg" }}
           style={styles.profileImage}
         />
       </View>
-
       <View style={styles.menu}>
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('AccountInfoForm')}>
+        <TouchableOpacity
+          style={styles.menuItem}
+          onPress={() => navigation.navigate("AccountInfoForm")}
+        >
           <Ionicons name="person-outline" size={24} />
-          <Text style={styles.menuText}>{t.homePageOtherMenu.accountDetails}</Text>
+          <Text style={styles.menuText}>
+            {t.homePageOtherMenu.accountDetails}
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem} onPress={() => {/* Hesap Hareketleri için bir fonksiyon ekleyin */}}>
-          <Ionicons name="list-outline" size={24} />
-          <Text style={styles.menuText}>{t.homePageOtherMenu.accountActivity}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Clock')}>
-          <Ionicons name="time-outline" size={24} />
-          <Text style={styles.menuText}>{t.homePageOtherMenu.timeAndDate}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Language')}>
+
+        <TouchableOpacity
+          style={styles.menuItem}
+          onPress={() => navigation.navigate("Language")}
+        >
           <Ionicons name="language-outline" size={24} />
           <Text style={styles.menuText}>{t.homePageOtherMenu.language}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Help')}>
+        <TouchableOpacity
+          style={styles.menuItem}
+          onPress={() => navigation.navigate("Help")}
+        >
           <Ionicons name="help-circle-outline" size={24} />
           <Text style={styles.menuText}>{t.homePageOtherMenu.help}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem} onPress={()=> handleLogout()}>
-        <Ionicons name="log-out-outline" size={24} color="#333" />
+        <TouchableOpacity
+          style={styles.menuItem}
+          onPress={() => handleLogout()}
+        >
+          <Ionicons name="log-out-outline" size={24} color="#333" />
           <Text style={styles.menuText}>{t.homePageOtherMenu.logout}</Text>
         </TouchableOpacity>
       </View>
@@ -79,7 +85,7 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    width: "45%",
+    width: "55%",
     backgroundColor: "white",
     padding: 16,
     shadowColor: "#000",
@@ -90,6 +96,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 5,
+    zIndex:5,
   },
   closeButton: {
     alignSelf: "flex-end",

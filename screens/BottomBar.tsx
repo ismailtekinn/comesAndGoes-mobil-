@@ -20,11 +20,11 @@ const BottomBar = () => {
   return (
     <>
       <View style={styles.container}>
-        <Pressable onPress={() => navigation.navigate('Home')} style={styles.button}>
+        <Pressable onPress={() => navigation.navigate('HomeCustomerListScreen')} style={styles.button}>
           <Ionicons name="home-outline" size={28} color="#2895fe" />
           <Text style={styles.text}>{t.homePage.homeIcon}</Text>
         </Pressable>
-        <Pressable onPress={() => navigation.navigate('Account')} style={styles.button}>
+        <Pressable onPress={() => navigation.navigate('AccountActivity')} style={styles.button}>
           <Ionicons name="person-outline" size={28} color="#2895fe" />
           <Text style={styles.text}>{t.homePage.accountIcon}</Text>
         </Pressable>
@@ -51,20 +51,20 @@ const styles = StyleSheet.create({
     right: 0,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingVertical: 12,
+    // alignItems: 'center',
+    paddingVertical: 0,
     backgroundColor: '#ffffff',
     borderTopWidth: 1,
     borderTopColor: 'gray',
   },
   button: {
     alignItems: 'center',
-    padding: 10, // Dokunma alanını büyütme
+    padding: 10, 
   },
   text: {
     fontSize: 14,
-    marginTop: 4, // İkonla metin arasındaki boşluk
-    color: '#000', // Varsayılan metin rengi
+    marginTop: 4,
+    color: '#000',
   },
 });
 

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from "react-nati
 import DebtList from "./DebtList"; // DebtList bileşeni için uygun yolu kontrol edin
 import Help from "./Help"; // Help bileşeni için uygun yolu kontrol edin
 import BottomBar from "./BottomBar";
-import CashReceivable from "./CashReceivable";
+import CashReceivable from "./DeleteCashReceivable";
 import CashPaylesList from "./CashPaylesList";
 import MoneyTransferList from "./MoneyTransferList";
 import { useTranslations } from "../hooks/useTranslation";
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flexGrow: 1,
-    paddingBottom: 60, // BottomBar yüksekliğine göre ek alan
+    paddingBottom: 50, // BottomBar yüksekliğine göre ek alan
   },
   tabContainer: {
     flexDirection: 'row',

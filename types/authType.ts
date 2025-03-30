@@ -13,3 +13,17 @@ export type SignIn = {
     roleId: 3;
   };
   
+  export type UpdateUser = {
+    name: string;
+    surname: string;
+    username: string;
+    email: string;
+    password: string;
+    phone: string;
+  };
+  
+  export type UpdatePassword = {
+    userId: number;
+    newPassword: string
+  };
+  

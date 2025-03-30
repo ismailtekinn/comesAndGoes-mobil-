@@ -7,7 +7,6 @@ const Clock = () => {
 
   return (
     <View style={styles.container}>
-      {/* 24 Saat Formatı Seçimi */}
       <Pressable
         onPress={() => setActiveFormat('24')}
         style={[
@@ -29,7 +28,6 @@ const Clock = () => {
         </Text>
       </Pressable>
 
-      {/* 12 Saat Formatı Seçimi */}
       <Pressable
         onPress={() => setActiveFormat('12')}
         style={[

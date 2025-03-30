@@ -1,10 +1,17 @@
 import React, { useContext, useLayoutEffect, useState } from "react";
-import { View, Text, TextInput, ScrollView, StyleSheet, Button } from "react-native";
-import { Picker } from '@react-native-picker/picker';
-
+import {
+  View,
+  Text,
+  TextInput,
+  ScrollView,
+  StyleSheet,
+  Button,
+  Alert,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { MoneyTransfer } from "../types/customerType";
 import { useCustomerForm } from "../hooks/useCustomerForm";
-import { moneyTransfer } from "../api/customer";
+import { getMoneyTransfers, moneyTransfer } from "../api/customer";
 import BottomBar from "./BottomBar";
 import { useUser } from "../contex/useContext";
 import { useTranslations } from "../hooks/useTranslation";
@@ -12,25 +19,21 @@ import { LanguageContext } from "../contex/languageContext";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { useNavigation } from "@react-navigation/native";
-
+import { useMoneyTransferCustomers } from "../contex/mtcustomerContext";
 
 const MoneyTransferScreen = () => {
   const [paraBirimi, setParaBirimi] = useState<string>("TL");
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  
-  const {handleLogout, userData,userId} = useUser();
+  const { handleLogout, userData, userId } = useUser();
   const t = useTranslations();
-    const { activeLanguage } = useContext(LanguageContext);
-  
-    useLayoutEffect(() => {
-      navigation.setOptions({
-        title: t.accounPage.pageTitle,
-      });
-    }, [navigation, activeLanguage]);
-
-
-
+  const { activeLanguage } = useContext(LanguageContext);
+  const [transferCustomers, setTransferCustomers] = useMoneyTransferCustomers();
   const userIdNumber = userId ? Number(userId) : 0;
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t.accounPage.pageTitle,
+    });
+  }, [navigation, activeLanguage]);
   const {
     customers,
     transferFormData,
@@ -44,7 +47,7 @@ const MoneyTransferScreen = () => {
   const handleSubmit = async () => {
     const moneyTransferData: MoneyTransfer = {
       receivedAmount: parseInt(transferFormData.receivedAmount),
-      moneyCurrency: paraBirimi, // Dikkat! Para birimi burada kullanılacak
+      moneyCurrency: paraBirimi,
       senderId: selectedCustomer ? selectedCustomer.id : 0,
       receiverId: receiverCustomer ? receiverCustomer.id : 0,
       intermediaryId: userIdNumber,
@@ -53,13 +56,29 @@ const MoneyTransferScreen = () => {
     };
     console.log("Form data ekrana yazdırıldı: ", moneyTransferData);
     try {
-      const { response } = await moneyTransfer(moneyTransferData);
-      console.log("Form data gönderildi", response);
-    } catch (error) {
-      console.error("Gönderim hatası", error);
+      const response = await moneyTransfer(moneyTransferData);
+      if (response.isSuccess) {
+        Alert.alert(
+          "Başarılı",
+          "Nakit Gönderim İşlemi Başarıyla Gerçekleştirildi",
+          [
+            {
+              text: "Tamam",
+              onPress: async () => {
+                const customerData = await getMoneyTransfers(userIdNumber);
+                setTransferCustomers(customerData);
+                navigation.navigate("Home");
+              },
+            },
+          ]
+        );
+      }
+      console.log("Form data gönderildi", moneyTransferData);
+    } catch (error: any) {
+      const errorMessage = error?.message || "Beklenmeyen bir hata oluştu";
+      Alert.alert("Hata", errorMessage);
     }
   };
-
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -67,10 +86,14 @@ const MoneyTransferScreen = () => {
           <Text style={styles.title}>{t.moneyTransferPage.sendCustomer}</Text>
 
           <View style={styles.formGroup}>
-            <Text style={styles.label}>{t.moneyTransferPage.selectCustomer}</Text>
+            <Text style={styles.label}>
+              {t.moneyTransferPage.selectCustomer}
+            </Text>
             <Picker
               selectedValue={selectedCustomer?.id.toString() || ""}
-              onValueChange={(value) => handleSenderCustomerChange(parseInt(value))}
+              onValueChange={(value) =>
+                handleSenderCustomerChange(parseInt(value))
+              }
             >
               <Picker.Item label={t.moneyTransferPage.select} value="" />
               {customers.map((customer) => (
@@ -88,46 +111,71 @@ const MoneyTransferScreen = () => {
               style={styles.input}
               placeholder={t.moneyTransferPage.customerPhone}
               value={transferFormData.phone}
-              onChangeText={(text) => handleMoneyTransferInputChange("phone", text)}
+              onChangeText={(text) =>
+                handleMoneyTransferInputChange("phone", text)
+              }
             />
           </View>
 
           <View style={styles.formGroup}>
-            <Text style={styles.label}>{t.moneyTransferPage.cashPurchaseDate}</Text>
+            <Text style={styles.label}>
+              {t.moneyTransferPage.cashPurchaseDate}
+            </Text>
             <TextInput
               style={styles.input}
               placeholder="YYYY-MM-DD"
               value={transferFormData.receivedDate}
-              onChangeText={(text) => handleMoneyTransferInputChange("receivedDate", text)}
+              onChangeText={(text) =>
+                handleMoneyTransferInputChange("receivedDate", text)
+              }
             />
           </View>
-
-          {/* Nakit Miktarı ve Para Birimi Bölümü */}
           <View style={styles.formRow}>
             <TextInput
               style={styles.input}
               placeholder={t.moneyTransferPage.cashAmount}
               value={transferFormData.receivedAmount}
-              onChangeText={(text) => handleMoneyTransferInputChange("receivedAmount", text)}
+              onChangeText={(text) =>
+                handleMoneyTransferInputChange("receivedAmount", text)
+              }
             />
             <Picker
               style={styles.picker}
               selectedValue={paraBirimi}
               onValueChange={(value) => setParaBirimi(value)}
             >
-                  <Picker.Item label={t.cashReceivablePage.tl} value={t.cashReceivablePage.tl} />
-                  <Picker.Item label={t.cashReceivablePage.usd} value={t.cashReceivablePage.usd} />
-                  <Picker.Item label={t.cashReceivablePage.euro} value={t.cashReceivablePage.euro} />
-                  <Picker.Item label={t.cashReceivablePage.toman} value={t.cashReceivablePage.toman} />
-                  <Picker.Item label={t.cashReceivablePage.afghani} value={t.cashReceivablePage.afghani} />
+              <Picker.Item
+                label={t.cashReceivablePage.tl}
+                value={t.cashReceivablePage.tl}
+              />
+              <Picker.Item
+                label={t.cashReceivablePage.usd}
+                value={t.cashReceivablePage.usd}
+              />
+              <Picker.Item
+                label={t.cashReceivablePage.euro}
+                value={t.cashReceivablePage.euro}
+              />
+              <Picker.Item
+                label={t.cashReceivablePage.toman}
+                value={t.cashReceivablePage.toman}
+              />
+              <Picker.Item
+                label={t.cashReceivablePage.afghani}
+                value={t.cashReceivablePage.afghani}
+              />
             </Picker>
           </View>
 
           <View style={styles.formGroup}>
-            <Text style={styles.label}>{t.moneyTransferPage.buyerCustomer}</Text>
+            <Text style={styles.label}>
+              {t.moneyTransferPage.buyerCustomer}
+            </Text>
             <Picker
               selectedValue={receiverCustomer?.id.toString() || ""}
-              onValueChange={(value) => handleMoneyTransferCustomerChange(parseInt(value))}
+              onValueChange={(value) =>
+                handleMoneyTransferCustomerChange(parseInt(value))
+              }
             >
               <Picker.Item label={t.moneyTransferPage.select} value="" />
               {customers.map((customer) => (
@@ -141,17 +189,25 @@ const MoneyTransferScreen = () => {
           </View>
 
           <View style={styles.formGroup}>
-            <Text style={styles.label}>{t.moneyTransferPage.cashSendingDate}</Text>
+            <Text style={styles.label}>
+              {t.moneyTransferPage.cashSendingDate}
+            </Text>
             <TextInput
               style={styles.input}
               placeholder="YYYY-MM-DD"
               value={transferFormData.transferDate}
-              onChangeText={(text) => handleMoneyTransferInputChange("transferDate", text)}
+              onChangeText={(text) =>
+                handleMoneyTransferInputChange("transferDate", text)
+              }
             />
           </View>
 
           <View style={styles.buttonContainer}>
-            <Button title={t.moneyTransferPage.send} onPress={handleSubmit} color="#2755ad" />
+            <Button
+              title={t.moneyTransferPage.send}
+              onPress={handleSubmit}
+              color="#2755ad"
+            />
           </View>
         </View>
       </ScrollView>
@@ -167,7 +223,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: 20,
-    paddingBottom: 80, // Add padding at the bottom to avoid BottomBar overlap
+    paddingBottom: 80, 
   },
   card: {
     backgroundColor: "#fff",
@@ -206,7 +262,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
     backgroundColor: "#fff",
-    marginRight: 10, // Araya boşluk koymak için
+    marginRight: 10, 
   },
   picker: {
     flex: 1,

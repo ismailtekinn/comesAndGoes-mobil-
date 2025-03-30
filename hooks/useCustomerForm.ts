@@ -4,16 +4,16 @@ import { Customer } from '../types/customerType';
 import { getCustomerList } from '../api/customer';
 
 
-interface FormData {
+export interface FormData {
   name: string;
   surname: string;
   phone: string;
-  cashAmount: string;
+  cashAmount: number;
   debtDate: string;
   repaymentDate: string;
   debtCurrency: string;
 }
-interface MoneyTransferFormData {
+export interface MoneyTransferFormData {
   senderName: string;
   surname: string;
   phone: string;
@@ -24,20 +24,33 @@ interface MoneyTransferFormData {
   receivedDate: string;
   transferDate: string,
 }
+export interface AddDebtFormData {
+  creditorId: number ; 
+  customerPhone: string; 
+  debtorId : number,
+  debtAmount: number; 
+  debtCurrency: string; 
+  debtIssuanceDate: Date;
+  debtRepaymentDate: Date;
+}
 
 export function useCustomerForm(userId: number) {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [receiverCustomer, setReceiverCustomer] = useState<Customer | null>(null);
+
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     surname: '',
     phone: '',
-    cashAmount: '',
+    cashAmount: 0,
     debtDate: '',
     repaymentDate: '',
     debtCurrency: 'TL',
   });
+
+
   const [transferFormData, setTransferFormData] = useState<MoneyTransferFormData>({
     senderName: '',
     surname: '',
@@ -45,27 +58,36 @@ export function useCustomerForm(userId: number) {
     receivedAmount:'',
     moneyCurrency: 'TL',
     receivedName:'',
-    receivedDate: '2024-07-17',
-    transferDate: '2024-07-24',
+    receivedDate: '2025-07-17',
+    transferDate: '2025-07-24',
   });
+
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await getCustomerList(userId);
-        setCustomers(data);
+        const response = await getCustomerList(userId);
+        
+        // Eğer response bir nesne ise ve data alanı varsa, müşterileri buradan al
+        if (response && response.data) {
+          setCustomers(response.data);  
+        } else {
+          setCustomers([]); // Eğer yanlış bir veri yapısı dönerse, güvenli bir fallback
+        }
+        
       } catch (error) {
         console.error('Failed to fetch customers', error);
+        setCustomers([]); // Hata durumunda da boş dizi setle
       }
     }
     fetchData();
   }, [userId]);
+  
+
 
   const handleCustomerChange = (selectedId: number) => {
     const foundCustomer = customers.find((cust) => cust.id === selectedId) || null;
     setSelectedCustomer(foundCustomer);
-  
-
     if (foundCustomer) {
       setFormData({
         name: foundCustomer.clientName,
@@ -88,6 +110,9 @@ export function useCustomerForm(userId: number) {
       });
     }
   };
+
+
+
   const handleMoneyTransferCustomerChange = (selectedId: number) => {
     const foundCustomer = customers.find((cust) => cust.id === selectedId) || null;
     setReceiverCustomer(foundCustomer);
@@ -118,6 +143,8 @@ export function useCustomerForm(userId: number) {
       });
     }
   };
+
+
   const handleSenderCustomerChange = (selectedId: number) => {
     const foundCustomer = customers.find((cust) => cust.id === selectedId) || null;
     setSelectedCustomer(foundCustomer);
@@ -148,6 +175,7 @@ export function useCustomerForm(userId: number) {
       });
     }
   };
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

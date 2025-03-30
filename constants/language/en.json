@@ -4,7 +4,8 @@
     "phoneNumber": "Phone Number",
     "password": "Password",
     "signUp": "Sign Up",
-    "haveNoAccount": "Don't you have an account?"
+    "haveNoAccount": "Don't you have an account?",
+    "forgetPassword": "ForgetPassword"
   },
   "registerPage": {
     "pageTitle": "Register",
@@ -36,8 +37,8 @@
     "help": "Help",
     "logout": "Logout"
   },
-  "accounPage":{
-    "pageTitle" : "Account"
+  "accounPage": {
+    "pageTitle": "Account"
   },
   "accountPageReceivablesTabMenu": {
     "receivables": "Receivables",
@@ -59,7 +60,7 @@
     "addCustomerButton": "Add Customer"
   },
   "cashReceivablePage": {
-    "pageTitle":"CashReceivable",
+    "pageTitle": "CashReceivable",
     "select": "Select",
     "customerName": "Customer Name",
     "customerPhone": "Customer Phone",
@@ -74,7 +75,7 @@
     "borrowMoney": "Borrow Money"
   },
   "addDebtPage": {
-    "pageTitle":"AddDebt",
+    "pageTitle": "AddDebt",
     "select": "Select",
     "selectCustomer": "Select Customer",
     "customerPhone": "Customer Phone",
@@ -89,7 +90,7 @@
     "lend": "Lend"
   },
   "moneyTransferPage": {
-    "pageTitle":"MoneyTransfer",
+    "pageTitle": "MoneyTransfer",
     "sendCustomer": "Send Customer",
     "select": "Select",
     "selectCustomer": "Select Customer",
@@ -100,8 +101,10 @@
     "cashSendingDate": "Cash Sending Date",
     "send": "Send"
   },
-  "helpPage":{
-    "pageTitle" : "Help&Contact"
+  "helpPage": {
+    "pageTitle": "Help&Contact",
+    "title": "Contact Us",
+    "description": "You can reach us through our social media accounts:"
   },
   "accountInfoPage": {
     "pageTitle": "Account Information",
@@ -110,13 +113,54 @@
     "surname": "Surname",
     "lastName": "Enter your last name",
     "phone": "Phone",
+    "email": "Email",
     "phoneNumber": "Enter your phone number",
-    "updateButton":"  Update"
-
+    "updateButton": "  Update"
   },
   "languagePage": {
     "pageTitle": "Language",
-    "languageTypes": ["Turkish","English","Persian"]
+    "languageTypes": ["Turkish", "English", "Persian"]
+  },
+  "moneyTransferCard": {
+    "senderCustomer": "Sender",
+    "receiverCustomer": "Receiver",
+    "receivedDate": "Received Date",
+    "transferDate": "Transfer Date",
+    "transaction": "transferred"
+  },
+  "debtCard": {
+    "receivedDate": "Received Date",
+    "transferDate": "Repayment Date",
+    "transaction": "gave"
+  },
+  "cashCard": {
+    "receivedDate": "Received Date",
+    "transferDate": "Repayment Date ",
+    "transaction": "received"
+  },
+  "addUserCashScreen": {
+    "pageTitle": "Add Cash to Account",
+    "totalCash": "Cash Amount",
+    "cashCurrency": "Cash Currency",
+    "labelCashAmount": "Enter cash amount",
+    "addCashButton": "Add Cash",
+    "userCash": "Account Cash"
+  },
+  "updatePassword": {
+    "pageTitle": "UpdatePassword",
+    "newPassword": "New Password",
+    "newPasswordConfirm": "Confirm New Password",
+    "updateButton": "Update"
+  },
+  "myCustomerPage": {
+  "pageTitle": "My Customers",
+  "name": "Name",
+  "surname": "Surname",
+  "phone": "Phone",
+  "proccess": "Action",
+  "mofalPage": "Edit Customer",
+  "saveButton": "Save",
+  "cancelButton": "Cancel"
+}
 
-  }
 }

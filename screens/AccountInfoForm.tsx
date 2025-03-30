@@ -6,81 +6,133 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Image,
   KeyboardAvoidingView,
   Platform,
   Keyboard,
 } from "react-native";
 import BottomBar from "./BottomBar";
-import { accountInfo } from "../api/customer";
-import { User } from "../types";
+import { accountInfo } from "../api/customer"; // Güncelleme API'si eklendi
 import { useUser } from "../contex/useContext";
 import { useTranslations } from "../hooks/useTranslation";
 import { LanguageContext } from "../contex/languageContext";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { useNavigation } from "@react-navigation/native";
+import { updateUser } from "../api/auth";
 
 const AccountInfoForm = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  const { handleLogout, userData } = useUser();
-  const userId = 4;
-  const [userInfo, setUserInfo] = useState<User>({
-    email: "",
+  const { handleLogout, userId } = useUser();
+  const userIdNumber = userId ? Number(userId) : 0;
 
+  // Backend'den çekilen orijinal veriler
+  const [userInfo, setUserInfo] = useState({
+    email: "",
     id: 0,
     name: "",
-    password: "",
-    phone: 0,
+    phone: "",
     surname: "",
     username: "",
+  });
+
+  // Kullanıcının güncelleyebileceği form verileri
+  const [formData, setFormData] = useState({
+    email: "",
+    name: "",
+    phone: "",
+    surname: "",
   });
 
   const t = useTranslations();
   const { activeLanguage } = useContext(LanguageContext);
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      title: t.accountInfoPage.pageTitle,
-    });
+    navigation.setOptions({ title: t.accountInfoPage.pageTitle });
   }, [navigation, activeLanguage]);
 
   useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      () => {
-        setKeyboardVisible(true);
-      }
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      () => {
-        setKeyboardVisible(false);
-      }
-    );
+    const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardVisible(true);
+    });
+    const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardVisible(false);
+    });
 
-    const fetchCustomers = async () => {
+    const fetchUserInfo = async () => {
       try {
-        if (userId !== undefined) {
-          const result = await accountInfo(userId);
-          setUserInfo(result[0]);
-        } else {
-          console.error("User ID is undefined.");
+        if (userId) {
+          const result = await accountInfo(userIdNumber);
+          if (result.length > 0) {
+            const userData = result[0];
+
+            setUserInfo(userData);
+            setFormData((prevFormData) => {
+              if (JSON.stringify(prevFormData) !== JSON.stringify(userData)) {
+                return {
+                  email: userData.email,
+                  name: userData.name,
+                  phone: userData.phone,
+                  surname: userData.surname,
+                };
+              }
+              return prevFormData;
+            });
+          }
         }
       } catch (error) {
-        console.error("Müşteriler yüklenirken hata oluştu:", error);
+        console.error("Error fetching user info:", error);
       }
     };
 
-    fetchCustomers();
+    fetchUserInfo();
 
     return () => {
       keyboardDidHideListener.remove();
       keyboardDidShowListener.remove();
     };
-  }, []);
+  }, [userId]);
 
+  // Form verilerini güncelleme fonksiyonu
+  const handleChange = (field: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  // Değişiklik olup olmadığını kontrol eden fonksiyon
+  const hasChanges = () => {
+    return (
+      formData.email !== userInfo.email ||
+      formData.name !== userInfo.name ||
+      formData.phone !== userInfo.phone ||
+      formData.surname !== userInfo.surname
+    );
+  };
+
+  const handleUpdate = async () => {
+    if (!hasChanges()) {
+      alert("Hiçbir değişiklik yapılmadı!");
+      return;
+    }
+  
+    const updatedFields: Partial<typeof formData> = {...formData  }; 
+    Object.keys(formData).forEach((key) => {
+      if (formData[key as keyof typeof formData] !== userInfo[key as keyof typeof userInfo]) {
+        updatedFields[key as keyof typeof formData] = formData[key as keyof typeof formData];
+      }
+    });
+    try {
+      console.log("Güncellenen veriler:", updatedFields);
+      const response = await updateUser(userIdNumber, updatedFields);
+      console.log("Güncelleme yanıtı:", response); 
+      alert("Bilgiler başarıyla güncellendi!");
+    } catch (error) {
+      console.error("Güncelleme hatası:", error);
+      alert("Bilgiler güncellenirken hata oluştu.");
+    }
+  };
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView
@@ -89,44 +141,41 @@ const AccountInfoForm = () => {
         keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
       >
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <View style={styles.avatarContainer}>
-            <Image
-              source={{ uri: "https://via.placeholder.com/150" }}
-              style={styles.avatar}
-            />
-          </View>
-
           <View style={styles.formContainer}>
             <Text style={styles.label}>{t.accountInfoPage.name}</Text>
             <TextInput
               style={styles.input}
-              placeholder={t.accountInfoPage.firstName}
-              value={userInfo.name}
+              value={formData.name}
+              onChangeText={(text) => handleChange("name", text)}
             />
 
             <Text style={styles.label}>{t.accountInfoPage.surname}</Text>
             <TextInput
               style={styles.input}
-              placeholder={t.accountInfoPage.lastName}
-              value={userInfo.surname}
+              value={formData.surname}
+              onChangeText={(text) => handleChange("surname", text)}
             />
 
             <Text style={styles.label}>{t.accountInfoPage.phone}</Text>
             <TextInput
               style={styles.input}
-              placeholder={t.accountInfoPage.phoneNumber}
-              value={userInfo.phone.toString()}
+              value={formData.phone}
+              onChangeText={(text) => handleChange("phone", text)}
+            />
+
+            <Text style={styles.label}>{t.accountInfoPage.email}</Text>
+            <TextInput
+              style={styles.input}
+              value={formData.email}
+              onChangeText={(text) => handleChange("email", text)}
             />
           </View>
 
-          <TouchableOpacity
-            style={styles.updateButton}
-            onPress={() => handleLogout()}
-          >
+          <TouchableOpacity style={styles.updateButton} onPress={handleUpdate}>
             <Text style={styles.buttonText}>{t.accountInfoPage.updateButton}</Text>
           </TouchableOpacity>
         </ScrollView>
-        <BottomBar />
+        {!isKeyboardVisible && <BottomBar />}
       </KeyboardAvoidingView>
     </View>
   );
@@ -135,80 +184,61 @@ const AccountInfoForm = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#E3F2FD",
   },
   formWrapper: {
     flex: 1,
   },
   scrollContainer: {
     paddingVertical: 20,
-    paddingHorizontal: 10,
-    alignItems: "center",
+    paddingHorizontal: 20,
     flexGrow: 1,
-    paddingBottom: 80, // BottomBar için boşluk bırak
-  },
-  avatarContainer: {
-    alignItems: "center",
-    marginBottom: 20,
-    marginTop: -30, // Avatarın taşmasını azaltmak için
-    paddingTop: 15,
-  },
-  avatar: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    borderWidth: 3,
-    borderColor: "white",
   },
   formContainer: {
-    width: "100%",
-    backgroundColor: "white",
-    borderRadius: 8,
-    padding: 20,
+    backgroundColor: "#ffffff",
+    borderRadius: 15,
+    padding: 25,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 2,
-    marginBottom: 30,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 5,
+    marginBottom: 20,
   },
   label: {
-    fontWeight: "bold",
-    marginBottom: 5,
+    fontWeight: "700",
+    marginBottom: 6,
+    fontSize: 16,
+    color: "#37474F",
   },
   input: {
-    height: 40,
-    borderColor: "#007bff",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
+    height: 50,
+    borderColor: "#42A5F5",
+    borderWidth: 1.5,
+    borderRadius: 10,
+    paddingHorizontal: 14,
     marginBottom: 15,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#FAFAFA",
+    fontSize: 16,
+    color: "#333",
   },
   updateButton: {
-    backgroundColor: "#FF7F00",
-    padding: 15,
-    borderRadius: 5,
+    backgroundColor: "#1976D2",
+    paddingVertical: 16,
+    borderRadius: 10,
     alignItems: "center",
-    marginHorizontal: 20,
-    marginBottom: 10, // Altında biraz boşluk bırak
+    marginTop: 15,
+    shadowColor: "#1976D2",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 3,
   },
   buttonText: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
   },
-  // bottomBarContainer: {
-  //   position: 'absolute',
-  //   bottom: 0,
-  //   left: 0,
-  //   right: 0,
-  //   height: 60,
-  //   backgroundColor: '#fff',
-  // },
 });
 
 export default AccountInfoForm;

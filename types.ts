@@ -6,16 +6,27 @@ export type RootStackParamList = {
     Help: undefined;
     Clock: undefined;
     Language: undefined;
-    AddDebt: undefined;
+    // AddDebt: undefined;
+    AddDebt: {customerId: number};
+    AddDebtDeneme: undefined;
     AccountInfoForm: undefined;
     Account: undefined;
     FormListDeneme: undefined;
     MoneyTransferScreen : undefined;
-    CashReceivable:undefined;
+    // CashReceivable:undefined;
+    CashReceivable:{customerId: number};
+    CashReceivableDeneme:undefined;
     AddCustomer: undefined;
     DebtDetail: { customer: Customers }; 
-    Login : undefined
-    Register: undefined
+    Login : undefined;
+    Register: undefined;
+    DebtList: undefined;
+    AddUserCashScreen:{transactionType : string};
+    PasswordUpdateScreen : undefined
+    HomeCustomerListScreen: undefined
+    HomeCustomerDetail: {customerId: number,customerName: string}
+    AccountActivityDeneme: undefined
+    AccountActivity:undefined
 
 }
 

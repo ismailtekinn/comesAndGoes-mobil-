@@ -1,47 +1,52 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useContext } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { useTranslations } from "../hooks/useTranslation";
+import { LanguageContext } from "../contex/languageContext";
 
-// Customer interface
-// interface Customer {
-//   firstName: string;
-//   lastName: string;
-//   nakit: string;
-//   islem: string;
-//   vt: string;
-//   at: string;
-// }
 interface Customers {
   customerName: string;
   customerSurname: string;
   debtAmount: string;
-  debtCurrency:string;
+  debtCurrency: string;
   debtIssuanceDate: string;
   debtRepaymentDate: string;
 }
-interface CustomerCardProps {
-  // customer: Customer;
-  customer : Customers;
-  islem: string;
 
+interface CustomerCardProps {
+  customer: Customers;
+  islem: string;
 }
 
-// Props interface, customer türünü belirtelim
+const { width } = Dimensions.get("window"); // Ekran genişliğini alıyoruz
 
-
-const CashPayablesCard: React.FC<CustomerCardProps> = ({ customer,islem }) => {
-
+const CashPayablesCard: React.FC<CustomerCardProps> = ({ customer, islem }) => {
   const firstLetter = customer.customerName.charAt(0).toUpperCase();
+  const t = useTranslations();
 
-  const formattedIssuanceDate = new Date(customer.debtIssuanceDate).toLocaleDateString('tr-TR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
+  const { activeLanguage } = useContext(LanguageContext);
+  islem = t.cashCard.transaction;
+
+  const formattedIssuanceDate = new Date(
+    customer.debtIssuanceDate
+  ).toLocaleDateString("tr-TR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
   });
 
-  const formattedRepaymentDate = new Date(customer.debtRepaymentDate).toLocaleDateString('tr-TR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
+  const formattedRepaymentDate = new Date(
+    customer.debtRepaymentDate
+  ).toLocaleDateString("tr-TR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
   });
 
   return (
@@ -53,33 +58,42 @@ const CashPayablesCard: React.FC<CustomerCardProps> = ({ customer,islem }) => {
           </View>
           <View style={styles.customerInfo}>
             <Text style={styles.customerName}>
-            {customer.customerName} {customer.customerSurname}
+              {customer.customerName} {customer.customerSurname}
             </Text>
             <View style={styles.datesContainer}>
               <View style={styles.date}>
-                <Text style={styles.label}>A.T:</Text>
+                <Text style={styles.label}>{t.cashCard.receivedDate}</Text>
                 <Text style={styles.value}>{formattedIssuanceDate}</Text>
               </View>
-            </View>
               <View style={styles.date}>
-                <Text style={styles.label}>V.T:</Text>
+                <Text style={styles.label}>{t.cashCard.transferDate}</Text>
                 <Text style={styles.value}>{formattedRepaymentDate}</Text>
               </View>
+            </View>
           </View>
           <View style={styles.actions}>
-            <TouchableOpacity onPress={() => { /* Düzenleme işlemi */ }}>
-              <Text style={styles.iconEdit}>✏️</Text>
+            <TouchableOpacity
+              onPress={() => {
+                /* Düzenleme işlemi */
+              }}
+            >
+              <FontAwesome name="edit" size={20} color="#007bff" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => { /* Silme işlemi */ }}>
-              <Text style={styles.iconDelete}>🗑️</Text>
+            <TouchableOpacity
+              onPress={() => {
+                /* Silme işlemi */
+              }}
+              style={styles.deleteIcon}
+            >
+              <FontAwesome name="trash" size={20} color="#dc3545" />
             </TouchableOpacity>
           </View>
-          <View style={styles.amountContainer}>
-            <Text style={styles.amount}>
+        </View>
+        <View style={styles.amountContainer}>
+          <Text style={styles.amount}>
             {customer.debtAmount} {customer.debtCurrency}
-            </Text>
-            <Text style={styles.status}>{islem}</Text>
-          </View>
+          </Text>
+          <Text style={styles.status}>{islem}</Text>
         </View>
       </View>
     </View>
@@ -88,35 +102,36 @@ const CashPayablesCard: React.FC<CustomerCardProps> = ({ customer,islem }) => {
 
 const styles = StyleSheet.create({
   center: {
-    alignItems: 'center',
+    alignItems: "center",
     marginVertical: 10,
   },
   card: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 7,
     borderWidth: 3,
-    borderColor: '#10853e', // Kartın kenar rengi yeşil olacak
+    borderColor: "#10853e",
     padding: 16,
-    width: '100%',
-    maxWidth: 530,
+    width: "90%",
+    maxWidth: 630,
   },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: width > 400 ? "row" : "column", // Küçük ekranlarda alt alta gelsin
+
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   circle: {
     width: 50,
     height: 50,
-    backgroundColor: '#10853e', // Yuvarlağın rengi yeşil olacak
+    backgroundColor: "#10853e",
     borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   circleText: {
-    color: 'white',
+    color: "white",
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   customerInfo: {
     flex: 1,
@@ -124,10 +139,10 @@ const styles = StyleSheet.create({
   },
   customerName: {
     fontSize: 17,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   datesContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 8,
   },
   date: {
@@ -135,32 +150,33 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   value: {
     fontSize: 16,
   },
   actions: {
-    justifyContent: 'center',
+    flexDirection: width > 400 ? "row" : "column", // Küçük ekranlarda düğmeler alt alta gelsin
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    right: 0,
   },
-  iconEdit: {
-    fontSize: 20,
-    color: '#007bff', // Mavi renk düzenleme ikonu
-  },
-  iconDelete: {
-    fontSize: 20,
-    color: '#dc3545', 
+  deleteIcon: {
+    marginTop: 10,
   },
   amountContainer: {
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
+    marginTop: 10,
   },
   amount: {
-    color: '#10853e', // Nakit miktarı için yeşil renk
+    color: "#10853e",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   status: {
-    color: '#d5cbcc', // İşlem için açık renk
+    color: "#d5cbcc",
     fontSize: 18,
   },
 });

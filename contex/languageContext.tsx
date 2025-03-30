@@ -11,7 +11,6 @@ export const LanguageContext = createContext<LanguageContextProps>({
 
 export const LanguageProvider = ({ children }: LanguageProviderProps) => {
   const [activeLanguage, setActiveLanguage] = useState<LanguageType>("Türkçe");
-
   useEffect(() => {
     const loadLanguage = async () => {
       const savedLanguage = await AsyncStorage.getItem("appLanguage");

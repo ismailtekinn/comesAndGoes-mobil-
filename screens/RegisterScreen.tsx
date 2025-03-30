@@ -1,5 +1,5 @@
 import React, { useContext, useLayoutEffect, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Register } from '../types/authType'; // Register tipi burada tanımlı olmalı
 import { register } from '../api/auth'; // Register işlevi burada tanımlı olmalı
 import { useUser } from '../contex/useContext'; // Kullanıcı işlemleri için
@@ -11,22 +11,20 @@ import { LanguageContext } from '../contex/languageContext';
 
 
 const RegisterScreen: React.FC = () => {
-  const [formData, setFormData] = useState<Register>({
-    name: 'Ethan',
-    surname: 'Kingsley',
-    username: 'ethankings123',
-    email: 'ethank123@example.com',
-    password: 'securePass987',
-    phone: '1234567890',
-    roleId: 3
-  });
-
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const { handleLogin, handleToken } = useUser();
   const [error, setError] = useState<string | null>(null);
   const t = useTranslations();
   const { activeLanguage } = useContext(LanguageContext);
-
+  const [formData, setFormData] = useState<Register>({
+    name: '',
+    surname: '',
+    username: '',
+    email: '',
+    password: '',
+    phone: '',
+    roleId: 3
+  });
   useLayoutEffect(() => {
     navigation.setOptions({
       title: t.registerPage.pageTitle,
@@ -37,7 +35,6 @@ const RegisterScreen: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value, type } = e.target;
     const newValue = type === 'number' ? Number(value) : value;
-
     setFormData(prevState => ({
       ...prevState,
       [id]: newValue,
@@ -46,22 +43,22 @@ const RegisterScreen: React.FC = () => {
 
   const handleSubmit = async () => {
     if (formData.email === '' || formData.password === '') {
+        Alert.alert("Hata", "Lütfen ilgili alanları doldurun ");
       return;
     }
-    console.log("register formdata ekrana yazdırıldı ", formData);
     try {
       const response = await register(formData);
-      console.log("Register sayfası response ekrana yazdırılıyor ",response)
-      if (response) {
-        console.log("if kısmına giirş yapıldı ")
+      Alert.alert( response.message || "Bilinmeyen bir hata oluştu.");
+      if (response.success == true) {
         navigation.navigate('Login');
       }
       else{
         setError(response.message
         )
       }
-    } catch (error) {
-      console.error("Registration failed: ", error);
+    } catch (error: any) {
+       Alert.alert("Giriş Hatası", error.message || "Bilinmeyen bir hata oluştu.");
+      
     }
   };
 

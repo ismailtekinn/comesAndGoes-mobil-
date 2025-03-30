@@ -1,36 +1,39 @@
-import React, { useState,useLayoutEffect, useContext } from "react";
-import { View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import React, { useState, useLayoutEffect, useContext, useCallback, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import CustomerList from "./CustomerList";
 import BottomBar from "./BottomBar";
 
-import { useTranslations } from '../hooks/useTranslation';
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../types';
+import { useTranslations } from "../hooks/useTranslation";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types";
 import { LanguageContext } from "../contex/languageContext";
+import { getCustomerList } from "../api/customer";
+import { useUser } from "../contex/useContext";
 const Home = () => {
-
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [searchText, setSearchText] = useState<string>("");
   const t = useTranslations();
   const { activeLanguage } = useContext(LanguageContext);
-  
-
-
-
-    useLayoutEffect(() => {
-      navigation.setOptions({
-        title: t.homePage.pageTitle,
-      });
-    },[navigation,activeLanguage])
-
+  const { userId } = useUser();
+  const userIdNumber = userId ? Number(userId) : 0;
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t.homePage.pageTitle,
+    });
+  }, [navigation, activeLanguage]);
   return (
     <View style={styles.container}>
-
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>{t.homePage.customersTitle}</Text>
-
         <View style={styles.searchContainer}>
           <TextInput
             style={styles.searchInput}
@@ -43,16 +46,13 @@ const Home = () => {
           </TouchableOpacity>
         </View>
       </View>
-
       <View style={styles.listContainer}>
-        <CustomerList />
+      <CustomerList  />
       </View>
-
       <BottomBar />
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
