@@ -30,6 +30,7 @@ import EditCustomerModal from "./screens/EditCustomerModal";
 import HomeCustomerListScreen from "./screens/HomeCustomerListScreen";
 import HomeCustomerDetail from "./screens/HomeCustomerDetail";
 import AccountActivity from "./screens/AccountActivity";
+import EditTransaction from "./screens/EditTransaction";
 
 const Stack = createStackNavigator();
 
@@ -69,6 +70,7 @@ const AppRoute: React.FC = () => {
         <Stack.Screen name="HomeCustomerListScreen" component={HomeCustomerListScreen}/>
         <Stack.Screen name="HomeCustomerDetail" component={HomeCustomerDetail}/>
         <Stack.Screen name="AccountActivity" component={AccountActivity}/>
+        <Stack.Screen name="EditTransaction" component={EditTransaction}/>
         <Stack.Screen
           name="ScrollableListScreen"
           component={ScrollableListScreen}

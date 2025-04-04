@@ -10,9 +10,9 @@ import { Ionicons } from "@expo/vector-icons";
 import BottomBar from "./BottomBar";
 import { useRoute } from "@react-navigation/native";
 import { CardStyleInterpolators } from "@react-navigation/stack";
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../types';
-import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types";
+import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 
 import {
@@ -25,7 +25,10 @@ import { CashDifferenceType, Customer } from "../interface/IHomeCustomer";
 const HomeCustomerDetail = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const route = useRoute();
-  const { customerId, customerName } = route.params as { customerId: number ,customerName: string };
+  const { customerId, customerName } = route.params as {
+    customerId: number;
+    customerName: string;
+  };
   const { userId } = useUser();
   const userIdNumber = userId ? Number(userId) : 0;
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -92,7 +95,6 @@ const HomeCustomerDetail = () => {
               : ""}
           </Text>
 
-          
           <Text
             style={[
               styles.balanceValue,
@@ -127,45 +129,51 @@ const HomeCustomerDetail = () => {
       <Text style={styles.operationsTitle}>Operasyonlar</Text>
       <ScrollView style={styles.operationsList}>
         {filteredCustomers.map((customer: Customer, index) => (
-          <View key={index} style={styles.operationItem}>
-            <Ionicons
-              name={customer.type === "Borç" ? "arrow-up" : "arrow-down"}
-              size={24}
-              color={customer.type === "Alacak" ? "green" : "red"}
-            />
-            <View style={styles.operationInfo}>
-              <Text style={styles.operationDate}>
-                {new Date(customer.debtIssuanceDate).toLocaleString("tr-TR", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
+          <TouchableOpacity
+            key={index}
+            onPress={() => navigation.navigate("EditTransaction")}
+          >
+            <View key={index} style={styles.operationItem}>
+              <Ionicons
+                name={customer.type === "Borç" ? "arrow-up" : "arrow-down"}
+                size={24}
+                color={customer.type === "Alacak" ? "green" : "red"}
+              />
+              <View style={styles.operationInfo}>
+                <Text style={styles.operationDate}>
+                  {new Date(customer.debtIssuanceDate).toLocaleString("tr-TR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </Text>
+              </View>
+              <Text
+                style={[
+                  styles.operationAmount,
+                  { color: customer.type === "Alacak" ? "green" : "red" },
+                ]}
+              >
+                {customer.debtAmount} {customer.debtCurrency}
               </Text>
             </View>
-            <Text
-              style={[
-                styles.operationAmount,
-                { color: customer.type === "Alacak" ? "green" : "red" },
-              ]}
-            >
-              {customer.debtAmount} {customer.debtCurrency}
-            </Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
 
       <View style={styles.bottomButtons}>
         <TouchableOpacity
           style={styles.aldimButton}
-          onPress={() => navigation.navigate("CashReceivable",{customerId})}
+          onPress={() => navigation.navigate("CashReceivable", { customerId })}
         >
           <Text style={styles.aldimText}>ALDIM</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.verdimButton}
-          onPress={() => navigation.navigate("AddDebt", {customerId})}
-          >
+        <TouchableOpacity
+          style={styles.verdimButton}
+          onPress={() => navigation.navigate("AddDebt", { customerId })}
+        >
           <Text style={styles.verdimText}>VERDİM</Text>
         </TouchableOpacity>
       </View>
