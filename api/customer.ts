@@ -45,6 +45,8 @@ export async function getfilterCustomerList(userId: number, searchQuery: string 
       throw new Error(errorData.error || "getCustomerList failed");
     }
     const customerList = await response.json();
+    console.log("Home sayfasında listelenen veri yazdırılıyor ")
+   
     return customerList;
   } catch (error) {
     console.error(error);

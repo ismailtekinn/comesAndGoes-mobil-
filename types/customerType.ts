@@ -3,7 +3,7 @@ export type Customer = {
     clientSurname: string;
     clientPhone: string;
     userId: number;
-    id: number;
+    // id: number;
 }
 
 export type Debt = {

@@ -41,7 +41,6 @@ const HomeCustomerDetail = () => {
   const filteredCash = cashDifference.filter(
     (item) => item.currency.toLowerCase() === paraBirimi.toLowerCase()
   );
-
   const fetchCustomer = async () => {
     try {
       const customerData = await getCustomerCashDebtList({

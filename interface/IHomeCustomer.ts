@@ -1,6 +1,7 @@
 export interface Customer {
     id: number;
     debtIssuanceDate: string;
+    recordId:number,
     debtAmount: number;
     debtCurrency: string;
     type: "Borç" | "Alacak";

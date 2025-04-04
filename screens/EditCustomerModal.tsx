@@ -37,7 +37,6 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({
     clientName: customer?.clientName || "",
     clientSurname: customer?.clientSurname || "",
     clientPhone: customer?.clientPhone || "",
-    id: customer?.id || 0,
     userId: userIdNumber,
   });
 
@@ -74,7 +73,6 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({
         clientName: customer.clientName || "",
         clientSurname: customer.clientSurname || "",
         clientPhone: customer.clientPhone || "",
-        id: customer?.id || 0,
         userId: userIdNumber,
       });
     }

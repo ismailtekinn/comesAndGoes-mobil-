@@ -23,7 +23,7 @@ const AddCustomer: React.FC = () => {
     clientSurname: '',
     clientPhone: '',
     userId: userIdNumber,
-    id:0,
+  
   });
 
   useLayoutEffect(() => {
@@ -44,7 +44,7 @@ const AddCustomer: React.FC = () => {
       setSuccessMessage(response.message);
       if (response.isSuccess) {
         Alert.alert("Başarılı", "Müşteri başarıyla eklendi!", [
-          { text: "Tamam", onPress: () => navigation.navigate("Home") },
+          { text: "Tamam", onPress: () => navigation.navigate("HomeCustomerListScreen") },
         ]);
       } else {
         Alert.alert(response.message || "Bilinmeyen bir hata oluştu.");

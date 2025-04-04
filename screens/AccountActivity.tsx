@@ -107,7 +107,7 @@ const AccountActivity = () => {
           onValueChange={(itemValue) => setParaBirimi(itemValue)}
         >
           <Picker.Item label="TL" value="TL" />
-          <Picker.Item label="USD" value="USD" />
+          <Picker.Item label="Dolar" value="Dolar" />
           <Picker.Item label="Euro" value="Euro" />
           <Picker.Item label="Toman" value="Toman" />
           <Picker.Item label="Afghani" value="Afghani" />

@@ -32,9 +32,12 @@ const HomeCustomerListScreen = () => {
     (customer) =>
       customer.balance.currency.toLowerCase() === paraBirimi.toLowerCase()
   );
+
+
   const handleAddCustomerClick = () => {
     navigation.navigate("AddCustomer");
   };
+  console.log("Customers  console yazdırılıyor: ", customerss)
 
   const fetchCustomers = async () => {
     try {
@@ -61,6 +64,7 @@ const HomeCustomerListScreen = () => {
 
     return () => clearTimeout(delayDebounceFn); 
   }, [searchText]);
+
   useEffect(() => {
     fetchCustomers();
   }, []);
@@ -114,7 +118,7 @@ const HomeCustomerListScreen = () => {
                     setSearchText("");
                   }}
                 >
-                  {customer.clientName} {customer.clientSurname}{" "}
+                  {customer.clientName} {customer.clientSurname}
                   {customer.clientPhone}
                 </Text>
               </View>
@@ -129,7 +133,9 @@ const HomeCustomerListScreen = () => {
         contentContainerStyle={{ paddingBottom: 70 }}
       >
         {filteredCustomers.map((customer) => {
-          const firstLetter = customer.clientName?.charAt(0)?.toUpperCase();
+          // const firstLetter = customer.clientName?.charAt(0)?.toUpperCase();
+          const firstLetter = customer.clientName?.charAt(0)?.toUpperCase() || "";
+
           return (
             <TouchableOpacity
               key={customer.id}
@@ -146,7 +152,7 @@ const HomeCustomerListScreen = () => {
               </View>
 
               <View style={{ flex: 1 }}>
-                <Text style={styles.customerName}>{customer.clientName}</Text>
+                <Text style={styles.customerName}>{customer.clientName} {customer.clientSurname}</Text>
                 <Text style={styles.dateText}>{customer.date}</Text>
               </View>
 
