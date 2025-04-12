@@ -4,6 +4,7 @@ export interface Customer {
     recordId:number,
     debtAmount: number;
     debtCurrency: string;
+    description:string;
     type: "Borç" | "Alacak";
   }
 

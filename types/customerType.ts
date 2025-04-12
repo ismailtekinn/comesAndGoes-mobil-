@@ -19,6 +19,7 @@ export type NewDebt = {
     debtCurrency: string;
     debtorId: number;
     creditorId: number;
+    description : string
 }
 export type DebtDetail = {
  userId: number;

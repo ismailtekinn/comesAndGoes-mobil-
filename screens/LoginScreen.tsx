@@ -60,7 +60,7 @@ const LoginScreen = () => {
       if (token && user) {
         handleToken(token);
         handleLogin(user);
-        Alert.alert("Giriş Başarılı", "Başarıyla giriş yaptınız.");
+        // Alert.alert("Giriş Başarılı", "Başarıyla giriş yaptınız.");
         navigation.navigate("HomeCustomerListScreen");//Home sayfasına yönlendirme yapılıyordu
       } else {
         Alert.alert("Giriş Hatası", "Kullanıcı veya token bilgisi bulunamadı.");

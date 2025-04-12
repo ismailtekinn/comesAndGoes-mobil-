@@ -52,6 +52,7 @@ const CashReceivable = () => {
     debtDate: "2025-07-17",
     repaymentDate: "2025-08-17",
     debtCurrency: "TL",
+    description: ""
   });
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -65,20 +66,25 @@ const CashReceivable = () => {
       debtCurrency: formData.debtCurrency,
       debtorId: userIdNumber,
       creditorId: customerId ? customerId : 0,
+      description:formData.description
     };
     try {
       const response = await addCashReceivable(debtData);
       if (response.isSuccess) {
-        Alert.alert("Başarılı", "Nakit başarıyla eklendi", [
-          {
-            text: "Tamam",
-            onPress: async () => {
-              const customerData = await getCustomerList(userIdNumber);
-              setCustomerss(customerData.data);
-              navigation.navigate("HomeCustomerListScreen");
-            },
-          },
-        ]);
+        navigation.goBack();
+
+        // Alert.alert("Başarılı", "Nakit başarıyla eklendi", [
+        //   {
+        //     text: "Tamam",
+        //     onPress: async () => {
+        //       const customerData = await getCustomerList(userIdNumber);
+        //       setCustomerss(customerData.data);
+        //       navigation.goBack();
+        //       // navigation.navigate("HomeCustomerListScreen");
+
+        //     },
+        //   },
+        // ]);
         setFormData({
           name: "",
           surname: "",
@@ -87,6 +93,7 @@ const CashReceivable = () => {
           debtDate: "",
           repaymentDate: "",
           debtCurrency: "TL",
+          description:""
         });
       } else {
         Alert.alert("Hata", response.message);
@@ -100,6 +107,7 @@ const CashReceivable = () => {
         debtDate: "",
         repaymentDate: "",
         debtCurrency: "TL",
+        description:"",
       });
     } catch (error: any) {
       const errorMessage = error?.message || "Beklenmeyen bir hata oluştu";

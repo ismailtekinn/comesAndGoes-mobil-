@@ -12,6 +12,7 @@ export interface FormData {
   debtDate: string;
   repaymentDate: string;
   debtCurrency: string;
+  description: string;
 }
 export interface MoneyTransferFormData {
   senderName: string;
@@ -48,6 +49,7 @@ export function useCustomerForm(userId: number) {
     debtDate: '',
     repaymentDate: '',
     debtCurrency: 'TL',
+    description: ''
   });
 
 
@@ -97,6 +99,7 @@ export function useCustomerForm(userId: number) {
         debtDate: formData.debtDate,
         repaymentDate: formData.repaymentDate,
         debtCurrency: formData.debtCurrency,
+        description: formData.description
       });
     } else {
       setFormData({
@@ -107,6 +110,7 @@ export function useCustomerForm(userId: number) {
         debtDate: formData.debtDate,
         repaymentDate: formData.repaymentDate,
         debtCurrency: formData.debtCurrency,
+        description : formData.description
       });
     }
   };

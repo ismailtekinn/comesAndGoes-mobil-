@@ -21,6 +21,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { LanguageType, RootStackParamList } from "../types";
 import { useNavigation } from "@react-navigation/native";
 
+
+
 const MyCustomers = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
@@ -28,13 +30,14 @@ const MyCustomers = () => {
   const userIdNumber = userId ? Number(userId) : 0;
   const t = useTranslations();
   const { activeLanguage, setActiveLanguage } = useContext(LanguageContext);
-
   const [searchText, setSearchText] = useState<string>("");
   const [customers, setCustomers] = useState();
   const [loading, setLoading] = useState(true);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+
+
 
   useLayoutEffect(() => {
     if (t?.myCustomerPage?.pageTitle) {

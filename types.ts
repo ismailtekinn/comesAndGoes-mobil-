@@ -27,7 +27,7 @@ export type RootStackParamList = {
     HomeCustomerDetail: {customerId: number,customerName: string}
     AccountActivityDeneme: undefined
     AccountActivity:undefined
-    EditTransaction:undefined
+    EditTransaction:{recordId: number,debtAmount:number,transactionType: string,debtIssuanceDate:string,description:string}
 
 }
 

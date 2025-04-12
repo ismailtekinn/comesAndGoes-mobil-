@@ -42,7 +42,8 @@
     "react-native-svg-charts": "^5.4.0",
     "react-native-vector-icons": "^10.2.0",
     "setimmediate": "^1.0.5",
-    "tamagui": "^1.125.30"
+    "tamagui": "^1.125.30",
+    "@react-native-community/datetimepicker": "8.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

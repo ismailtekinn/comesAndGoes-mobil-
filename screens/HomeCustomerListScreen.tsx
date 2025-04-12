@@ -16,6 +16,7 @@ import { useCustomers } from "../contex/customerContext";
 import { getCustomerList, getfilterCustomerList } from "../api/customer";
 import { useUser } from "../contex/useContext";
 import { Picker } from "@react-native-picker/picker";
+import { useIsFocused } from '@react-navigation/native';
 
 const HomeCustomerListScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -26,6 +27,13 @@ const HomeCustomerListScreen = () => {
   const userIdNumber = userId ? Number(userId) : 0;
   const [paraBirimi, setParaBirimi] = useState<string>("TL");
   const [searchText, setSearchText] = useState("");
+  const isFocused = useIsFocused();
+  
+  useEffect(() => {
+    if (isFocused) {
+      fetchCustomers();
+    }
+  }, [isFocused]);
 
 
   const filteredCustomers = customerss.filter(
