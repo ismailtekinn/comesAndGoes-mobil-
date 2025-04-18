@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import {
   View,
   Text,
@@ -23,49 +23,31 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
-import { useNavigation } from "@react-navigation/native";
-
-const transactions = [
-  {
-    date: "Bugün 02:26",
-    balance: "54722.0 ₺",
-    amount: "4500.0 ₺",
-    type: "borç",
-  },
-  {
-    date: "Bugün 02:26",
-    balance: "59222.0 ₺",
-    amount: "5000.0 ₺",
-    type: "nakit",
-  },
-  {
-    date: "21 Temmuz 2024 18:07",
-    balance: "54222.0 ₺",
-    amount: "52222.0 ₺",
-    type: "nakit",
-  },
-  {
-    date: "19 Temmuz 2024 19:03",
-    balance: "2000.0 ₺",
-    amount: "3000.0 ₺",
-    type: "borç",
-  },
-  {
-    date: "19 Temmuz 2024 19:03",
-    balance: "5000.0 ₺",
-    amount: "5000.0 ₺",
-    type: "nakit",
-  },
-];
-
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { useTranslations } from "../hooks/useTranslation";
+import { LanguageContext } from "../contex/languageContext";
+import { useClock } from "../contex/clockContext";
+import { formatDate } from "../utils/formatDate";
 const AccountActivity = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const { userId } = useUser();
+  const isFocused = useIsFocused();
+
+  const t = useTranslations();
+  const { activeLanguage } = useContext(LanguageContext);
   const userIdNumber = userId ? Number(userId) : 0;
   const [customers, setCustomers] = useState<any[]>([]);
   const [cashDifference, setCashdifference] = useState<any[]>([]);
-
   const [paraBirimi, setParaBirimi] = useState<string>("TL");
+  // const locale = navigator.language;
+  const { format, setFormat } = useClock();
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+   const toggleDescription = (recordId: number) => {
+    setExpandedId((prevId) => (prevId === recordId ? null : recordId));
+  };
+
+  const is12HourFormat = format === "12";
+  const locale = is12HourFormat ? "en-US" : "tr-TR";
 
   const filteredCustomers = customers.filter(
     (customer) =>
@@ -78,7 +60,7 @@ const AccountActivity = () => {
   const fetchCustomer = async () => {
     try {
       const customerData = await getUserCashAmountAllList(userIdNumber);
-
+      console.log("işlemler console yazdırılıyor ", customerData);
       setCashdifference(customerData.data);
     } catch (error) {
       console.error("Müşteriler yüklenirken hata oluştu:", error);
@@ -92,30 +74,44 @@ const AccountActivity = () => {
       console.error("Hata :", error);
     }
   };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t.accounPage.pageTitle,
+    });
+  }, [navigation, activeLanguage]);
+
   useEffect(() => {
-    fetchCustomer();
-    fetchcompareDebtAndCashReceivable();
-  }, []);
+    if (isFocused) {
+      fetchCustomer();
+      fetchcompareDebtAndCashReceivable();
+    }
+  }, [isFocused]);
+
+  // useEffect(() => {
+  //   fetchCustomer();
+  //   fetchcompareDebtAndCashReceivable();
+  // }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.balanceTitle}>Nakit bakiyesi</Text>
+      <Text style={styles.balanceTitle}></Text>
       <View style={styles.currencyPickerContainer}>
         <Picker
           style={styles.picker}
           selectedValue={paraBirimi}
           onValueChange={(itemValue) => setParaBirimi(itemValue)}
         >
-          <Picker.Item label="TL" value="TL" />
-          <Picker.Item label="Dolar" value="Dolar" />
-          <Picker.Item label="Euro" value="Euro" />
-          <Picker.Item label="Toman" value="Toman" />
-          <Picker.Item label="Afghani" value="Afghani" />
+          <Picker.Item label={t.accounPage.tl} value="TL" />
+          <Picker.Item label={t.accounPage.usd} value="Dolar" />
+          <Picker.Item label={t.accounPage.euro} value="Euro" />
+          <Picker.Item label={t.accounPage.toman} value="Toman" />
+          <Picker.Item label={t.accounPage.afghani} value="Afghani" />
         </Picker>
       </View>
       <View style={styles.balanceRow}>
         <View style={{ alignItems: "center", flex: 1 }}>
-          <Text style={styles.balanceLabel}>Toplam Giren</Text>
+          <Text style={styles.balanceLabel}>{t.accounPage.totalIn}</Text>
           <Text
             style={[
               styles.positiveBalance,
@@ -138,7 +134,7 @@ const AccountActivity = () => {
           </Text>
         </View>
         <View style={{ alignItems: "center", flex: 1 }}>
-          <Text style={styles.balanceLabel}>Toplam Çıkan</Text>
+          <Text style={styles.balanceLabel}>{t.accounPage.totalOut}</Text>
           <Text
             style={[
               styles.negativeBalance,
@@ -157,7 +153,7 @@ const AccountActivity = () => {
         </View>
       </View>
       <Text style={styles.totalBalance}>
-        Genel Bakiye:{" "}
+        {t.accounPage.cashBalance}:{" "}
         <Text
           style={{
             color:
@@ -173,81 +169,154 @@ const AccountActivity = () => {
       </Text>
 
       <Text style={styles.transactionTitle}>
-        İşlemler ({transactions.length})
+        {t.accounPage.operations} ({filteredCash.length})
       </Text>
       {/* <ScrollView style={styles.transactionList}>
-        {filteredCash.map((customer: CashTransaction, index) => (
-          <View key={index} style={styles.transactionItem}>
-            <View style={styles.iconContainer}>
-              <Ionicons
-                name={customer.type === "Borç" ? "remove-circle" : "add-circle"}
-                size={42}
-                color={customer.type === "Alacak" ? "#60be66" : "#f0505c"}
-              />
-            </View>
-            <View style={styles.transactionTextContainer}>
-              <Text style={styles.transactionDate}>
-                {new Date(customer.debtIssuanceDate).toLocaleString("tr-TR", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
+        {filteredCash.map((transaction: CashTransaction, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() =>
+              navigation.navigate("EditAccountActivity", {
+                id: transaction.id,
+                description: transaction.description,
+                totalCash: transaction.totalCash,
+                transactionType: transaction.transactionType,
+              })
+            }
+          >
+            <View key={transaction.id} style={styles.transactionItem}>
+              <View style={styles.iconContainer}>
+                <Ionicons
+                  name={
+                    transaction.transactionType === "out"
+                      ? "remove-circle"
+                      : "add-circle"
+                  }
+                  size={42}
+                  color={
+                    transaction.transactionType === "in" ? "#60be66" : "#f0505c"
+                  }
+                />
+              </View>
+              <View style={styles.transactionTextContainer}>
+                <Text style={styles.transactionDate}>
+                  {new Date(transaction.createdAt).toLocaleString(locale, {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: is12HourFormat,
+                    timeZone: "UTC",
+                  })}
+                </Text>
+              </View>
+              <Text
+                style={[
+                  styles.transactionAmount,
+                  {
+                    color:
+                      transaction.transactionType === "out" ? "red" : "green",
+                  },
+                ]}
+              >
+                {transaction.totalCash} {transaction.cashCurrency}
               </Text>
             </View>
-            <Text
-              style={[
-                styles.transactionAmount,
-                { color: customer.type === "Borç" ? "red" : "green" },
-              ]}
-            >
-              {customer.debtAmount} {customer.debtCurrency}
-            </Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView> */}
-      <ScrollView style={styles.transactionList}>
-        {filteredCash.map((transaction: CashTransaction, index) => (
-          <View key={transaction.id} style={styles.transactionItem}>
-            <View style={styles.iconContainer}>
-              <Ionicons
-                name={
-                  transaction.transactionType === "out"
-                    ? "remove-circle"
-                    : "add-circle"
-                }
-                size={42}
-                color={
-                  transaction.transactionType === "in" ? "#60be66" : "#f0505c"
-                }
-              />
-            </View>
-            <View style={styles.transactionTextContainer}>
-              <Text style={styles.transactionDate}>
-                {new Date().toLocaleString("tr-TR", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </Text>
-            </View>
-            <Text
-              style={[
-                styles.transactionAmount,
-                {
-                  color:
-                    transaction.transactionType === "out" ? "red" : "green",
-                },
-              ]}
-            >
-              {transaction.totalCash} {transaction.cashCurrency}
-            </Text>
+
+<ScrollView style={styles.transactionList}>
+  {filteredCash.map((transaction: CashTransaction, index) => {
+    const isExpanded = expandedId === transaction.id;
+    const shortDescription =
+      transaction.description && transaction.description.length > 60
+        ? transaction.description.slice(0, 60) + "..."
+        : transaction.description;
+
+    return (
+      <TouchableOpacity
+        key={index}
+        onPress={() =>
+          navigation.navigate("EditAccountActivity", {
+            id: transaction.id,
+            description: transaction.description,
+            totalCash: transaction.totalCash,
+            transactionType: transaction.transactionType,
+          })
+        }
+        onLongPress={() => toggleDescription(transaction.id)} // uzun basınca aç/kapa
+      >
+        <View key={transaction.id} style={styles.transactionItem}>
+          <View style={styles.iconContainer}>
+            <Ionicons
+              name={
+                transaction.transactionType === "out"
+                  ? "remove-circle"
+                  : "add-circle"
+              }
+              size={42}
+              color={
+                transaction.transactionType === "in" ? "#60be66" : "#f0505c"
+              }
+            />
           </View>
-        ))}
-      </ScrollView>
+          <View style={styles.transactionTextContainer}>
+            <Text style={styles.transactionDate}>
+              {new Date(transaction.createdAt).toLocaleString(locale, {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: is12HourFormat,
+                timeZone: "UTC",
+              })}
+            </Text>
+
+            {/* Açıklama (açılır kapanır) */}
+            {transaction.description ? (
+              <TouchableOpacity
+                style={styles.descriptionContent}
+                onPress={() => toggleDescription(transaction.id)}
+              >
+                <Text style={styles.transactionDescription}>
+                  {isExpanded ? transaction.description : shortDescription}
+                  {transaction.description.length > 60 && (
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        color: "black",
+                        fontSize: 13,
+                      }}
+                    >
+                      {" "}
+                      {isExpanded ? "Daha az" : "Devamını gör"}
+                    </Text>
+                  )}
+                </Text>
+              </TouchableOpacity>
+            ) : null}
+          </View>
+
+          <Text
+            style={[
+              styles.transactionAmount,
+              {
+                color:
+                  transaction.transactionType === "out" ? "red" : "green",
+              },
+            ]}
+          >
+            {transaction.totalCash} {transaction.cashCurrency}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  })}
+</ScrollView>
+
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -256,7 +325,7 @@ const AccountActivity = () => {
             navigation.navigate("AddUserCashScreen", { transactionType: "in" })
           }
         >
-          <Text style={styles.aldimText}>MEVCUT NAKİT</Text>
+          <Text style={styles.aldimText}>{t.accounPage.cashAmount}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.debtButton}
@@ -264,7 +333,7 @@ const AccountActivity = () => {
             navigation.navigate("AddUserCashScreen", { transactionType: "out" })
           }
         >
-          <Text style={styles.verdimText}>BORÇ MİKTARI</Text>
+          <Text style={styles.verdimText}>{t.accounPage.debtAmount}</Text>
         </TouchableOpacity>
       </View>
       <BottomBar />
@@ -377,6 +446,15 @@ const styles = StyleSheet.create({
     color: "#2D9CDB",
     marginBottom: 5,
     textAlign: "center",
+  },
+  transactionDescription: {
+    fontSize: 13,
+    color: "#444",
+    marginTop: 2,
+  },
+  
+  descriptionContent: {
+    marginTop: 4,
   },
 });
 

@@ -11,6 +11,7 @@ interface AuthContextProps {
   handleToken: (token: string) => void;
   setUserData: React.Dispatch<React.SetStateAction<User | undefined>>;
   userId?: number;
+  isLoading: boolean;
 }
 const UserContext = createContext<AuthContextProps | undefined>(undefined);
 
@@ -26,7 +27,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     const loadStoredData = async () => {
       try {
         const storedToken = await AsyncStorage.getItem("token");
-        const storedUser = await AsyncStorage.getItem("user");
+        const storedUser = await AsyncStorage.getItem("userData");
         if (storedToken && storedUser) {
           setToken(JSON.parse(storedToken));
           setUserData(JSON.parse(storedUser));
@@ -87,6 +88,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
         handleLogout,
         setUserData,
         handleToken,
+        isLoading, 
+        
       }}
     >
       {children}

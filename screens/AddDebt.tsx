@@ -25,6 +25,7 @@ import { Customer, Debt, NewDebt } from "../types/customerType";
 import { addDebt, getCustomerList, homeCustomerList } from "../api/customer";
 import { AddDebtFormData, FormData } from "../hooks/useCustomerForm";
 import { useCustomers } from "../contex/customerContext";
+import { getCurrentTimeForRegion } from "../utils/dateUtils";
 
 const AddDebt = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -40,6 +41,7 @@ const AddDebt = () => {
     null
   );
   const [customerss, setCustomerss] = useCustomers();
+    const localTime = getCurrentTimeForRegion();
 
   const t = useTranslations();
   const [formData, setFormData] = useState<FormData>({
@@ -52,6 +54,10 @@ const AddDebt = () => {
     debtCurrency: "TL",
     description: "",
   });
+
+  useEffect(()=>{
+    console.log("adlaşfm",localTime)
+  })
   useEffect(() => {
     async function fetchData() {
       try {
@@ -75,12 +81,16 @@ const AddDebt = () => {
   }, [navigation, activeLanguage]);
 
   const handleSubmit = async () => {
+    const currentTime = getCurrentTimeForRegion();
+    console.log("object",currentTime)
+ 
     const debtData: NewDebt = {
       debtAmount: formData.cashAmount,
       debtCurrency: formData.debtCurrency,
       debtorId: customerId ? customerId : 0,
       creditorId: userIdNumber,
       description: formData.description,
+      debtIssuanceDate:currentTime,
     };
     try {
       const response = await addDebt(debtData);
@@ -170,7 +180,7 @@ const AddDebt = () => {
           </View>
 
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-            <Text style={styles.submitButtonText}>{t.addDebtPage.lend}</Text>
+            <Text style={styles.submitButtonText}>{t.debtPage.borrowMoney}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

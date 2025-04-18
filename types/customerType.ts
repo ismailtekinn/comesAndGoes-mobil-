@@ -19,7 +19,8 @@ export type NewDebt = {
     debtCurrency: string;
     debtorId: number;
     creditorId: number;
-    description : string
+    description : string;
+    debtIssuanceDate:string;
 }
 export type DebtDetail = {
  userId: number;
@@ -38,8 +39,8 @@ export type AddUserCash = {
     totalCash: number;
     cashCurrency: string;
     userId: number;
-    transactionType:string
-
+    transactionType:string;
+    description : string;
 }
 export type CustomerListProps = {
     reload: boolean;

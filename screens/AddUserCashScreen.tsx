@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import {
   View,
   Text,
@@ -18,6 +18,7 @@ import { useUser } from "../contex/useContext";
 import { useTranslations } from "../hooks/useTranslation";
 import { LanguageContext } from "../contex/languageContext";
 import BottomBar from "./BottomBar";
+import { getCurrentTimeForRegion } from "../utils/dateUtils";
 
 const AddUserCashScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -28,11 +29,13 @@ const AddUserCashScreen = () => {
   const t = useTranslations();
   const { activeLanguage } = useContext(LanguageContext);
   const buttonColor = transactionType === "in" ? "green" : "red";
+  const localTime = getCurrentTimeForRegion();
   const [formData, setFormData] = useState<AddUserCash>({
     totalCash: 0,
     cashCurrency: "TL",
     userId: userIdNumber,
-    transactionType: transactionType
+    transactionType: transactionType,
+    description:"",
   });
 
   useLayoutEffect(() => {
@@ -41,28 +44,60 @@ const AddUserCashScreen = () => {
     });
   }, [navigation, activeLanguage]);
 
+useEffect(()=>{
+  console.log("adlaşfm",localTime)
+})
   const handleAddCash = async () => {
+    const currentTime = getCurrentTimeForRegion();
+    const updatedFormData = {
+      ...formData,
+      createdAt: currentTime,
+    };
     try {
-      const response = await addUserCash(formData);
+      const response = await addUserCash(updatedFormData);
       if (response.isSuccess) {
-        Alert.alert(
-          "Başarılı",
-          "Hesaba nakit ekleme işlemi başarıyla gerçekleştirildi",
-          [
-            {
-              text: "Tamam",
-              onPress: async () => {
-                navigation.navigate("HomeCustomerListScreen");
-              },
-            },
-          ]
-        );
+        navigation.goBack();
+        // Alert.alert(
+        //   "Başarılı",
+        //   "Hesaba nakit ekleme işlemi başarıyla gerçekleştirildi",
+        //   [
+        //     {
+        //       text: "Tamam",
+        //       onPress: async () => {
+        //         navigation.navigate("HomeCustomerListScreen");
+
+        //       },
+        //     },
+        //   ]
+        // );
       }
-    } catch (error: any) {
-      const errorMessage = error?.message || "Beklenmeyen bir hata oluştu";
-      Alert.alert("Hata", errorMessage);
+    } catch (error) {
+      console.error("Hata:", error);
     }
   };
+
+  // const handleAddCash = async () => {
+  //   try {
+  //     const response = await addUserCash(formData);
+  //     if (response.isSuccess) {
+  //       Alert.alert(
+  //         "Başarılı",
+  //         "Hesaba nakit ekleme işlemi başarıyla gerçekleştirildi",
+  //         [
+  //           {
+  //             text: "Tamam",
+  //             onPress: async () => {
+  //               navigation.navigate("HomeCustomerListScreen");
+  //             },
+  //           },
+  //         ]
+  //       );
+  //     }
+  //   } catch (error: any) {
+  //     const errorMessage = error?.message || "Beklenmeyen bir hata oluştu";
+  //     Alert.alert("Hata", errorMessage);
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -81,6 +116,14 @@ const AddUserCashScreen = () => {
                 ...prev,
                 totalCash: value === "" ? 0 : Number(value),
               }))
+            }
+          />
+          <Text style={styles.label}>Description</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Description"
+            onChangeText={(value) =>
+              setFormData((prev) => ({ ...prev, description: value }))
             }
           />
         </View>
@@ -120,7 +163,10 @@ const AddUserCashScreen = () => {
         </View>
 
         <View style={styles.buttonCashContainer}>
-          <TouchableOpacity style={[styles.button,{ backgroundColor: buttonColor }]} onPress={handleAddCash}>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: buttonColor }]}
+            onPress={handleAddCash}
+          >
             <Text style={styles.buttonText}>
               {t.addUserCashScreen.addCashButton}
             </Text>

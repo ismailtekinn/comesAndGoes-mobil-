@@ -1,49 +1,51 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import BottomBar from './BottomBar';
+import { useClock } from '../contex/clockContext';
 
 const Clock = () => {
-  const [activeFormat, setActiveFormat] = useState<'24' | '12'>('24');
-
+  // const [activeFormat, setActiveFormat] = useState<'24' | '12'>('24');
+  // const { format: activeFormat, setFormat: setActiveFormat } = useClock();
+  const { format, setFormat } = useClock();
   return (
     <View style={styles.container}>
       <Pressable
-        onPress={() => setActiveFormat('24')}
+        onPress={() => setFormat('24')}
         style={[
           styles.button,
-          activeFormat === '24' ? styles.activeButton : styles.inactiveButton,
+          format === '24' ? styles.activeButton : styles.inactiveButton,
         ]}
       >
         <Text style={[
           styles.buttonText,
-          activeFormat === '24' ? styles.activeText : styles.inactiveText,
+          format === '24' ? styles.activeText : styles.inactiveText,
         ]}>
-          Zaman Göstergesi : 15:00
-        </Text>
+          Miladi Takvim 
+                  </Text>
         <Text style={[
           styles.buttonText,
-          activeFormat === '24' ? styles.activeText : styles.inactiveText,
+          format === '24' ? styles.activeText : styles.inactiveText,
         ]}>
           24 Saat Formatı
         </Text>
       </Pressable>
 
       <Pressable
-        onPress={() => setActiveFormat('12')}
+        onPress={() => setFormat('12')}
         style={[
           styles.button,
-          activeFormat === '12' ? styles.activeButton : styles.inactiveButton,
+          format === '12' ? styles.activeButton : styles.inactiveButton,
         ]}
       >
         <Text style={[
           styles.buttonText,
-          activeFormat === '12' ? styles.activeText : styles.inactiveText,
+          format === '12' ? styles.activeText : styles.inactiveText,
         ]}>
-          Zaman Göstergesi : 03:00
+          Hicri Takvim
         </Text>
         <Text style={[
           styles.buttonText,
-          activeFormat === '12' ? styles.activeText : styles.inactiveText,
+          format === '12' ? styles.activeText : styles.inactiveText,
         ]}>
           12 Saat Formatı
         </Text>

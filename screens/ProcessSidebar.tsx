@@ -69,6 +69,13 @@ const ProcessSidebar: React.FC<ProcessSidebarProps> = ({
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menuItem}
+          onPress={() => navigation.navigate("Clock")}
+        >
+          <Ionicons name="help-circle-outline" size={24} />
+          <Text style={styles.menuText}>{t.homePageOtherMenu.timeAndDate}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menuItem}
           onPress={() => handleLogout()}
         >
           <Ionicons name="log-out-outline" size={24} color="#333" />

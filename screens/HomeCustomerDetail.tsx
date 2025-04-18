@@ -1,4 +1,4 @@
-// import React, { useEffect, useState } from "react";
+// import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 // import {
 //   View,
 //   Text,
@@ -14,38 +14,40 @@
 // import { RootStackParamList } from "../types";
 // import { useNavigation } from "@react-navigation/native";
 // import { Picker } from "@react-native-picker/picker";
-// import { useIsFocused } from '@react-navigation/native';
-
+// import { useIsFocused } from "@react-navigation/native";
 // import {
 //   compareDebtAndCashReceivable,
 //   getCustomerCashDebtList,
 // } from "../api/customer";
 // import { useUser } from "../contex/useContext";
 // import { CashDifferenceType, Customer } from "../interface/IHomeCustomer";
+// import { useTranslations } from "../hooks/useTranslation";
+// import { LanguageContext } from "../contex/languageContext";
+// import { useClock } from "../contex/clockContext";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // const HomeCustomerDetail = () => {
+//   const { userId } = useUser();
+//   const userIdNumber = userId ? Number(userId) : 0;
 //   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+//   const t = useTranslations();
+//   const { activeLanguage } = useContext(LanguageContext);
 //   const route = useRoute();
+//   const [customers, setCustomers] = useState<Customer[]>([]);
+//   const isFocused = useIsFocused();
+//   const [paraBirimi, setParaBirimi] = useState<string>("TL");
+//   const { format,setFormat } = useClock();
+//   const [cashDifference, setCashdifference] = useState<CashDifferenceType[]>(
+//     []
+//   );
 //   const { customerId, customerName } = route.params as {
 //     customerId: number;
 //     customerName: string;
 //   };
-//   const { userId } = useUser();
-//   const userIdNumber = userId ? Number(userId) : 0;
-//   const [customers, setCustomers] = useState<Customer[]>([]);
-//   const [cashDifference, setCashdifference] = useState<CashDifferenceType[]>(
-//     []
-//   );
-
-//   const isFocused = useIsFocused();
-
-// useEffect(() => {
-//   if (isFocused) {
-//     fetchCustomer();
-//     fetchcompareDebtAndCashReceivable();
-//   }
-// }, [isFocused]);
-//   const [paraBirimi, setParaBirimi] = useState<string>("TL");
+//   const [expandedId, setExpandedId] = useState<number | null>(null);
+//   const toggleDescription = (recordId: number) => {
+//     setExpandedId((prevId) => (prevId === recordId ? null : recordId));
+//   };
 
 //   const filteredCustomers = customers.filter(
 //     (customer) =>
@@ -76,10 +78,41 @@
 //       console.error("Hata :", error);
 //     }
 //   };
+
+//   useLayoutEffect(() => {
+//     navigation.setOptions({
+//       title: t.homeCustomerDetail.pageTitle,
+//     });
+//   }, [navigation, activeLanguage]);
+
 //   useEffect(() => {
-//     fetchCustomer();
-//     fetchcompareDebtAndCashReceivable();
-//   }, []);
+//     if (isFocused) {
+//       fetchCustomer();
+//       fetchcompareDebtAndCashReceivable();
+//     }
+//   }, [isFocused]);
+
+//   useEffect(() => {
+//     const loadFormat = async () => {
+//       try {
+//         const savedFormat = await AsyncStorage.getItem('@clock_format');
+//         if (savedFormat === '12' || savedFormat === '24') {
+//           setFormat(savedFormat as '12' | '24');
+//         }
+//       } catch (error) {
+//         console.error('AsyncStorage verisi yüklenemedi:', error);
+//       }
+//     };
+
+//     loadFormat();
+//   }, [format]);
+
+//   console.log("saat formatı console yazdırılıyor : ", format)
+//   // useEffect(() => {
+//   //   fetchCustomer();
+//   //   fetchcompareDebtAndCashReceivable();
+//   // }, []);
+
 //   return (
 //     <View style={styles.container}>
 //       <View style={styles.header}>
@@ -96,7 +129,7 @@
 //       </View>
 //       <View style={styles.balanceContainer}>
 //         <View>
-//           <Text style={styles.balanceTitle}>Genel bakiye</Text>
+//           <Text style={styles.balanceTitle}>{t.homeCustomerDetail.generalBalance}</Text>
 //           <Text style={styles.balanceSubtitle}>
 //             {filteredCash.length > 0
 //               ? filteredCash[0].type === "debt"
@@ -127,50 +160,95 @@
 //             selectedValue={paraBirimi}
 //             onValueChange={(itemValue) => setParaBirimi(itemValue)}
 //           >
-//             <Picker.Item label="TL" value="TL" />
-//             <Picker.Item label="Dolar" value="Dolar" />
-//             <Picker.Item label="Euro" value="Euro" />
-//             <Picker.Item label="Toman" value="Toman" />
-//             <Picker.Item label="Afghani" value="Afghani" />
+//             <Picker.Item label={t.homeCustomerDetail.tl} value="TL" />
+//             <Picker.Item label={t.homeCustomerDetail.usd} value="Dolar" />
+//             <Picker.Item label={t.homeCustomerDetail.euro} value="Euro" />
+//             <Picker.Item label={t.homeCustomerDetail.toman} value="Toman" />
+//             <Picker.Item label={t.homeCustomerDetail.afghani} value="Afghani" />
 //           </Picker>
 //         </View>
 //       </View>
 
-//       <Text style={styles.operationsTitle}>Operasyonlar</Text>
+//       <Text style={styles.operationsTitle}>{t.homeCustomerDetail.operations}</Text>
 //       <ScrollView style={styles.operationsList}>
-//         {filteredCustomers.map((customer: Customer, index) => (
-//           <TouchableOpacity
-//             key={index}
-//             onPress={() => navigation.navigate("EditTransaction",{recordId:customer.recordId, debtAmount: customer.debtAmount,transactionType:customer.type, debtIssuanceDate:customer.debtIssuanceDate})}
-//           >
-//             <View key={index} style={styles.operationItem}>
-//               <Ionicons
-//                 name={customer.type === "Borç" ? "arrow-up" : "arrow-down"}
-//                 size={24}
-//                 color={customer.type === "Alacak" ? "green" : "red"}
-//               />
-//               <View style={styles.operationInfo}>
-//                 <Text style={styles.operationDate}>
-//                   {new Date(customer.debtIssuanceDate).toLocaleString("tr-TR", {
-//                     day: "2-digit",
-//                     month: "2-digit",
-//                     year: "numeric",
-//                     hour: "2-digit",
-//                     minute: "2-digit",
-//                   })}
+//         {filteredCustomers.map((customer: Customer, index) => {
+//           const isExpanded = expandedId === customer.recordId;
+//           const shortDescription =
+//             customer.description && customer.description.length > 60
+//               ? customer.description.slice(0, 60) + "..."
+//               : customer.description;
+
+//           return (
+//             <TouchableOpacity
+//               key={index}
+//               onPress={() =>
+//                 navigation.navigate("EditTransaction", {
+//                   recordId: customer.recordId,
+//                   debtAmount: customer.debtAmount,
+//                   transactionType: customer.type,
+//                   debtIssuanceDate: customer.debtIssuanceDate,
+//                   description: customer.description,
+//                   img: customer.img,
+//                 })
+//               }
+//             >
+//               <View style={styles.operationItem}>
+//                 <Ionicons
+//                   name={customer.type === "Borç" ? "arrow-up" : "arrow-down"}
+//                   size={24}
+//                   color={customer.type === "Alacak" ? "green" : "red"}
+//                 />
+//                 <View style={styles.operationInfo}>
+//                   <Text style={styles.operationDate}>
+//                     {new Date(customer.debtIssuanceDate).toLocaleString(
+//                       "tr-TR",
+//                       {
+//                         day: "2-digit",
+//                         month: "2-digit",
+//                         year: "numeric",
+//                         hour: "2-digit",
+//                         minute: "2-digit",
+//                       }
+//                     )}
+//                   </Text>
+
+//                   {/* Açıklama kısmı */}
+//                   {customer.description ? (
+//                     <TouchableOpacity
+//                       style={styles.descriptionContent}
+//                       onPress={() => toggleDescription(customer.recordId)}
+//                     >
+//                       <Text style={styles.descriptionText}>
+//                         {isExpanded ? customer.description : shortDescription}
+//                         {customer.description.length > 60 && (
+//                           <Text
+//                             style={{
+//                               fontWeight: "bold",
+//                               color: "black",
+//                               fontSize: 13,
+//                             }}
+//                           >
+//                             {" "}
+//                             {isExpanded ? "Daha az" : "Devamını gör"}
+//                           </Text>
+//                         )}
+//                       </Text>
+//                     </TouchableOpacity>
+//                   ) : null}
+//                 </View>
+
+//                 <Text
+//                   style={[
+//                     styles.operationAmount,
+//                     { color: customer.type === "Alacak" ? "green" : "red" },
+//                   ]}
+//                 >
+//                   {customer.debtAmount} {customer.debtCurrency}
 //                 </Text>
 //               </View>
-//               <Text
-//                 style={[
-//                   styles.operationAmount,
-//                   { color: customer.type === "Alacak" ? "green" : "red" },
-//                 ]}
-//               >
-//                 {customer.debtAmount} {customer.debtCurrency}
-//               </Text>
-//             </View>
-//           </TouchableOpacity>
-//         ))}
+//             </TouchableOpacity>
+//           );
+//         })}
 //       </ScrollView>
 
 //       <View style={styles.bottomButtons}>
@@ -178,13 +256,13 @@
 //           style={styles.aldimButton}
 //           onPress={() => navigation.navigate("CashReceivable", { customerId })}
 //         >
-//           <Text style={styles.aldimText}>ALDIM</Text>
+//           <Text style={styles.aldimText}>{t.homeCustomerDetail.cashButton}</Text>
 //         </TouchableOpacity>
 //         <TouchableOpacity
 //           style={styles.verdimButton}
 //           onPress={() => navigation.navigate("AddDebt", { customerId })}
 //         >
-//           <Text style={styles.verdimText}>VERDİM</Text>
+//           <Text style={styles.verdimText}>{t.homeCustomerDetail.debtButton}</Text>
 //         </TouchableOpacity>
 //       </View>
 //       <BottomBar />
@@ -311,11 +389,23 @@
 //     fontWeight: "bold",
 //     color: "red",
 //   },
+//   descriptionText: {
+//     marginTop: 4,
+//     fontSize: 12,
+//     color: "#333",
+//   },
+//   descriptionContent: {
+//     flexDirection: "row",
+//     alignItems: "flex-start",
+//     maxWidth: 200,
+//     marginTop: 5,
+//   },
 // });
 
 // export default HomeCustomerDetail;
 
-import React, { useEffect, useState } from "react";
+
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import {
   View,
   Text,
@@ -332,6 +422,7 @@ import { RootStackParamList } from "../types";
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 import { useIsFocused } from "@react-navigation/native";
+import moment from "moment-hijri";
 
 import {
   compareDebtAndCashReceivable,
@@ -339,35 +430,36 @@ import {
 } from "../api/customer";
 import { useUser } from "../contex/useContext";
 import { CashDifferenceType, Customer } from "../interface/IHomeCustomer";
+import { useTranslations } from "../hooks/useTranslation";
+import { LanguageContext } from "../contex/languageContext";
+import { useClock } from "../contex/clockContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeCustomerDetail = () => {
+  const { userId } = useUser();
+  const userIdNumber = userId ? Number(userId) : 0;
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const t = useTranslations();
+  const { activeLanguage } = useContext(LanguageContext);
   const route = useRoute();
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const isFocused = useIsFocused();
+  const [paraBirimi, setParaBirimi] = useState<string>("TL");
+  const { format, setFormat } = useClock();
+  const is12HourFormat = format === "12";
+  const locale = is12HourFormat ? "en-US" : "tr-TR";
+
+  const [cashDifference, setCashdifference] = useState<CashDifferenceType[]>(
+    []
+  );
   const { customerId, customerName } = route.params as {
     customerId: number;
     customerName: string;
   };
-  const { userId } = useUser();
-  const userIdNumber = userId ? Number(userId) : 0;
-  const [customers, setCustomers] = useState<Customer[]>([]);
-  const [cashDifference, setCashdifference] = useState<CashDifferenceType[]>(
-    []
-  );
-
-  const isFocused = useIsFocused();
-
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const toggleDescription = (recordId: number) => {
     setExpandedId((prevId) => (prevId === recordId ? null : recordId));
   };
-
-  useEffect(() => {
-    if (isFocused) {
-      fetchCustomer();
-      fetchcompareDebtAndCashReceivable();
-    }
-  }, [isFocused]);
-  const [paraBirimi, setParaBirimi] = useState<string>("TL");
 
   const filteredCustomers = customers.filter(
     (customer) =>
@@ -398,10 +490,41 @@ const HomeCustomerDetail = () => {
       console.error("Hata :", error);
     }
   };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t.homeCustomerDetail.pageTitle,
+    });
+  }, [navigation, activeLanguage]);
+
   useEffect(() => {
-    fetchCustomer();
-    fetchcompareDebtAndCashReceivable();
-  }, []);
+    if (isFocused) {
+      fetchCustomer();
+      fetchcompareDebtAndCashReceivable();
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    const loadFormat = async () => {
+      try {
+        const savedFormat = await AsyncStorage.getItem("@clock_format");
+        if (savedFormat === "12" || savedFormat === "24") {
+          setFormat(savedFormat as "12" | "24");
+        }
+      } catch (error) {
+        console.error("AsyncStorage verisi yüklenemedi:", error);
+      }
+    };
+
+    loadFormat();
+  }, [format]);
+
+  console.log("saat formatı console yazdırılıyor : ", format);
+  // useEffect(() => {
+  //   fetchCustomer();
+  //   fetchcompareDebtAndCashReceivable();
+  // }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -418,7 +541,9 @@ const HomeCustomerDetail = () => {
       </View>
       <View style={styles.balanceContainer}>
         <View>
-          <Text style={styles.balanceTitle}>Genel bakiye</Text>
+          <Text style={styles.balanceTitle}>
+            {t.homeCustomerDetail.generalBalance}
+          </Text>
           <Text style={styles.balanceSubtitle}>
             {filteredCash.length > 0
               ? filteredCash[0].type === "debt"
@@ -449,18 +574,19 @@ const HomeCustomerDetail = () => {
             selectedValue={paraBirimi}
             onValueChange={(itemValue) => setParaBirimi(itemValue)}
           >
-            <Picker.Item label="TL" value="TL" />
-            <Picker.Item label="Dolar" value="Dolar" />
-            <Picker.Item label="Euro" value="Euro" />
-            <Picker.Item label="Toman" value="Toman" />
-            <Picker.Item label="Afghani" value="Afghani" />
+            <Picker.Item label={t.homeCustomerDetail.tl} value="TL" />
+            <Picker.Item label={t.homeCustomerDetail.usd} value="Dolar" />
+            <Picker.Item label={t.homeCustomerDetail.euro} value="Euro" />
+            <Picker.Item label={t.homeCustomerDetail.toman} value="Toman" />
+            <Picker.Item label={t.homeCustomerDetail.afghani} value="Afghani" />
           </Picker>
         </View>
       </View>
-
-      <Text style={styles.operationsTitle}>Operasyonlar</Text>
-      <ScrollView style={styles.operationsList}>
-        {filteredCustomers.map((customer: Customer, index) => {
+      <Text style={styles.operationsTitle}>
+        {t.homeCustomerDetail.operations}
+      </Text>
+       <ScrollView style={styles.operationsList}>
+         {filteredCustomers.map((customer: Customer, index) => {
           const isExpanded = expandedId === customer.recordId;
           const shortDescription =
             customer.description && customer.description.length > 60
@@ -477,6 +603,7 @@ const HomeCustomerDetail = () => {
                   transactionType: customer.type,
                   debtIssuanceDate: customer.debtIssuanceDate,
                   description: customer.description,
+                  img: customer.img,
                 })
               }
             >
@@ -489,13 +616,15 @@ const HomeCustomerDetail = () => {
                 <View style={styles.operationInfo}>
                   <Text style={styles.operationDate}>
                     {new Date(customer.debtIssuanceDate).toLocaleString(
-                      "tr-TR",
+                      locale,
                       {
                         day: "2-digit",
                         month: "2-digit",
                         year: "numeric",
                         hour: "2-digit",
                         minute: "2-digit",
+                        hour12:is12HourFormat,
+                        timeZone:'UTC'
                       }
                     )}
                   </Text>
@@ -538,19 +667,22 @@ const HomeCustomerDetail = () => {
           );
         })}
       </ScrollView>
-
       <View style={styles.bottomButtons}>
         <TouchableOpacity
           style={styles.aldimButton}
           onPress={() => navigation.navigate("CashReceivable", { customerId })}
         >
-          <Text style={styles.aldimText}>ALDIM</Text>
+          <Text style={styles.aldimText}>
+            {t.homeCustomerDetail.cashButton}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.verdimButton}
           onPress={() => navigation.navigate("AddDebt", { customerId })}
         >
-          <Text style={styles.verdimText}>VERDİM</Text>
+          <Text style={styles.verdimText}>
+            {t.homeCustomerDetail.debtButton}
+          </Text>
         </TouchableOpacity>
       </View>
       <BottomBar />
@@ -685,8 +817,8 @@ const styles = StyleSheet.create({
   descriptionContent: {
     flexDirection: "row",
     alignItems: "flex-start",
-    maxWidth: 200, 
-    marginTop: 5, 
+    maxWidth: 200,
+    marginTop: 5,
   },
 });
 

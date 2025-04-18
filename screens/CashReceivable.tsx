@@ -26,11 +26,12 @@ import {
 import { useUser } from "../contex/useContext";
 import { FormData } from "../hooks/useCustomerForm";
 import { useCustomers } from "../contex/customerContext";
+import { getCurrentTimeForRegion } from "../utils/dateUtils";
 
 const CashReceivable = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const route = useRoute();
-    const { customerId } = route.params as { customerId: number };
+  const { customerId } = route.params as { customerId: number };
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [paraBirimi, setParaBirimi] = useState("TL");
@@ -52,7 +53,7 @@ const CashReceivable = () => {
     debtDate: "2025-07-17",
     repaymentDate: "2025-08-17",
     debtCurrency: "TL",
-    description: ""
+    description: "",
   });
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -61,18 +62,20 @@ const CashReceivable = () => {
   }, [navigation, activeLanguage]);
 
   const handleSubmit = async () => {
+    const currentTime = getCurrentTimeForRegion();
+    
     const debtData: NewDebt = {
       debtAmount: formData.cashAmount,
       debtCurrency: formData.debtCurrency,
       debtorId: userIdNumber,
       creditorId: customerId ? customerId : 0,
-      description:formData.description
+      description: formData.description,
+      debtIssuanceDate:currentTime
     };
     try {
       const response = await addCashReceivable(debtData);
       if (response.isSuccess) {
         navigation.goBack();
-
         // Alert.alert("Başarılı", "Nakit başarıyla eklendi", [
         //   {
         //     text: "Tamam",
@@ -93,7 +96,7 @@ const CashReceivable = () => {
           debtDate: "",
           repaymentDate: "",
           debtCurrency: "TL",
-          description:""
+          description: "",
         });
       } else {
         Alert.alert("Hata", response.message);
@@ -107,7 +110,7 @@ const CashReceivable = () => {
         debtDate: "",
         repaymentDate: "",
         debtCurrency: "TL",
-        description:"",
+        description: "",
       });
     } catch (error: any) {
       const errorMessage = error?.message || "Beklenmeyen bir hata oluştu";
@@ -124,13 +127,13 @@ const CashReceivable = () => {
         <View style={styles.box}>
           <View style={styles.form}>
             <View style={styles.formControl}>
-              <Text style={styles.label}>
-                {t.cashReceivablePage.cashAmount}
-              </Text>
+              {/* <Text style={styles.label}>
+                {t.cashPage.selectAmount}
+              </Text> */}
               <View style={styles.currencyContainer}>
                 <TextInput
                   style={styles.input}
-                  placeholder={t.cashReceivablePage.cashAmount}
+                  placeholder={t.cashPage.selectAmount}
                   value={
                     formData.cashAmount ? formData.cashAmount.toString() : ""
                   }
@@ -151,26 +154,39 @@ const CashReceivable = () => {
                   style={styles.picker}
                 >
                   <Picker.Item
-                    label={t.cashReceivablePage.tl}
-                    value={t.cashReceivablePage.tl}
+                    label={t.cashPage.tl}
+                    value="TL"
                   />
                   <Picker.Item
-                    label={t.cashReceivablePage.usd}
-                    value={t.cashReceivablePage.usd}
+                    label={t.cashPage.usd}
+                    value="Dolar"
                   />
                   <Picker.Item
-                    label={t.cashReceivablePage.euro}
-                    value={t.cashReceivablePage.euro}
+                    label={t.cashPage.euro}
+                    value="Euro"
                   />
                   <Picker.Item
-                    label={t.cashReceivablePage.toman}
-                    value={t.cashReceivablePage.toman}
+                    label={t.cashPage.toman}
+                    value="Toman"
                   />
                   <Picker.Item
-                    label={t.cashReceivablePage.afghani}
-                    value={t.cashReceivablePage.afghani}
+                    label={t.cashPage.afghani}
+                    value="Afghani"
                   />
                 </Picker>
+              </View>
+              <View style={[styles.formRow, { marginTop: 10 }]}>
+                <TextInput
+                  style={styles.input}
+                  placeholder={t.cashPage.description}
+                  value={formData.description}
+                  onChangeText={(value) =>
+                    setFormData({
+                      ...formData,
+                      description: value,
+                    })
+                  }
+                />
               </View>
             </View>
             <TouchableOpacity
@@ -178,7 +194,7 @@ const CashReceivable = () => {
               onPress={handleSubmit}
             >
               <Text style={styles.submitButtonText}>
-                {t.cashReceivablePage.borrowMoney}
+                {t.cashPage.borrowMoney}
               </Text>
             </TouchableOpacity>
           </View>
@@ -257,12 +273,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },
-
   submitButtonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
     textTransform: "uppercase",
+  },
+  formRow: {
+    flexDirection: "row",
+    // backgroundColor: "#fafafa", // Hafif gri arka plan
+    borderRadius: 10,
+    padding: 5, // İç boşluk eklenerek daha düzenli görünüyor
   },
 });
 

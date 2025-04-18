@@ -6,6 +6,7 @@ export interface Customer {
     debtCurrency: string;
     description:string;
     type: "Borç" | "Alacak";
+    img:string;
   }
 
   export interface CashTransaction {
@@ -14,6 +15,8 @@ export interface Customer {
     cashCurrency: string;
     transactionType: "in" | "out";
     userId: number;
+    createdAt:string;
+    description:string;
   }
   
 

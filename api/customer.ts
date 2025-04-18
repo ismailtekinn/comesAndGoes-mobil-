@@ -1,4 +1,5 @@
 import { API_URL } from "../constants/constant";
+import { EditAccountActivityFormData } from "../screens/EditAccountActivity";
 import { TransactionFormData } from "../screens/EditTransaction";
 import { UpdatePassword } from "../types/authType";
 import {
@@ -524,10 +525,14 @@ export async function editTransaction<T extends string>(
   }
 }
 
-
-export async function deleteTransaction(recordId: number) {
+export async function deleteTransaction(recordId: number,transactionType:string) {
   try {
-    const url = API_URL + "api/comesandgoes/deleteDebtReserve";
+    let url = "";
+    if(transactionType==="Borç"){
+      url = API_URL + "api/comesandgoes/deleteDebtReserve";
+    }else if(transactionType === "Alacak"){
+      url = API_URL + "api/comesandgoes/deleteCashReserve";
+    }
     const response = await fetch(url, {
       method: "Post",
       headers: {
@@ -546,5 +551,56 @@ export async function deleteTransaction(recordId: number) {
   } catch (error) {
     console.error(error);
     throw new Error("An error occurred during register");
+  }
+}
+
+
+
+export async function deleteUserCash(id: number) {
+  try {
+    const url = API_URL + "api/comesandgoes/deleteUserCash";
+    const response = await fetch(url, {
+      method: "Post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id,
+      }),
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "addCustomer failed");
+    }
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error("An error occurred during register");
+  }
+}
+
+
+
+export async function updateUserCash(params: EditAccountActivityFormData) {
+  try {
+    const url = API_URL + "api/comesandgoes/updateUserCash";
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...params,
+      }),
+    });
+    const responseData = await response.json();
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || errorData.message);
+    }
+    return responseData;
+  } catch (error: any) {
+    throw error;
   }
 }

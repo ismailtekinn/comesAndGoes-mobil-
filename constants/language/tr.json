@@ -37,9 +37,7 @@
     "help": "Yardım",
     "logout": "Çıkış"
   },
-  "accounPage": {
-    "pageTitle": "Hesap"
-  },
+
   "accountPageReceivablesTabMenu": {
     "receivables": "Alacaklar",
     "payables": "Borçlar",
@@ -162,6 +160,105 @@
     "mofalPage":"Müşteri Düzenle",
     "saveButton":"Kaydet",
     "cancelButton":"İptal"
+  },
+  "homeCustomerListScreen":{
+    "pageTitle":"Müşteri Listesi",
+    "customers":"Müşteriler",
+    "tl": "TL",
+    "usd": "Dolar",
+    "euro": "Euro",
+    "toman": "Tümen",
+    "afghani": "Afgani",
+    "searchInput":"Müşteri Ara",
+    "addCustomer":"Müşteri Ekle",
+    "dataNotFound":"Veri Bulunamadı"
+  },
+  "homeCustomerDetail":{
+    "pageTitle":"Müşteri Detay",
+    "generalBalance":"Genel Bakiye",
+    "operations":"Operasyonlar",
+    "cashButton":"Aldım",
+    "debtButton":"Verdim",
+    "tl": "TL",
+    "usd": "Dolar",
+    "euro": "Euro",
+    "toman": "Tümen",
+    "afghani": "Afgani",
+    "searchInput":"Arama"
+  },
+  "cashPage": {
+    "pageTitle": "Nakit Al",
+    "selectAmount": "Nakit Miktarı",
+    "description": "Açıklama",
+    "tl": "TL",
+    "usd": "Dolar",
+    "euro": "Euro",
+    "toman": "Tümen",
+    "afghani": "Afgani",
+    "borrowMoney": "Borç Al"
+  },
+  "debtPage": {
+    "pageTitle": "Nakit Ver",
+    "selectAmount": "Nakit Miktarı",
+    "description": "Açıklama",
+    "tl": "TL",
+    "usd": "Dolar",
+    "euro": "Euro",
+    "toman": "Tümen",
+    "afghani": "Afgani",
+    "borrowMoney": "Borç Ver"
+
+  },
+  "editTransaction":{
+    "pageTitle":"İşlemler",
+    "addImage":"Resim Ekle",
+    "description":"Ayrıntıları girin",
+    "saveButton":"Kaydet"
+  },
+  "accounPage": {
+    "pageTitle": "Hesap Hareketleri",
+    "cashBalance":"Genel Bakiyesi",
+    "totalIn":"Toplam Giren",
+    "totalOut":"Toplam Çıkan",
+    "operations":"İşlemler",
+    "cashAmount":"Mevcut Nakit",
+    "debtAmount":"Borç Miktarı",
+    "tl": "TL",
+    "usd": "Dolar",
+    "euro": "Euro",
+    "toman": "Tümen",
+    "afghani": "Afgani"
+  },
+  "accountCash":{
+    "pageTitle":"Hesap Nakit",
+    "cashAmout":"Nakit Miktarı",
+    "cashCurrency":"Nakit Birimi",
+    "tl": "TL",
+    "usd": "Dolar",
+    "euro": "Euro",
+    "toman": "Tümen",
+    "afghani": "Afgani",
+    "addCashButton":"Nakit Ekle"
+  },
+  "accountDebt":{
+    "pageTitle":"Hesap Nakit",
+    "cashAmout":"Nakit Miktarı",
+    "cashCurrency":"Nakit Birimi",
+    "tl": "TL",
+    "usd": "Dolar",
+    "euro": "Euro",
+    "toman": "Tümen",
+    "afghani": "Afgani",
+    "addCashButton":"Nakit Ver"
+  },
+  "editAccountActivity":{
+    "pageTitle":"Hareketleri Düzenle",
+    "description":"Açıklama",
+    "saveButton":"Kaydet",
+    "deleteTitle":"Sil",
+    "deleteDescription":"Bu kaydı silmek istediğinize emin misiniz?",
+    "deleteYes":"Evet",
+    "deleteNo":"Hayır"
   }
 
 }

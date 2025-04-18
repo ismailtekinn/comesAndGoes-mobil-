@@ -29,31 +29,33 @@ import { LanguageProvider } from "./contex/languageContext";
 import { CustomerProvider } from "./contex/customerContext";
 import { MoneyTransferCustomerProvider } from "./contex/mtcustomerContext";
 import { Platform } from "react-native";
-
+import { ClockProvider } from "./contex/clockContext";
 
 declare var global: {
   setImmediate: (fn: Function, ...args: any[]) => void;
 };
 
 if (typeof global !== "undefined" && Platform.OS !== "web") {
-  global.setImmediate = global.setImmediate || ((fn, ...args) => setTimeout(fn, 0, ...args));
+  global.setImmediate =
+    global.setImmediate || ((fn, ...args) => setTimeout(fn, 0, ...args));
 }
 
 const Stack = createStackNavigator();
 
 export default function App() {
-
   return (
-    <MoneyTransferCustomerProvider>
-    <CustomerProvider>
-      <LanguageProvider>
-        <UserProvider>
-          <StatusBar style="auto" />
-          <AppRoute />
-        </UserProvider>
-      </LanguageProvider>
-    </CustomerProvider>
-    </MoneyTransferCustomerProvider>
+    <ClockProvider>
+      <MoneyTransferCustomerProvider>
+        <CustomerProvider>
+          <LanguageProvider>
+            <UserProvider>
+              <StatusBar style="auto" />
+              <AppRoute />
+            </UserProvider>
+          </LanguageProvider>
+        </CustomerProvider>
+      </MoneyTransferCustomerProvider>
+    </ClockProvider>
   );
 }
 

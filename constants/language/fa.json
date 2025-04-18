@@ -43,9 +43,7 @@
     "transfers": "انتقالات",
     "receiveCash": "دریافت پول نقد"
   },
-  "accounPage": {
-    "pageTitle": "حساب"
-  },
+
   "accountPageDebtsTabMenu": {
     "lendButton": "قرض دادن"
   },
@@ -161,5 +159,104 @@
     "mofalPage": "ویرایش مشتری",
     "saveButton": "ذخیره",
     "cancelButton": "لغو"
+  },
+
+  "homeCustomerListScreen": {
+    "pageTitle": "لیست مشتریان",
+    "customers": "مشتریان",
+    "tl": "لیر",
+    "usd": "دلار",
+    "euro": "یورو",
+    "toman": "تومان",
+    "afghani": "افغانی",
+    "searchInput": "جستجو",
+    "addCustomer": "افزودن مشتری",
+    "dataNotFound": "اطلاعاتی یافت نشد"
+  },
+  "homeCustomerDetail": {
+    "pageTitle": "جزئیات مشتری",
+    "generalBalance": "موجودی کلی",
+    "operations": "معاملات",
+    "cashButton": "دریافت کردم",
+    "debtButton": "پرداخت کردم",
+    "tl": "لیر",
+    "usd": "دلار",
+    "euro": "یورو",
+    "toman": "تومان",
+    "afghani": "افغانی",
+    "searchInput": "جستجو"
+  },
+  "cashPage": {
+    "pageTitle": "دریافت نقدی",
+    "selectAmount": "مقدار نقدی",
+    "description": "توضیحات",
+    "tl": "لیر",
+    "usd": "دلار",
+    "euro": "یورو",
+    "toman": "تومان",
+    "afghani": "افغانی",
+    "borrowMoney": "قرض گرفتن"
+  },
+  "debtPage": {
+    "pageTitle": "پرداخت نقدی",
+    "selectAmount": "مقدار نقدی",
+    "description": "توضیحات",
+    "tl": "لیر",
+    "usd": "دلار",
+    "euro": "یورو",
+    "toman": "تومان",
+    "afghani": "افغانی",
+    "borrowMoney": "قرض دادن"
+  },
+  "editTransaction": {
+    "pageTitle": "معاملات",
+    "addImage": "افزودن تصویر",
+    "description": "جزئیات را وارد کنید",
+    "saveButton": "ذخیره کنید"
+  },
+  "accounPage": {
+    "pageTitle": "جزئیات حساب",
+    "cashBalance": "موجودی کلی",
+    "totalIn": "مجموع ورودی",
+    "totalOut": "مجموع خروجی",
+    "operations": "معاملات",
+    "cashAmount": "نقدی موجود",
+    "debtAmount": "مقدار قرض",
+    "tl": "لیر",
+    "usd": "دلار",
+    "euro": "یورو",
+    "toman": "تومان",
+    "afghani": "افغانی"
+  },
+  "accountCash": {
+    "pageTitle": "نقدی حساب",
+    "cashAmout": "مقدار نقدی",
+    "cashCurrency": "واحد نقدی",
+    "tl": "لیر",
+    "usd": "دلار",
+    "euro": "یورو",
+    "toman": "تومان",
+    "afghani": "افغانی",
+    "addCashButton": "افزودن نقدی"
+  },
+  "accountDebt": {
+    "pageTitle": "نقدی حساب",
+    "cashAmout": "مقدار نقدی",
+    "cashCurrency": "واحد نقدی",
+    "tl": "لیر",
+    "usd": "دلار",
+    "euro": "یورو",
+    "toman": "تومان",
+    "afghani": "افغانی",
+    "addCashButton": "پرداخت نقدی"
+  },
+  "editAccountActivity": {
+    "pageTitle":"ویرایش حرکات",
+    "saveButton": "ذخیره",
+    "description":"توضیحات",
+    "deleteDescription":"آیا میخواهید معلومات را حذف کنید",
+    "deleteTitle": "حذف",
+    "deleteYes": "بله",
+    "deleteNo": "خیر"
   }
 }

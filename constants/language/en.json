@@ -37,9 +37,7 @@
     "help": "Help",
     "logout": "Logout"
   },
-  "accounPage": {
-    "pageTitle": "Account"
-  },
+
   "accountPageReceivablesTabMenu": {
     "receivables": "Receivables",
     "payables": "Payables",
@@ -153,14 +151,112 @@
     "updateButton": "Update"
   },
   "myCustomerPage": {
-  "pageTitle": "My Customers",
-  "name": "Name",
-  "surname": "Surname",
-  "phone": "Phone",
-  "proccess": "Action",
-  "mofalPage": "Edit Customer",
+    "pageTitle": "My Customers",
+    "name": "Name",
+    "surname": "Surname",
+    "phone": "Phone",
+    "proccess": "Action",
+    "mofalPage": "Edit Customer",
+    "saveButton": "Save",
+    "cancelButton": "Cancel"
+  },
+  "homeCustomerListScreen": {
+    "pageTitle": "Customer List",
+    "customers": "Customers",
+    "tl": "TL",
+    "usd": "Dollar",
+    "euro": "Euro",
+    "toman": "Toman",
+    "afghani": "Afghani",
+    "searchInput": "Search",
+    "addCustomer": "Add Customer",
+    "dataNotFound":"Data Not Found"
+  },
+  "homeCustomerDetail": {
+    "pageTitle": "Customer Detail",
+    "generalBalance": "Total Balance",
+    "operations": "Operations",
+    "cashButton": "Received",
+    "debtButton": "Given",
+    "tl": "TL",
+    "usd": "Dollar",
+    "euro": "Euro",
+    "toman": "Toman",
+    "afghani": "Afghani",
+    "searchInput": "Search"
+  },
+  "cashPage": {
+    "pageTitle": "Receive Cash",
+    "selectAmount": "Cash Amount",
+    "description": "Description",
+    "tl": "TL",
+    "usd": "Dollar",
+    "euro": "Euro",
+    "toman": "Toman",
+    "afghani": "Afghani",
+    "borrowMoney": "Borrow Money"
+  },
+  "debtPage": {
+    "pageTitle": "Give Cash",
+    "selectAmount": "Cash Amount",
+    "description": "Description",
+    "tl": "TL",
+    "usd": "Dollar",
+    "euro": "Euro",
+    "toman": "Toman",
+    "afghani": "Afghani",
+    "borrowMoney": "Lend Money"
+  },
+  "editTransaction": {
+    "pageTitle": "Transactions",
+    "addImage": "Add Image",
+    "description":"Enter Details",
+    "saveButton": "Save"
+  },
+  "accounPage": {
+    "pageTitle": "Account Movements",
+    "cashBalance": "Total Balance",
+    "totalIn": "Total In",
+    "totalOut": "Total Out",
+    "operations": "Operations",
+    "cashAmount": "Current Cash",
+    "debtAmount": "Debt Amount",
+    "tl": "TL",
+    "usd": "Dollar",
+    "euro": "Euro",
+    "toman": "Toman",
+    "afghani": "Afghani"
+  },
+  "accountCash": {
+    "pageTitle": "Account Cash",
+    "cashAmout": "Cash Amount",
+    "cashCurrency": "Cash Currency",
+    "tl": "TL",
+    "usd": "Dollar",
+    "euro": "Euro",
+    "toman": "Toman",
+    "afghani": "Afghani",
+    "addCashButton": "Add Cash"
+  },
+  "accountDebt": {
+    "pageTitle": "Account Cash",
+    "cashAmout": "Cash Amount",
+    "cashCurrency": "Cash Currency",
+    "tl": "TL",
+    "usd": "Dollar",
+    "euro": "Euro",
+    "toman": "Toman",
+    "afghani": "Afghani",
+    "addCashButton": "Give Cash"
+  },
+  "editAccountActivity": {
+  "pageTitle": "Edit Transactions",
+  "description":"Description",
   "saveButton": "Save",
-  "cancelButton": "Cancel"
+  "deleteDescription": "Are you sure you want to delete this record?",
+  "deleteTitle": "Delete",
+  "deleteYes": "Yes",
+  "deleteNo": "No"
 }
 
 }
