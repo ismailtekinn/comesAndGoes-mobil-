@@ -5,12 +5,12 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "newArchEnabled": true,
-    "icon": "./assets/cmsandgsnewlogo.png",
+    "icon": "./assets/comesandgoesloginddeneme.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/cmsandgsnewlogo.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#2f95ac"
+      "image": "./assets/comesandgoesloginddeneme.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#030d17"
     },
     "ios": {
       "supportsTablet": true
@@ -18,8 +18,8 @@
     "android": {
       "name": "android.permission.INTERNET",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/cmsandgsnewlogo.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/comesandgoeslogo.png",
+        "backgroundColor": "#030d17"
       },
       "plugins": [
         "./android-manifest.plugin.js"
@@ -27,6 +27,27 @@
       "package": "com.bybrstekin.moneytransfer",
       "permissions": [
         "INTERNET"
+      ],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "https",
+              "host": "wa.me",
+              "pathPrefix": "/+905357970059"
+            },
+            {
+              "scheme": "mailto"
+            },
+            {
+              "scheme": "https",
+              "host": "www.linkedin.com",
+              "pathPrefix": "/in/ismail-tekin-38b40b1a5"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
       ]
     },
     "web": {

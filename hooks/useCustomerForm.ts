@@ -14,6 +14,15 @@ export interface FormData {
   debtCurrency: string;
   description: string;
 }
+export interface AddTransactionFormData {
+  transactionAmount: number;
+  transactionCurrency: string;
+  transactionType: string;
+  description: string;
+  createdAt: Date;
+  userId: number;
+  clientId: number;
+}
 export interface MoneyTransferFormData {
   senderName: string;
   surname: string;

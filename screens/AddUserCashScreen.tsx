@@ -118,10 +118,10 @@ useEffect(()=>{
               }))
             }
           />
-          <Text style={styles.label}>Description</Text>
+          <Text style={styles.label}>{t.accountCash.description}</Text>
           <TextInput
             style={styles.input}
-            placeholder="Description"
+            placeholder={t.accountCash.description}
             onChangeText={(value) =>
               setFormData((prev) => ({ ...prev, description: value }))
             }
@@ -140,23 +140,23 @@ useEffect(()=>{
             >
               <Picker.Item
                 label={t.cashReceivablePage.tl}
-                value={t.cashReceivablePage.tl}
+                value="TL"
               />
               <Picker.Item
                 label={t.cashReceivablePage.usd}
-                value={t.cashReceivablePage.usd}
+                value="Dolar"
               />
               <Picker.Item
                 label={t.cashReceivablePage.euro}
-                value={t.cashReceivablePage.euro}
+                value="Euro"
               />
               <Picker.Item
                 label={t.cashReceivablePage.toman}
-                value={t.cashReceivablePage.toman}
+                value="Toman"
               />
               <Picker.Item
                 label={t.cashReceivablePage.afghani}
-                value={t.cashReceivablePage.afghani}
+                value="Afghani"
               />
             </Picker>
           </View>

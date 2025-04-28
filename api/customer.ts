@@ -1,6 +1,7 @@
 import { API_URL } from "../constants/constant";
 import { EditAccountActivityFormData } from "../screens/EditAccountActivity";
 import { TransactionFormData } from "../screens/EditTransaction";
+import { TransactionFields } from "../types/accountType";
 import { UpdatePassword } from "../types/authType";
 import {
   AddUserCash,
@@ -9,11 +10,13 @@ import {
   DebtDetail,
   MoneyTransfer,
   NewDebt,
+  TransactionListField,
+  TransactionUpdateFields,
 } from "../types/customerType";
 
 export async function getCustomerList(userId: number) {
   try {
-    const url = `${API_URL}api/comesandgoes/getCustomerList?userId=${userId}`;
+    const url = `${API_URL}api/comesandgoes/getAllCustomers?userId=${userId}`;
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -101,7 +104,7 @@ export async function addUserCash(params: AddUserCash): Promise<{isSuccess: bool
     throw error
   }
 }
-export async function addDebt(params: NewDebt): Promise<{isSuccess: boolean; message: string}> {
+export async function addDebt(params: TransactionFields): Promise<{isSuccess: boolean; message: string}> {
   try {
     const url = API_URL + "api/comesandgoes/addDebt";
     const response = await fetch(url, {
@@ -351,7 +354,7 @@ export async function accountInfo(userId: number) {
     throw new Error("An error occurred during getAccountInfo");
   }
 }
-export async function getCustomerCashDebtList(params: DebtDetail) {
+export async function getCustomerCashDebtList(params: TransactionListField) {
   try {
     const url = API_URL + "api/comesandgoes/getCustomerCashDebtList";
     const response = await fetch(url, {
@@ -375,6 +378,73 @@ export async function getCustomerCashDebtList(params: DebtDetail) {
     throw new Error("An error occurred during register");
   }
 }
+export async function getUserClientTransactions(params: TransactionListField) {
+  try {
+    const url = `http://192.168.1.200:3000/api/comesandgoes/getUserClientTransactions?userId=${params.userId}&clientId=${params.clientId}`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await response.json();
+    if (!response.ok) {
+      throw new Error(result.error || "Failed to fetch customer cash and debt list");
+    }
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+    throw new Error("An error occurred while fetching the data");
+  }
+}
+export async function getUserClientTransactionSummary(params: TransactionListField) {
+  try {
+    const url = `http://192.168.1.200:3000/api/comesandgoes/getUserClientTransactionSummary?userId=${params.userId}&clientId=${params.clientId}`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await response.json();
+    if (!response.ok) {
+      throw new Error(result.error || "Failed to fetch customer cash and debt list");
+    }
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+    throw new Error("An error occurred while fetching the data");
+  }
+}
+
+
+export async function updateTransaction(updateData: TransactionFormData) {
+  try {
+    const url = API_URL + "api/comesandgoes/updateTransaction";
+    const response = await fetch(url, {
+      method: "Post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(
+        updateData,
+      ),
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "addCustomer failed");
+    }
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error("An error occurred during register");
+  }
+}
+
+
 export async function getCustomerCashDebtAllList(userId: number) {
   try {
     const url = API_URL + "api/comesandgoes/getCustomerCashDebtAllList";

@@ -26,6 +26,17 @@ export type DebtDetail = {
  userId: number;
  customerId: number;
 }
+export type TransactionListField = {
+ userId: number;
+ clientId: number;
+}
+
+export type TransactionUpdateFields = {
+    id: number;
+    transactionAmount: number;
+    createdAt: Date;
+    description: string;
+  };
 export type MoneyTransfer = {
     receivedAmount: number;
     moneyCurrency: string;

@@ -42,7 +42,7 @@ const AccountActivity = () => {
   // const locale = navigator.language;
   const { format, setFormat } = useClock();
   const [expandedId, setExpandedId] = useState<number | null>(null);
-   const toggleDescription = (recordId: number) => {
+  const toggleDescription = (recordId: number) => {
     setExpandedId((prevId) => (prevId === recordId ? null : recordId));
   };
 
@@ -60,7 +60,6 @@ const AccountActivity = () => {
   const fetchCustomer = async () => {
     try {
       const customerData = await getUserCashAmountAllList(userIdNumber);
-      console.log("işlemler console yazdırılıyor ", customerData);
       setCashdifference(customerData.data);
     } catch (error) {
       console.error("Müşteriler yüklenirken hata oluştu:", error);
@@ -129,7 +128,7 @@ const AccountActivity = () => {
                 ? `${filteredCustomers[0]?.inTotal || 0} ${
                     filteredCustomers[0]?.cashCurrency || ""
                   }`
-                : "Veri yok"}
+                : t.accounPage.emptyData}
             </Text>
           </Text>
         </View>
@@ -148,7 +147,7 @@ const AccountActivity = () => {
               ? `${filteredCustomers[0]?.outTotal || 0} ${
                   filteredCustomers[0]?.cashCurrency || ""
                 }`
-              : "Veri yok"}
+              : t.accounPage.emptyData}
           </Text>
         </View>
       </View>
@@ -171,152 +170,102 @@ const AccountActivity = () => {
       <Text style={styles.transactionTitle}>
         {t.accounPage.operations} ({filteredCash.length})
       </Text>
-      {/* <ScrollView style={styles.transactionList}>
-        {filteredCash.map((transaction: CashTransaction, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() =>
-              navigation.navigate("EditAccountActivity", {
-                id: transaction.id,
-                description: transaction.description,
-                totalCash: transaction.totalCash,
-                transactionType: transaction.transactionType,
-              })
-            }
-          >
-            <View key={transaction.id} style={styles.transactionItem}>
-              <View style={styles.iconContainer}>
-                <Ionicons
-                  name={
-                    transaction.transactionType === "out"
-                      ? "remove-circle"
-                      : "add-circle"
-                  }
-                  size={42}
-                  color={
-                    transaction.transactionType === "in" ? "#60be66" : "#f0505c"
-                  }
-                />
-              </View>
-              <View style={styles.transactionTextContainer}>
-                <Text style={styles.transactionDate}>
-                  {new Date(transaction.createdAt).toLocaleString(locale, {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: is12HourFormat,
-                    timeZone: "UTC",
-                  })}
-                </Text>
-              </View>
-              <Text
-                style={[
-                  styles.transactionAmount,
-                  {
-                    color:
-                      transaction.transactionType === "out" ? "red" : "green",
-                  },
-                ]}
-              >
-                {transaction.totalCash} {transaction.cashCurrency}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView> */}
 
-<ScrollView style={styles.transactionList}>
-  {filteredCash.map((transaction: CashTransaction, index) => {
-    const isExpanded = expandedId === transaction.id;
-    const shortDescription =
-      transaction.description && transaction.description.length > 60
-        ? transaction.description.slice(0, 60) + "..."
-        : transaction.description;
+      <ScrollView style={styles.transactionList}>
+        {filteredCash.map((transaction: CashTransaction, index) => {
+          const isExpanded = expandedId === transaction.id;
+          const shortDescription =
+            transaction.description && transaction.description.length > 60
+              ? transaction.description.slice(0, 60) + "..."
+              : transaction.description;
 
-    return (
-      <TouchableOpacity
-        key={index}
-        onPress={() =>
-          navigation.navigate("EditAccountActivity", {
-            id: transaction.id,
-            description: transaction.description,
-            totalCash: transaction.totalCash,
-            transactionType: transaction.transactionType,
-          })
-        }
-        onLongPress={() => toggleDescription(transaction.id)} // uzun basınca aç/kapa
-      >
-        <View key={transaction.id} style={styles.transactionItem}>
-          <View style={styles.iconContainer}>
-            <Ionicons
-              name={
-                transaction.transactionType === "out"
-                  ? "remove-circle"
-                  : "add-circle"
+          return (
+            <TouchableOpacity
+              key={index}
+              onPress={() =>
+                navigation.navigate("EditAccountActivity", {
+                  id: transaction.id,
+                  description: transaction.description,
+                  totalCash: transaction.totalCash,
+                  transactionType: transaction.transactionType,
+                })
               }
-              size={42}
-              color={
-                transaction.transactionType === "in" ? "#60be66" : "#f0505c"
-              }
-            />
-          </View>
-          <View style={styles.transactionTextContainer}>
-            <Text style={styles.transactionDate}>
-              {new Date(transaction.createdAt).toLocaleString(locale, {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: is12HourFormat,
-                timeZone: "UTC",
-              })}
-            </Text>
+              onLongPress={() => toggleDescription(transaction.id)} // uzun basınca aç/kapa
+            >
+              <View key={transaction.id} style={styles.transactionItem}>
+                <View style={styles.iconContainer}>
+                  <Ionicons
+                    name={
+                      transaction.transactionType === "out"
+                        ? "remove-circle"
+                        : "add-circle"
+                    }
+                    size={42}
+                    color={
+                      transaction.transactionType === "in"
+                        ? "#60be66"
+                        : "#f0505c"
+                    }
+                  />
+                </View>
+                <View style={styles.transactionTextContainer}>
+                  <Text style={styles.transactionDate}>
+                    {new Date(transaction.createdAt).toLocaleString(locale, {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: is12HourFormat,
+                      timeZone: "UTC",
+                    })}
+                  </Text>
 
-            {/* Açıklama (açılır kapanır) */}
-            {transaction.description ? (
-              <TouchableOpacity
-                style={styles.descriptionContent}
-                onPress={() => toggleDescription(transaction.id)}
-              >
-                <Text style={styles.transactionDescription}>
-                  {isExpanded ? transaction.description : shortDescription}
-                  {transaction.description.length > 60 && (
-                    <Text
-                      style={{
-                        fontWeight: "bold",
-                        color: "black",
-                        fontSize: 13,
-                      }}
+                  {/* Açıklama (açılır kapanır) */}
+                  {transaction.description ? (
+                    <TouchableOpacity
+                      style={styles.descriptionContent}
+                      onPress={() => toggleDescription(transaction.id)}
                     >
-                      {" "}
-                      {isExpanded ? "Daha az" : "Devamını gör"}
-                    </Text>
-                  )}
+                      <Text style={styles.transactionDescription}>
+                        {isExpanded
+                          ? transaction.description
+                          : shortDescription}
+                        {transaction.description.length > 10 && (
+                          <Text
+                            style={{
+                              fontWeight: "bold",
+                              color: "black",
+                              fontSize: 17,
+                            }}
+                          >
+                            {" "}
+                            {isExpanded
+                              ? t.accounPage.less
+                              : t.accounPage.seeMore}
+                          </Text>
+                        )}
+                      </Text>
+                    </TouchableOpacity>
+                  ) : null}
+                </View>
+
+                <Text
+                  style={[
+                    styles.transactionAmount,
+                    {
+                      color:
+                        transaction.transactionType === "out" ? "red" : "green",
+                    },
+                  ]}
+                >
+                  {transaction.totalCash} {transaction.cashCurrency}
                 </Text>
-              </TouchableOpacity>
-            ) : null}
-          </View>
-
-          <Text
-            style={[
-              styles.transactionAmount,
-              {
-                color:
-                  transaction.transactionType === "out" ? "red" : "green",
-              },
-            ]}
-          >
-            {transaction.totalCash} {transaction.cashCurrency}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  })}
-</ScrollView>
-
+              </View>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -419,6 +368,9 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 8,
     marginRight: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
   },
   debtButton: {
     backgroundColor: "#f6e6e7",
@@ -426,6 +378,9 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 8,
     marginLeft: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
   },
   buttonText: {
     color: "white",
@@ -452,7 +407,7 @@ const styles = StyleSheet.create({
     color: "#444",
     marginTop: 2,
   },
-  
+
   descriptionContent: {
     marginTop: 4,
   },

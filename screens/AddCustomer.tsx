@@ -43,9 +43,7 @@ const AddCustomer: React.FC = () => {
       const response = await addCustomer(formData);
       setSuccessMessage(response.message);
       if (response.isSuccess) {
-        Alert.alert("Başarılı", "Müşteri başarıyla eklendi!", [
-          { text: "Tamam", onPress: () => navigation.navigate("HomeCustomerListScreen") },
-        ]);
+        navigation.navigate("HomeCustomerListScreen")
       } else {
         Alert.alert(response.message || "Bilinmeyen bir hata oluştu.");
       }

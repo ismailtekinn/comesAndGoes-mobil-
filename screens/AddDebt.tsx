@@ -96,22 +96,6 @@ const AddDebt = () => {
       const response = await addDebt(debtData);
       if (response.isSuccess) {
         navigation.goBack();
-
-        // Alert.alert(
-        //   "Başarılı",
-        //   "Borç verme işlemi başarıyla gerçekleştirildi",
-        //   [
-        //     {
-        //       text: "Tamam",
-        //       onPress: async () => {
-        //         const customerData = await getCustomerList(userIdNumber);
-        //         setCustomerss(customerData.data);
-
-        //         navigation.navigate("HomeCustomerListScreen");
-        //       },
-        //     },
-        //   ]
-        // );
       } else {
         Alert.alert("Hata", response.message);
       }
@@ -146,29 +130,31 @@ const AddDebt = () => {
                 setFormData({ ...formData, debtCurrency: itemValue });
               }}
             >
-              <Picker.Item label={t.addDebtPage.tl} value={t.addDebtPage.tl} />
+              <Picker.Item 
+               label={t.addDebtPage.tl} 
+               value="TL" />
               <Picker.Item
                 label={t.addDebtPage.usd}
-                value={t.addDebtPage.usd}
+                value="Dolar"
               />
               <Picker.Item
                 label={t.addDebtPage.euro}
-                value={t.addDebtPage.euro}
+                value="Euro"
               />
               <Picker.Item
                 label={t.addDebtPage.toman}
-                value={t.addDebtPage.toman}
+                value="Toman"
               />
               <Picker.Item
                 label={t.addDebtPage.afghani}
-                value={t.addDebtPage.afghani}
+                value="Afghani"
               />
             </Picker>
           </View>
           <View style={[styles.formRow, { marginTop: 10 }]}>
             <TextInput
               style={styles.input}
-              placeholder={"Description"}  // Add translation key here
+              placeholder={t.debtPage.description}  
               value={formData.description}
               onChangeText={(value) =>
                 setFormData({

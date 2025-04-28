@@ -113,7 +113,7 @@ const AccountInfoForm = () => {
 
   const handleUpdate = async () => {
     if (!hasChanges()) {
-      alert("Hiçbir değişiklik yapılmadı!");
+      alert(t.accountInfoPage.alertMessageNotChange);
       return;
     }
   
@@ -124,13 +124,12 @@ const AccountInfoForm = () => {
       }
     });
     try {
-      console.log("Güncellenen veriler:", updatedFields);
+      
       const response = await updateUser(userIdNumber, updatedFields);
-      console.log("Güncelleme yanıtı:", response); 
-      alert("Bilgiler başarıyla güncellendi!");
+      alert(t.accountInfoPage.alertMessageSuccessfull);
     } catch (error) {
       console.error("Güncelleme hatası:", error);
-      alert("Bilgiler güncellenirken hata oluştu.");
+      alert(t.accountInfoPage.alertMessageFailed);
     }
   };
   return (

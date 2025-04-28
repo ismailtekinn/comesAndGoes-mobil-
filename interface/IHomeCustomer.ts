@@ -9,6 +9,17 @@ export interface Customer {
     img:string;
   }
 
+  export interface Transaction {
+    clientId: number;
+    createdAt: string;  
+    description: string;
+    id: number;
+    isActive: boolean;
+    transactionAmount: number;
+    transactionCurrency: string;
+    transactionType: "cash" | "debt"; 
+    userId: number;
+  }
   export interface CashTransaction {
     id: number;
     totalCash: number;
@@ -24,4 +35,11 @@ export interface Customer {
     balance: number;
     currency: string;
     type: string;
+  };
+ export  type TransactionCashDifferanceType = {
+    difference: number;
+    currency: string;
+    transactionType: string;
+    totalCash:number;
+    totalDebt:number;
   };

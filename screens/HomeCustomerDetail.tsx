@@ -15,6 +15,8 @@
 // import { useNavigation } from "@react-navigation/native";
 // import { Picker } from "@react-native-picker/picker";
 // import { useIsFocused } from "@react-navigation/native";
+// import moment from "moment-hijri";
+
 // import {
 //   compareDebtAndCashReceivable,
 //   getCustomerCashDebtList,
@@ -36,7 +38,10 @@
 //   const [customers, setCustomers] = useState<Customer[]>([]);
 //   const isFocused = useIsFocused();
 //   const [paraBirimi, setParaBirimi] = useState<string>("TL");
-//   const { format,setFormat } = useClock();
+//   const { format, setFormat } = useClock();
+//   const is12HourFormat = format === "12";
+//   const locale = is12HourFormat ? "en-US" : "tr-TR";
+
 //   const [cashDifference, setCashdifference] = useState<CashDifferenceType[]>(
 //     []
 //   );
@@ -57,7 +62,7 @@
 //     (item) => item.currency.toLowerCase() === paraBirimi.toLowerCase()
 //   );
 //   const fetchCustomer = async () => {
-//     try {
+//     try { 
 //       const customerData = await getCustomerCashDebtList({
 //         customerId: customerId,
 //         userId: userIdNumber,
@@ -79,6 +84,7 @@
 //     }
 //   };
 
+//   console.log("müşteri id numarası Console yazdırılıyor  ",customerId)
 //   useLayoutEffect(() => {
 //     navigation.setOptions({
 //       title: t.homeCustomerDetail.pageTitle,
@@ -95,29 +101,22 @@
 //   useEffect(() => {
 //     const loadFormat = async () => {
 //       try {
-//         const savedFormat = await AsyncStorage.getItem('@clock_format');
-//         if (savedFormat === '12' || savedFormat === '24') {
-//           setFormat(savedFormat as '12' | '24');
+//         const savedFormat = await AsyncStorage.getItem("@clock_format");
+//         if (savedFormat === "12" || savedFormat === "24") {
+//           setFormat(savedFormat as "12" | "24");
 //         }
 //       } catch (error) {
-//         console.error('AsyncStorage verisi yüklenemedi:', error);
+//         console.error("AsyncStorage verisi yüklenemedi:", error);
 //       }
 //     };
 
 //     loadFormat();
 //   }, [format]);
 
-//   console.log("saat formatı console yazdırılıyor : ", format)
-//   // useEffect(() => {
-//   //   fetchCustomer();
-//   //   fetchcompareDebtAndCashReceivable();
-//   // }, []);
-
 //   return (
 //     <View style={styles.container}>
 //       <View style={styles.header}>
 //         <TouchableOpacity>
-//           {/* <Ionicons name="arrow-back" size={24} color="black" /> */}
 //         </TouchableOpacity>
 //         <Text style={styles.headerText}>{customerName}</Text>
 //         <Ionicons
@@ -129,12 +128,14 @@
 //       </View>
 //       <View style={styles.balanceContainer}>
 //         <View>
-//           <Text style={styles.balanceTitle}>{t.homeCustomerDetail.generalBalance}</Text>
+//           <Text style={styles.balanceTitle}>
+//             {t.homeCustomerDetail.generalBalance}
+//           </Text>
 //           <Text style={styles.balanceSubtitle}>
 //             {filteredCash.length > 0
 //               ? filteredCash[0].type === "debt"
-//                 ? "Verdim"
-//                 : "Aldım"
+//                 ? t.homeCustomerDetail.debtButton
+//                 : t.homeCustomerDetail.cashButton
 //               : ""}
 //           </Text>
 
@@ -168,8 +169,9 @@
 //           </Picker>
 //         </View>
 //       </View>
-
-//       <Text style={styles.operationsTitle}>{t.homeCustomerDetail.operations}</Text>
+//       <Text style={styles.operationsTitle}>
+//         {t.homeCustomerDetail.operations}
+//       </Text>
 //       <ScrollView style={styles.operationsList}>
 //         {filteredCustomers.map((customer: Customer, index) => {
 //           const isExpanded = expandedId === customer.recordId;
@@ -201,13 +203,15 @@
 //                 <View style={styles.operationInfo}>
 //                   <Text style={styles.operationDate}>
 //                     {new Date(customer.debtIssuanceDate).toLocaleString(
-//                       "tr-TR",
+//                       locale,
 //                       {
 //                         day: "2-digit",
 //                         month: "2-digit",
 //                         year: "numeric",
 //                         hour: "2-digit",
 //                         minute: "2-digit",
+//                         hour12: is12HourFormat,
+//                         timeZone: "UTC",
 //                       }
 //                     )}
 //                   </Text>
@@ -220,16 +224,18 @@
 //                     >
 //                       <Text style={styles.descriptionText}>
 //                         {isExpanded ? customer.description : shortDescription}
-//                         {customer.description.length > 60 && (
+//                         {customer.description.length > 10 && (
 //                           <Text
 //                             style={{
 //                               fontWeight: "bold",
 //                               color: "black",
-//                               fontSize: 13,
+//                               fontSize: 17,
 //                             }}
 //                           >
 //                             {" "}
-//                             {isExpanded ? "Daha az" : "Devamını gör"}
+//                             {isExpanded
+//                               ? t.accounPage.less
+//                               : t.accounPage.seeMore}
 //                           </Text>
 //                         )}
 //                       </Text>
@@ -251,18 +257,24 @@
 //         })}
 //       </ScrollView>
 
+
+
 //       <View style={styles.bottomButtons}>
 //         <TouchableOpacity
 //           style={styles.aldimButton}
-//           onPress={() => navigation.navigate("CashReceivable", { customerId })}
+//           onPress={() => navigation.navigate("AddTransaction", { customerId,transactionType: "cash"})}
 //         >
-//           <Text style={styles.aldimText}>{t.homeCustomerDetail.cashButton}</Text>
+//           <Text style={styles.aldimText}>
+//             {t.homeCustomerDetail.cashButton}
+//           </Text>
 //         </TouchableOpacity>
 //         <TouchableOpacity
 //           style={styles.verdimButton}
-//           onPress={() => navigation.navigate("AddDebt", { customerId })}
+//           onPress={() => navigation.navigate("AddTransaction", { customerId ,transactionType: "debt"})}
 //         >
-//           <Text style={styles.verdimText}>{t.homeCustomerDetail.debtButton}</Text>
+//           <Text style={styles.verdimText}>
+//             {t.homeCustomerDetail.debtButton}
+//           </Text>
 //         </TouchableOpacity>
 //       </View>
 //       <BottomBar />
@@ -337,12 +349,13 @@
 //   operationItem: {
 //     flexDirection: "row",
 //     alignItems: "center",
-//     padding: 15,
+//     padding: 20,
 //     borderBottomWidth: 1,
 //     borderBottomColor: "#E0E0E0",
 //   },
 //   operationInfo: {
 //     marginLeft: 10,
+//     flex: 1,
 //   },
 //   operationDate: {
 //     fontSize: 14,
@@ -350,7 +363,7 @@
 //   },
 //   operationBalance: {
 //     fontSize: 12,
-//     color: "gray",
+//     // color: "gray",
 //   },
 //   operationAmount: {
 //     marginLeft: "auto",
@@ -360,8 +373,8 @@
 //     flexDirection: "row",
 //     justifyContent: "space-between",
 //     marginTop: 20,
-//     marginBottom: 60, // BottomBar ile üst üste gelmesini önlemek için
-//     zIndex: 5, // BottomBar'ın üstünde olması için
+//     marginBottom: 60,
+//     zIndex: 5, 
 //   },
 //   aldimButton: {
 //     backgroundColor: "#caedcd",
@@ -391,18 +404,32 @@
 //   },
 //   descriptionText: {
 //     marginTop: 4,
+//     marginBottom:2,
 //     fontSize: 12,
-//     color: "#333",
+//     // color: "#444",
+//     flexShrink: 1
+
 //   },
 //   descriptionContent: {
-//     flexDirection: "row",
-//     alignItems: "flex-start",
 //     maxWidth: 200,
-//     marginTop: 5,
+//     marginBottom: 2,
+    
 //   },
 // });
 
 // export default HomeCustomerDetail;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
@@ -427,9 +454,11 @@ import moment from "moment-hijri";
 import {
   compareDebtAndCashReceivable,
   getCustomerCashDebtList,
+  getUserClientTransactions,
+  getUserClientTransactionSummary,
 } from "../api/customer";
 import { useUser } from "../contex/useContext";
-import { CashDifferenceType, Customer } from "../interface/IHomeCustomer";
+import { CashDifferenceType, Customer, Transaction, TransactionCashDifferanceType } from "../interface/IHomeCustomer";
 import { useTranslations } from "../hooks/useTranslation";
 import { LanguageContext } from "../contex/languageContext";
 import { useClock } from "../contex/clockContext";
@@ -442,14 +471,14 @@ const HomeCustomerDetail = () => {
   const t = useTranslations();
   const { activeLanguage } = useContext(LanguageContext);
   const route = useRoute();
-  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [customers, setCustomers] = useState<Transaction[]>([]);
   const isFocused = useIsFocused();
   const [paraBirimi, setParaBirimi] = useState<string>("TL");
   const { format, setFormat } = useClock();
   const is12HourFormat = format === "12";
   const locale = is12HourFormat ? "en-US" : "tr-TR";
 
-  const [cashDifference, setCashdifference] = useState<CashDifferenceType[]>(
+  const [cashDifference, setCashdifference] = useState<TransactionCashDifferanceType[]>(
     []
   );
   const { customerId, customerName } = route.params as {
@@ -460,18 +489,22 @@ const HomeCustomerDetail = () => {
   const toggleDescription = (recordId: number) => {
     setExpandedId((prevId) => (prevId === recordId ? null : recordId));
   };
-
+  
+  // Operaasyonlar altında ki listeyi verisini filtreliyor
   const filteredCustomers = customers.filter(
     (customer) =>
-      customer.debtCurrency.toLowerCase() === paraBirimi.toLowerCase()
+      customer.transactionCurrency.toLowerCase() === paraBirimi.toLowerCase()
   );
   const filteredCash = cashDifference.filter(
     (item) => item.currency.toLowerCase() === paraBirimi.toLowerCase()
   );
+
+  console.log("filtrelenen fark miktarı ", filteredCash)
   const fetchCustomer = async () => {
-    try {
-      const customerData = await getCustomerCashDebtList({
-        customerId: customerId,
+    try { 
+      // Operaasyonlar altında ki listeyi döndürüyor
+      const customerData = await getUserClientTransactions({
+        clientId: customerId,
         userId: userIdNumber,
       });
       setCustomers(customerData.data);
@@ -481,10 +514,11 @@ const HomeCustomerDetail = () => {
   };
   const fetchcompareDebtAndCashReceivable = async () => {
     try {
-      const result = await compareDebtAndCashReceivable({
-        customerId: customerId,
+      const result = await getUserClientTransactionSummary({
+        clientId: customerId,
         userId: userIdNumber,
       });
+      console.log("Burası fark methodu hesabı konsole yazdırılıyor : ", result)
       setCashdifference(result.data);
     } catch (error) {
       console.error("Hata :", error);
@@ -519,17 +553,10 @@ const HomeCustomerDetail = () => {
     loadFormat();
   }, [format]);
 
-  console.log("saat formatı console yazdırılıyor : ", format);
-  // useEffect(() => {
-  //   fetchCustomer();
-  //   fetchcompareDebtAndCashReceivable();
-  // }, []);
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity>
-          {/* <Ionicons name="arrow-back" size={24} color="black" /> */}
         </TouchableOpacity>
         <Text style={styles.headerText}>{customerName}</Text>
         <Ionicons
@@ -546,9 +573,9 @@ const HomeCustomerDetail = () => {
           </Text>
           <Text style={styles.balanceSubtitle}>
             {filteredCash.length > 0
-              ? filteredCash[0].type === "debt"
-                ? "Verdim"
-                : "Aldım"
+              ? filteredCash[0].transactionType === "debt"
+                ? t.homeCustomerDetail.debtButton
+                : t.homeCustomerDetail.cashButton
               : ""}
           </Text>
 
@@ -557,14 +584,14 @@ const HomeCustomerDetail = () => {
               styles.balanceValue,
               {
                 color:
-                  filteredCash.length > 0 && filteredCash[0].type === "debt"
+                  filteredCash.length > 0 && filteredCash[0].transactionType === "debt"
                     ? "red"
                     : "green",
               },
             ]}
           >
             {filteredCash.length > 0
-              ? `${filteredCash[0].balance} ${filteredCash[0].currency}`
+              ? `${filteredCash[0].difference} ${filteredCash[0].currency}`
               : "0.0"}
           </Text>
         </View>
@@ -585,9 +612,10 @@ const HomeCustomerDetail = () => {
       <Text style={styles.operationsTitle}>
         {t.homeCustomerDetail.operations}
       </Text>
-       <ScrollView style={styles.operationsList}>
-         {filteredCustomers.map((customer: Customer, index) => {
-          const isExpanded = expandedId === customer.recordId;
+
+      <ScrollView style={styles.operationsList}>
+        {filteredCustomers.map((customer: Transaction, index) => {
+          const isExpanded = expandedId === customer.id;
           const shortDescription =
             customer.description && customer.description.length > 60
               ? customer.description.slice(0, 60) + "..."
@@ -598,24 +626,23 @@ const HomeCustomerDetail = () => {
               key={index}
               onPress={() =>
                 navigation.navigate("EditTransaction", {
-                  recordId: customer.recordId,
-                  debtAmount: customer.debtAmount,
-                  transactionType: customer.type,
-                  debtIssuanceDate: customer.debtIssuanceDate,
+                  recordId: customer.id,
+                  debtAmount: customer.transactionAmount,
+                  transactionType: customer.transactionType,
+                  debtIssuanceDate: customer.createdAt,
                   description: customer.description,
-                  img: customer.img,
                 })
               }
             >
               <View style={styles.operationItem}>
                 <Ionicons
-                  name={customer.type === "Borç" ? "arrow-up" : "arrow-down"}
+                  name={customer.transactionType === "debt" ? "arrow-up" : "arrow-down"}
                   size={24}
-                  color={customer.type === "Alacak" ? "green" : "red"}
+                  color={customer.transactionType === "cash" ? "green" : "red"}
                 />
                 <View style={styles.operationInfo}>
                   <Text style={styles.operationDate}>
-                    {new Date(customer.debtIssuanceDate).toLocaleString(
+                    {new Date(customer.createdAt).toLocaleString(
                       locale,
                       {
                         day: "2-digit",
@@ -623,30 +650,31 @@ const HomeCustomerDetail = () => {
                         year: "numeric",
                         hour: "2-digit",
                         minute: "2-digit",
-                        hour12:is12HourFormat,
-                        timeZone:'UTC'
+                        hour12: is12HourFormat,
+                        timeZone: "UTC",
                       }
                     )}
                   </Text>
 
-                  {/* Açıklama kısmı */}
                   {customer.description ? (
                     <TouchableOpacity
                       style={styles.descriptionContent}
-                      onPress={() => toggleDescription(customer.recordId)}
+                      onPress={() => toggleDescription(customer.id)}
                     >
                       <Text style={styles.descriptionText}>
                         {isExpanded ? customer.description : shortDescription}
-                        {customer.description.length > 60 && (
+                        {customer.description.length > 10 && (
                           <Text
                             style={{
                               fontWeight: "bold",
                               color: "black",
-                              fontSize: 13,
+                              fontSize: 17,
                             }}
                           >
                             {" "}
-                            {isExpanded ? "Daha az" : "Devamını gör"}
+                            {isExpanded
+                              ? t.accounPage.less
+                              : t.accounPage.seeMore}
                           </Text>
                         )}
                       </Text>
@@ -657,20 +685,22 @@ const HomeCustomerDetail = () => {
                 <Text
                   style={[
                     styles.operationAmount,
-                    { color: customer.type === "Alacak" ? "green" : "red" },
+                    { color: customer.transactionType === "cash" ? "green" : "red" },
                   ]}
                 >
-                  {customer.debtAmount} {customer.debtCurrency}
+                  {customer.transactionAmount} {customer.transactionCurrency}
                 </Text>
               </View>
             </TouchableOpacity>
           );
         })}
       </ScrollView>
+
+
       <View style={styles.bottomButtons}>
         <TouchableOpacity
           style={styles.aldimButton}
-          onPress={() => navigation.navigate("CashReceivable", { customerId })}
+          onPress={() => navigation.navigate("AddTransaction", { customerId,transactionType: "cash"})}
         >
           <Text style={styles.aldimText}>
             {t.homeCustomerDetail.cashButton}
@@ -678,7 +708,7 @@ const HomeCustomerDetail = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.verdimButton}
-          onPress={() => navigation.navigate("AddDebt", { customerId })}
+          onPress={() => navigation.navigate("AddTransaction", { customerId ,transactionType: "debt"})}
         >
           <Text style={styles.verdimText}>
             {t.homeCustomerDetail.debtButton}
@@ -757,12 +787,13 @@ const styles = StyleSheet.create({
   operationItem: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 15,
+    padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#E0E0E0",
   },
   operationInfo: {
     marginLeft: 10,
+    flex: 1,
   },
   operationDate: {
     fontSize: 14,
@@ -770,7 +801,7 @@ const styles = StyleSheet.create({
   },
   operationBalance: {
     fontSize: 12,
-    color: "gray",
+    // color: "gray",
   },
   operationAmount: {
     marginLeft: "auto",
@@ -780,8 +811,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
-    marginBottom: 60, // BottomBar ile üst üste gelmesini önlemek için
-    zIndex: 5, // BottomBar'ın üstünde olması için
+    marginBottom: 60,
+    zIndex: 5, 
   },
   aldimButton: {
     backgroundColor: "#caedcd",
@@ -811,14 +842,16 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     marginTop: 4,
+    marginBottom:2,
     fontSize: 12,
-    color: "#333",
+    // color: "#444",
+    flexShrink: 1
+
   },
   descriptionContent: {
-    flexDirection: "row",
-    alignItems: "flex-start",
     maxWidth: 200,
-    marginTop: 5,
+    marginBottom: 2,
+    
   },
 });
 

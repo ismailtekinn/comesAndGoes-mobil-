@@ -6,8 +6,8 @@ export type RootStackParamList = {
     Help: undefined;
     Clock: undefined;
     Language: undefined;
-    // AddDebt: undefined;
     AddDebt: {customerId: number};
+    AddTransaction: {customerId: number, transactionType: string};
     AddDebtDeneme: undefined;
     AccountInfoForm: undefined;
     Account: undefined;
@@ -28,7 +28,7 @@ export type RootStackParamList = {
     AccountActivityDeneme: undefined
     AccountActivity:undefined
     EditAccountActivity: {id: number,totalCash:number,transactionType: string,description:string}
-    EditTransaction:{recordId: number,debtAmount:number,transactionType: string,debtIssuanceDate:string,description:string,img:string}
+    EditTransaction:{recordId: number,debtAmount:number,transactionType: string,debtIssuanceDate:string,description:string}
 
 }
 

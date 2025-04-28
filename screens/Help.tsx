@@ -20,20 +20,38 @@ const Help: React.FC = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const t = useTranslations();
   const { activeLanguage } = useContext(LanguageContext);
-  const whatsappUrl = "https://wa.me/+905357970059";
+  // const whatsappUrl = "https://wa.me/+905357970059";
+  // const gmailUrl = "mailto:baysoftworks@gmail.com";
+  // const linkedinUrl = "https://www.linkedin.com/in/ismail-tekin-38b40b1a5/";
+  // const whatsappUrl = "https://wa.me/905357970059"; 
+  const whatsappUrl = "https://api.whatsapp.com/send?phone=905357970059";
+
   const gmailUrl = "mailto:baysoftworks@gmail.com";
-  const linkedinUrl = "https://www.linkedin.com/in/ismail-tekin-38b40b1a5/";
+const gmailWebUrl = "https://mail.google.com/mail/?view=cm&fs=1&to=baysoftworks@gmail.com";
+// const linkedinUrl = "https://www.linkedin.com/in/ismail-tekin-38b40b1a5/";
+const linkedinUrl = "https://linkedin.com/in/ismail-tekin-38b40b1a5/";
+
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: t.helpPage.pageTitle,
     });
   }, [navigation, activeLanguage]);
   const openLink = async (url: string) => {
-    const supported = await Linking.canOpenURL(url);
-    if (supported) {
-      await Linking.openURL(url);
+    if (url.startsWith("mailto:")) {
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        await Linking.openURL(gmailWebUrl);
+      }
     } else {
-      console.log("URL desteklenmiyor: " + url);
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        console.log("URL desteklenmiyor: " + url);
+      }
     }
   };
   return (

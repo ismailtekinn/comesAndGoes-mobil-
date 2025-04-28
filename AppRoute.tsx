@@ -35,6 +35,7 @@ import HomeCustomerDetail from "./screens/HomeCustomerDetail";
 import AccountActivity from "./screens/AccountActivity";
 import EditTransaction from "./screens/EditTransaction";
 import EditAccountActivity from "./screens/EditAccountActivity";
+import AddTransaction from "./screens/AddTransaction";
 
 const Stack = createStackNavigator();
 
@@ -155,6 +156,7 @@ const AppRoute: React.FC = () => {
               component={MoneyTransferScreen}
             />
             <Stack.Screen name="AddDebt" component={AddDebt} />
+            <Stack.Screen name="AddTransaction" component={AddTransaction} />
             <Stack.Screen name="DebtList" component={DebtList} />
 
             <Stack.Screen name="AddCustomer" component={AddCustomer} />

@@ -1,21 +1,29 @@
 import React, { useContext, useLayoutEffect, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { Register } from '../types/authType'; // Register tipi burada tanımlı olmalı
-import { register } from '../api/auth'; // Register işlevi burada tanımlı olmalı
-import { useUser } from '../contex/useContext'; // Kullanıcı işlemleri için
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ImageBackground,
+  StyleSheet,
+  ScrollView,
+  Alert,
+} from 'react-native';
+import { Register } from '../types/authType';
+import { register } from '../api/auth';
+import { useUser } from '../contex/useContext';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslations } from '../hooks/useTranslation';
 import { LanguageContext } from '../contex/languageContext';
 
-
 const RegisterScreen: React.FC = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const { handleLogin, handleToken } = useUser();
-  const [error, setError] = useState<string | null>(null);
   const t = useTranslations();
   const { activeLanguage } = useContext(LanguageContext);
+
   const [formData, setFormData] = useState<Register>({
     name: '',
     surname: '',
@@ -23,141 +31,152 @@ const RegisterScreen: React.FC = () => {
     email: '',
     password: '',
     phone: '',
-    roleId: 3
+    roleId: 3,
   });
+
+  const [error, setError] = useState<string | null>(null);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: t.registerPage.pageTitle,
     });
   }, [navigation, activeLanguage]);
 
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value, type } = e.target;
-    const newValue = type === 'number' ? Number(value) : value;
-    setFormData(prevState => ({
-      ...prevState,
-      [id]: newValue,
-    }));
-  };
-
   const handleSubmit = async () => {
     if (formData.email === '' || formData.password === '') {
-        Alert.alert("Hata", "Lütfen ilgili alanları doldurun ");
+      Alert.alert("Hata", "Lütfen ilgili alanları doldurun");
       return;
     }
     try {
       const response = await register(formData);
-      Alert.alert( response.message || "Bilinmeyen bir hata oluştu.");
-      if (response.success == true) {
+      Alert.alert(response.message || "Bilinmeyen bir hata oluştu.");
+      if (response.success === true) {
         navigation.navigate('Login');
-      }
-      else{
-        setError(response.message
-        )
+      } else {
+        setError(response.message);
       }
     } catch (error: any) {
-       Alert.alert("Giriş Hatası", error.message || "Bilinmeyen bir hata oluştu.");
-      
+      Alert.alert("Kayıt Hatası", error.message || "Bilinmeyen bir hata oluştu.");
     }
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.card}>
-      {error && <Text style={styles.errorText}>{error}</Text>}
+    <ImageBackground
+      source={require('../assets/img/loginBackground.png')}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.form}>
+          {error && <Text style={styles.errorText}>{error}</Text>}
+          <Text style={styles.title}>{t.registerPage.pageTitle}</Text>
 
-        <Text style={styles.cardTitle}>{t.registerPage.pageTitle}</Text>
-        <TextInput
-          style={styles.input}
-          placeholder={t.registerPage.firstName}
-          value={formData.name}
-          onChangeText={(text) => setFormData({ ...formData, name: text })}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder={t.registerPage.lastName}
-          value={formData.surname}
-          onChangeText={(text) => setFormData({ ...formData, surname: text })}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder={t.registerPage.userName}
-          value={formData.username}
-          onChangeText={(text) => setFormData({ ...formData, username: text })}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder={t.registerPage.email}
-          keyboardType="email-address"
-          value={formData.email}
-          onChangeText={(text) => setFormData({ ...formData, email: text })}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder={t.registerPage.phoneNumber}
-          value={formData.phone}
-          onChangeText={(text) => setFormData({ ...formData, phone: text })}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder={t.registerPage.password}
-          secureTextEntry
-          value={formData.password}
-          onChangeText={(text) => setFormData({ ...formData, password: text })}
-        />
+          <TextInput
+            placeholder={t.registerPage.firstName}
+            style={styles.input}
+            value={formData.name}
+            onChangeText={(text) => setFormData({ ...formData, name: text })}
+          />
+          <TextInput
+            placeholder={t.registerPage.lastName}
+            style={styles.input}
+            value={formData.surname}
+            onChangeText={(text) => setFormData({ ...formData, surname: text })}
+          />
+          <TextInput
+            placeholder={t.registerPage.userName}
+            style={styles.input}
+            value={formData.username}
+            onChangeText={(text) => setFormData({ ...formData, username: text })}
+          />
+          <TextInput
+            placeholder={t.registerPage.email}
+            style={styles.input}
+            keyboardType="email-address"
+            value={formData.email}
+            onChangeText={(text) => setFormData({ ...formData, email: text })}
+          />
+          <TextInput
+            placeholder={t.registerPage.phoneNumber}
+            style={styles.input}
+            keyboardType="phone-pad"
+            value={formData.phone}
+            onChangeText={(text) => setFormData({ ...formData, phone: text })}
+          />
+          <TextInput
+            placeholder={t.registerPage.password}
+            style={styles.input}
+            secureTextEntry
+            value={formData.password}
+            onChangeText={(text) => setFormData({ ...formData, password: text })}
+          />
 
-        <Button title={t.registerPage.signUp} onPress={handleSubmit} />
-        <TouchableOpacity>
-          <Text style={styles.linkText}>{t.registerPage.passwordReturn}</Text>
-        </TouchableOpacity>
-        <View style={styles.signInText}>
-          <Text style={styles.text}>{t.registerPage.haveAccount}</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.linkText}>{t.registerPage.signIn}</Text>
+          <TouchableOpacity style={styles.registerButton} onPress={handleSubmit}>
+            <Text style={styles.registerText}>{t.registerPage.signUp}</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Text style={styles.linkText}>{t.registerPage.passwordReturn}</Text>
+          </TouchableOpacity>
+
+          <View style={styles.signInText}>
+            <Text style={styles.text}>{t.registerPage.haveAccount}</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.linkText}>{t.registerPage.signIn}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </View>
+      </ScrollView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  errorText: {
-    color: 'red',
-    marginBottom: 8,
+  background: {
+    flex: 1,
   },
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 20, // Burayı 50'den 20'ye düşürdük
+  },
+  form: {
+    width: '100%',
+    backgroundColor: 'rgba(255, 255, 255, 0.85)', // Biraz daha şeffaflık
+    borderRadius: 20,
     padding: 20,
   },
-  card: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  cardTitle: {
-    fontSize: 24,
+  title: {
+    fontSize: 28, // 32'den 28'e düşürdüm, daha dengeli
+    fontWeight: 'bold',
+    color: '#003366',
     textAlign: 'center',
     marginBottom: 20,
   },
   input: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 15,
-    paddingLeft: 10,
+    height: 45, // 50 yerine 45
+    backgroundColor: 'rgba(242, 242, 242, 0.95)',
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    marginBottom: 10, // 12 yerine 10
+  },
+  registerButton: {
+    backgroundColor: '#3478f6',
+    paddingVertical: 12, // 15 yerine 12
+    borderRadius: 10,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  registerText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   linkText: {
-    color: 'blue',
+    color: '#003366',
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: 12, // 15 yerine 12
   },
   signInText: {
     flexDirection: 'row',
@@ -166,6 +185,11 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'grey',
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 8,
+    textAlign: 'center',
   },
 });
 

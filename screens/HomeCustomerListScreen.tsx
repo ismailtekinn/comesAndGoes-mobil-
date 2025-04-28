@@ -25,6 +25,7 @@
 // import { useIsFocused } from "@react-navigation/native";
 // import { useTranslations } from "../hooks/useTranslation";
 // import { LanguageContext } from "../contex/languageContext";
+// import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // const HomeCustomerListScreen = () => {
 //   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -53,11 +54,9 @@
 //     (customer) =>
 //       customer.balance.currency.toLowerCase() === paraBirimi.toLowerCase()
 //   );
-// console.log("para bizimi : ", paraBirimi)
 //   const handleAddCustomerClick = () => {
 //     navigation.navigate("AddCustomer");
 //   };
-//   console.log("Customers  console yazdırılıyor: ", customerss);
 
 //   const fetchCustomers = async () => {
 //     try {
@@ -67,14 +66,12 @@
 //       console.error("Müşteriler yüklenirken hata oluştu:", error);
 //     }
 //   };
-
 //   const fetchPagination = async (searchQuery: string) => {
 //     try {
 //       const filterData = await getfilterCustomerList(userIdNumber, searchQuery);
 //       setFilterCustomer(filterData.data.data);
 //     } catch (error) {}
 //   };
-
 //   useEffect(() => {
 //     const delayDebounceFn = setTimeout(() => {
 //       if (searchText.trim().length > 0) {
@@ -84,7 +81,6 @@
 
 //     return () => clearTimeout(delayDebounceFn);
 //   }, [searchText]);
-
 //   useEffect(() => {
 //     fetchCustomers();
 //   }, []);
@@ -139,7 +135,7 @@
 //           onChangeText={(text) => setSearchText(text)}
 //         />
 //       </View>
-//       {searchText.trim() && (
+//       {/* {searchText.trim() && (
 //         <View style={styles.newSection}>
 //           {filterCustomer.length > 0 ? (
 //             filterCustomer.map((customer) => (
@@ -155,8 +151,7 @@
 //                     setSearchText("");
 //                   }}
 //                 >
-//                   {customer.clientName} {customer.clientSurname}
-//                   {customer.clientPhone}
+//                   {customer.clientName} {customer.clientSurname}                    {customer.clientPhone}
 //                 </Text>
 //               </View>
 //             ))
@@ -166,7 +161,43 @@
 //             </Text>
 //           )}
 //         </View>
-//       )}
+//       )} */}
+
+// {searchText.trim() && (
+//   <View style={styles.newSection}>
+//     {filterCustomer.length > 0 ? (
+//       filterCustomer.map((customer) => (
+//         <View key={customer.id} style={styles.customerItem}>
+//           <Text
+//             style={styles.customerText}
+//             onPress={() => {
+//               navigation.navigate("HomeCustomerDetail", {
+//                 customerId: customer.id,
+//                 customerName: customer.clientName,
+//               });
+//               setSearchText("");
+//             }}
+//           >
+//             <View style={styles.infoRow}>
+//               <MaterialCommunityIcons name="account" size={20} color="#007AFF" />
+//               <Text style={styles.clientName}>
+//                 {customer.clientName} {customer.clientSurname}
+//               </Text>
+//             </View>
+//             <View style={styles.infoRow}>
+//               <MaterialCommunityIcons style={{marginLeft:10}} name="phone" size={20} color="#007AFF" />
+//               <Text style={styles.clientPhone}>{customer.clientPhone}</Text>
+//             </View>
+//           </Text>
+//         </View>
+//       ))
+//     ) : (
+//       <Text style={styles.noDataText}>
+//         {t.homeCustomerListScreen.dataNotFound}
+//       </Text>
+//     )}
+//   </View>
+// )}
 //       <ScrollView
 //         style={{ marginTop: 16 }}
 //         contentContainerStyle={{ paddingBottom: 70 }}
@@ -351,9 +382,22 @@
 //     marginBottom: 10,
 //     borderRadius: 10,
 //   },
+//   customerText: {
+//     color: "#007AFF",
+//   },
+//   infoRow: {
+//     flexDirection: "row",
+//     alignItems: "center",
+//   },
 //   clientName: {
 //     fontSize: 16,
 //     fontWeight: "bold",
+//     color: "#007AFF",
+//   },
+//   clientPhone: {
+//     marginLeft: 8,
+//     fontSize: 14,
+//     color: "#007AFF",
 //   },
 //   clientBalance: {
 //     fontSize: 14,
@@ -361,6 +405,7 @@
 //   },
 //   newSection: {
 //     backgroundColor: "#f4f4f4",
+//     // backgroundColor: "#e0e0e0",
 //     padding: 15,
 //     marginBottom: 20,
 //     borderRadius: 10,
@@ -376,6 +421,7 @@
 // });
 
 // export default HomeCustomerListScreen;
+
 import React, {
   useCallback,
   useContext,
@@ -403,6 +449,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useIsFocused } from "@react-navigation/native";
 import { useTranslations } from "../hooks/useTranslation";
 import { LanguageContext } from "../contex/languageContext";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const HomeCustomerListScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -428,8 +475,7 @@ const HomeCustomerListScreen = () => {
   }, [isFocused]);
 
   const filteredCustomers = customerss.filter(
-    (customer) =>
-      customer.balance.currency.toLowerCase() === paraBirimi.toLowerCase()
+    (customer) => customer.currency.toLowerCase() === paraBirimi.toLowerCase()
   );
   const handleAddCustomerClick = () => {
     navigation.navigate("AddCustomer");
@@ -438,6 +484,7 @@ const HomeCustomerListScreen = () => {
   const fetchCustomers = async () => {
     try {
       const customerData = await getCustomerList(userIdNumber);
+      console.log("Filter data console yazdırılıyor ", customerData);
       setCustomers(customerData.data);
     } catch (error) {
       console.error("Müşteriler yüklenirken hata oluştu:", error);
@@ -449,6 +496,7 @@ const HomeCustomerListScreen = () => {
       setFilterCustomer(filterData.data.data);
     } catch (error) {}
   };
+  console.log("filtrelenen veri console yazdırılıyor  ", filteredCustomers);
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (searchText.trim().length > 0) {
@@ -464,10 +512,6 @@ const HomeCustomerListScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.balanceContainer}>
-        <Text style={styles.receivedText}>Aldım: 500.0 ₺</Text>
-        <Text style={styles.givenText}>Verdim: 0.0 ₺</Text>
-      </View> */}
       <View style={styles.header}>
         <Text style={styles.headerText}>
           {t.homeCustomerListScreen.customers}
@@ -479,22 +523,10 @@ const HomeCustomerListScreen = () => {
             selectedValue={paraBirimi}
             onValueChange={(itemValue) => setParaBirimi(itemValue)}
           >
-            <Picker.Item
-              label={t.homeCustomerListScreen.tl}
-              value="TL"
-            />
-            <Picker.Item
-              label={t.homeCustomerListScreen.usd}
-              value="Dolar"
-            />
-            <Picker.Item
-              label={t.homeCustomerListScreen.euro}
-              value="Euro"
-            />
-            <Picker.Item
-              label={t.homeCustomerListScreen.toman}
-              value="Toman"
-            />
+            <Picker.Item label={t.homeCustomerListScreen.tl} value="TL" />
+            <Picker.Item label={t.homeCustomerListScreen.usd} value="Dolar" />
+            <Picker.Item label={t.homeCustomerListScreen.euro} value="Euro" />
+            <Picker.Item label={t.homeCustomerListScreen.toman} value="Toman" />
             <Picker.Item
               label={t.homeCustomerListScreen.afghani}
               value="Afghani"
@@ -512,24 +544,43 @@ const HomeCustomerListScreen = () => {
           onChangeText={(text) => setSearchText(text)}
         />
       </View>
+
       {searchText.trim() && (
         <View style={styles.newSection}>
           {filterCustomer.length > 0 ? (
             filterCustomer.map((customer) => (
               <View key={customer.id} style={styles.customerItem}>
                 <Text
-                  style={styles.clientName}
+                  style={styles.customerText}
                   onPress={() => {
                     navigation.navigate("HomeCustomerDetail", {
                       customerId: customer.id,
                       customerName: customer.clientName,
                     });
-
                     setSearchText("");
                   }}
                 >
-                  {customer.clientName} {customer.clientSurname}
-                  {customer.clientPhone}
+                  <View style={styles.infoRow}>
+                    <MaterialCommunityIcons
+                      name="account"
+                      size={20}
+                      color="#007AFF"
+                    />
+                    <Text style={styles.clientName}>
+                      {customer.clientName} {customer.clientSurname}
+                    </Text>
+                  </View>
+                  <View style={styles.infoRow}>
+                    <MaterialCommunityIcons
+                      style={{ marginLeft: 10 }}
+                      name="phone"
+                      size={20}
+                      color="#007AFF"
+                    />
+                    <Text style={styles.clientPhone}>
+                      {customer.clientPhone}
+                    </Text>
+                  </View>
                 </Text>
               </View>
             ))
@@ -540,12 +591,11 @@ const HomeCustomerListScreen = () => {
           )}
         </View>
       )}
-      <ScrollView
+      {/* <ScrollView
         style={{ marginTop: 16 }}
         contentContainerStyle={{ paddingBottom: 70 }}
       >
         {filteredCustomers.map((customer) => {
-          // const firstLetter = customer.clientName?.charAt(0)?.toUpperCase();
           const firstLetter =
             customer.clientName?.charAt(0)?.toUpperCase() || "";
 
@@ -585,6 +635,55 @@ const HomeCustomerListScreen = () => {
                 ]}
               >
                 {customer.balance.balance} {customer.balance.currency}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView> */}
+
+      <ScrollView
+        style={{ marginTop: 16 }}
+        contentContainerStyle={{ paddingBottom: 70 }}
+      >
+        {filteredCustomers.map((customer) => {
+          const firstLetter =
+            customer.clientName?.charAt(0)?.toUpperCase() || "";
+
+          return (
+            <TouchableOpacity
+              key={customer.id}
+              style={styles.customerCard}
+              onPress={() =>
+                navigation.navigate("HomeCustomerDetail", {
+                  customerId: customer.id,
+                  customerName: customer.clientName,
+                })
+              }
+            >
+              <View style={styles.circle}>
+                <Text style={styles.circleText}>{firstLetter}</Text>
+              </View>
+
+              <View style={{ flex: 1 }}>
+                <Text style={styles.customerName}>
+                  {customer.clientName} {customer.clientSurname}
+                </Text>
+              </View>
+
+              <Text
+                style={[
+                  styles.amountText,
+                  {
+                    color:
+                      customer.type === "debt"
+                        ? "red"
+                        : customer.type === "cash"
+                        ? "green"
+                        : "blue",
+                  },
+                ]}
+              >
+                {customer.transactionSummary} {customer.currency}
               </Text>
             </TouchableOpacity>
           );
@@ -724,9 +823,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 10,
   },
+  customerText: {
+    color: "#007AFF",
+  },
+  infoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   clientName: {
     fontSize: 16,
     fontWeight: "bold",
+    color: "#007AFF",
+  },
+  clientPhone: {
+    marginLeft: 8,
+    fontSize: 14,
+    color: "#007AFF",
   },
   clientBalance: {
     fontSize: 14,
@@ -734,6 +846,7 @@ const styles = StyleSheet.create({
   },
   newSection: {
     backgroundColor: "#f4f4f4",
+    // backgroundColor: "#e0e0e0",
     padding: 15,
     marginBottom: 20,
     borderRadius: 10,

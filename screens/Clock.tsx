@@ -1,12 +1,28 @@
-import React, { useState } from 'react';
+import React, { useContext, useLayoutEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import BottomBar from './BottomBar';
 import { useClock } from '../contex/clockContext';
+import { useTranslations } from '../hooks/useTranslation';
+import { LanguageContext } from '../contex/languageContext';
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types";
 
 const Clock = () => {
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  
   // const [activeFormat, setActiveFormat] = useState<'24' | '12'>('24');
   // const { format: activeFormat, setFormat: setActiveFormat } = useClock();
   const { format, setFormat } = useClock();
+    const t = useTranslations();
+    const { activeLanguage } = useContext(LanguageContext);
+
+
+      useLayoutEffect(() => {
+        navigation.setOptions({
+          title: t.clock.pageTitle,
+        });
+      }, [navigation, activeLanguage]);
   return (
     <View style={styles.container}>
       <Pressable
@@ -20,13 +36,13 @@ const Clock = () => {
           styles.buttonText,
           format === '24' ? styles.activeText : styles.inactiveText,
         ]}>
-          Miladi Takvim 
+          {/* Miladi Takvim  */}
                   </Text>
         <Text style={[
           styles.buttonText,
           format === '24' ? styles.activeText : styles.inactiveText,
         ]}>
-          24 Saat Formatı
+          {t.clock.format24}
         </Text>
       </Pressable>
 
@@ -41,13 +57,13 @@ const Clock = () => {
           styles.buttonText,
           format === '12' ? styles.activeText : styles.inactiveText,
         ]}>
-          Hicri Takvim
+          {/* Hicri Takvim */}
         </Text>
         <Text style={[
           styles.buttonText,
           format === '12' ? styles.activeText : styles.inactiveText,
         ]}>
-          12 Saat Formatı
+              {t.clock.format12}
         </Text>
       </Pressable>
       <BottomBar/>
