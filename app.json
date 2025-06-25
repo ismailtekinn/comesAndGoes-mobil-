@@ -5,15 +5,25 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "newArchEnabled": true,
-    "icon": "./assets/comesandgoesloginddeneme.png",
+    "icon": "./assets/comesandgoeslogo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/comesandgoesloginddeneme.png",
-      "resizeMode": "contain",
+      "image": "./assets/comesandgoeslogo.png",
+      "resizeMode": "cover",
       "backgroundColor": "#030d17"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "splash": {
+        "image": "./assets/comesandgoeslogo.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#030d17",
+        "tabletImage": "./assets/comesandgoeslogo.png"
+      },
+      "bundleIdentifier": "com.bybrstekin.moneytransfer",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "name": "android.permission.INTERNET",
@@ -22,12 +32,18 @@
         "backgroundColor": "#030d17"
       },
       "plugins": [
-        "./android-manifest.plugin.js"
+        "./android-manifest.plugin.js",
+        "expo-splash-screen"
       ],
       "package": "com.bybrstekin.moneytransfer",
       "permissions": [
         "INTERNET"
       ],
+      "splash": {
+        "image": "./assets/comesandgoeslogo.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#030d17"
+      },
       "intentFilters": [
         {
           "action": "VIEW",
@@ -46,7 +62,10 @@
               "pathPrefix": "/in/ismail-tekin-38b40b1a5"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ]
     },

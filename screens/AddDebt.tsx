@@ -84,7 +84,7 @@ const AddDebt = () => {
     const currentTime = getCurrentTimeForRegion();
     console.log("object",currentTime)
  
-    const debtData: NewDebt = {
+    const debtData: NewDebt= {
       debtAmount: formData.cashAmount,
       debtCurrency: formData.debtCurrency,
       debtorId: customerId ? customerId : 0,

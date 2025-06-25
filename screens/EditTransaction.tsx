@@ -14,7 +14,7 @@ import { RootStackParamList } from "../types";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { deleteTransaction, editTransaction, updateTransaction } from "../api/customer";
+import { deleteTransaction, deleteUserClientTransaction, editTransaction, updateTransaction } from "../api/customer";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { useTranslations } from "../hooks/useTranslation";
@@ -46,7 +46,6 @@ const EditTransaction = () => {
     description: string;
   };
   const [date, setDate] = useState(new Date(debtIssuanceDate ?? new Date()));
-  console.log("object",date)
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [imageUri, setImageUri] = useState<string | null>(null);
 
@@ -77,7 +76,6 @@ const EditTransaction = () => {
     }
   };
   const handleUpdate = async () => {
-    console.log("güncellenecek veri konsole yazdırılıyor ", formData)
     try {
       const response = await updateTransaction(formData);
       if (response.isSuccess) {
@@ -85,28 +83,13 @@ const EditTransaction = () => {
         // navigation.pop(2);
       } else {
         Alert.alert("Hata", response.message);
-        console.log("object", response.message);
       }
     } catch (error) {
       Alert.alert("Hata", "Beklenmeyen bir hata oluştu.");
       console.error(error);
     }
   }
-  // const handleUpdate = async () => {
-  //   try {
-  //     const response = await editTransaction(formData, transactionType);
-  //     if (response.isSuccess) {
-  //       // navigation.goBack();
-  //       navigation.pop(2);
-  //     } else {
-  //       Alert.alert("Hata", response.message);
-  //       console.log("object", response.message);
-  //     }
-  //   } catch (error) {
-  //     Alert.alert("Hata", "Beklenmeyen bir hata oluştu.");
-  //     console.error(error);
-  //   }
-  // };
+
   const handleDateChange = (event: any, selectedDate?: Date) => {
     const currentDate = selectedDate || date;
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -120,7 +103,7 @@ const EditTransaction = () => {
   };
   const handleDelete = async () => {
     try {
-      const response = await deleteTransaction(recordId,transactionType);
+      const response = await deleteUserClientTransaction(recordId);
       if (response.isSuccess) {
         navigation.goBack();
       } else {

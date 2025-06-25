@@ -152,24 +152,19 @@ const AccountActivity = () => {
         </View>
       </View>
       <Text style={styles.totalBalance}>
-        {t.accounPage.cashBalance}:{" "}
-        <Text
-          style={{
-            color:
-              (filteredCustomers[0]?.difference || 0) >
-              (filteredCustomers[0]?.outTotal || 0)
-                ? "green"
-                : "red",
-          }}
-        >
-          {filteredCustomers[0]?.difference}
-          {filteredCustomers[0]?.cashCurrency}
-        </Text>
-      </Text>
-
-      <Text style={styles.transactionTitle}>
-        {t.accounPage.operations} ({filteredCash.length})
-      </Text>
+  {t.accounPage.cashBalance}:{" "}
+  <Text
+    style={{
+      color:
+        (filteredCustomers[0]?.inTotal || 0) > (filteredCustomers[0]?.outTotal || 0)
+          ? "green"
+          : "red",
+    }}
+  >
+    {filteredCustomers[0]?.difference || 0}
+    {filteredCustomers[0]?.cashCurrency}
+  </Text>
+</Text>
 
       <ScrollView style={styles.transactionList}>
         {filteredCash.map((transaction: CashTransaction, index) => {

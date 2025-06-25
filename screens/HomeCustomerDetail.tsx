@@ -499,7 +499,6 @@ const HomeCustomerDetail = () => {
     (item) => item.currency.toLowerCase() === paraBirimi.toLowerCase()
   );
 
-  console.log("filtrelenen fark miktarı ", filteredCash)
   const fetchCustomer = async () => {
     try { 
       // Operaasyonlar altında ki listeyi döndürüyor
@@ -518,7 +517,6 @@ const HomeCustomerDetail = () => {
         clientId: customerId,
         userId: userIdNumber,
       });
-      console.log("Burası fark methodu hesabı konsole yazdırılıyor : ", result)
       setCashdifference(result.data);
     } catch (error) {
       console.error("Hata :", error);

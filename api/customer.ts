@@ -50,7 +50,6 @@ export async function getfilterCustomerList(userId: number, searchQuery: string 
       throw new Error(errorData.error || "getCustomerList failed");
     }
     const customerList = await response.json();
-    console.log("Home sayfasında listelenen veri yazdırılıyor ")
    
     return customerList;
   } catch (error) {
@@ -104,7 +103,9 @@ export async function addUserCash(params: AddUserCash): Promise<{isSuccess: bool
     throw error
   }
 }
-export async function addDebt(params: TransactionFields): Promise<{isSuccess: boolean; message: string}> {
+
+// burda  TransactionFields eklenmişti ama şimdi newdebt eklendi
+export async function addDebt(params: NewDebt): Promise<{isSuccess: boolean; message: string}> {
   try {
     const url = API_URL + "api/comesandgoes/addDebt";
     const response = await fetch(url, {
@@ -380,8 +381,7 @@ export async function getCustomerCashDebtList(params: TransactionListField) {
 }
 export async function getUserClientTransactions(params: TransactionListField) {
   try {
-    const url = `http://192.168.1.200:3000/api/comesandgoes/getUserClientTransactions?userId=${params.userId}&clientId=${params.clientId}`;
-
+    const url = `${API_URL}api/comesandgoes/getUserClientTransactions?userId=${params.userId}&clientId=${params.clientId}`;
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -400,7 +400,8 @@ export async function getUserClientTransactions(params: TransactionListField) {
 }
 export async function getUserClientTransactionSummary(params: TransactionListField) {
   try {
-    const url = `http://192.168.1.200:3000/api/comesandgoes/getUserClientTransactionSummary?userId=${params.userId}&clientId=${params.clientId}`;
+    const url = `${API_URL}api/comesandgoes/getUserClientTransactionSummary?userId=${params.userId}&clientId=${params.clientId}`;
+
 
     const response = await fetch(url, {
       method: "GET",
@@ -624,6 +625,27 @@ export async function deleteTransaction(recordId: number,transactionType:string)
   }
 }
 
+
+export async function deleteUserClientTransaction(id: number) {
+  try {
+    const url = `${API_URL}api/comesandgoes/deleteUserClientTransaction?id=${id}`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "addCustomer failed");
+    }
+    const userCashList = await response.json();
+    return userCashList;
+  } catch (error) {
+    console.error(error);
+    throw new Error("An error occurred during register");
+  }
+}
 
 
 export async function deleteUserCash(id: number) {
