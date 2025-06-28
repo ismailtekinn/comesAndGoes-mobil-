@@ -5,7 +5,7 @@
     "password": "Şifre",
     "signUp": "Kayıt Ol",
     "haveNoAccount": "Hesabınız yok mu?",
-    "forgetPassword":"Şifreyi Unut"
+    "forgetPassword": "Şifreyi Unut"
   },
   "registerPage": {
     "pageTitle": "Kayıt Ol",
@@ -35,7 +35,8 @@
     "timeAndDate": "Saat ve Tarih",
     "language": "Dil",
     "help": "Yardım",
-    "logout": "Çıkış"
+    "logout": "Çıkış",
+    "exchangeRate": "Döviz Çeviri"
   },
 
   "accountPageReceivablesTabMenu": {
@@ -115,9 +116,9 @@
     "phoneNumber": "Telefon numaranızı gir",
     "email": "Email",
     "updateButton": "Güncelle",
-    "alertMessageNotChange":"Hiçbir değişiklik yapılmadı",
-    "alertMessageSuccessfull":"Bilgiler başarıyla güncellendi",
-    "alertMessageFailed":"Bilgiler güncellenirken bir hata oluştu"
+    "alertMessageNotChange": "Hiçbir değişiklik yapılmadı",
+    "alertMessageSuccessfull": "Bilgiler başarıyla güncellendi",
+    "alertMessageFailed": "Bilgiler güncellenirken bir hata oluştu"
   },
   "languagePage": {
     "pageTitle": "Dil",
@@ -140,54 +141,54 @@
     "transferDate": "Geri Ödeme Tarihi",
     "transaction": "aldım"
   },
-  "addUserCashScreen" : {
-    "pageTitle" : "Hesap Nakit",
-    "totalCash" : "Nakit Miktarı",
-    "userCash" : "Hesap Nakit",
-    "labelCashAmount" : "Nakit miktarını giriniz",
-    "cashCurrency":"Nakit Birimi" ,
+  "addUserCashScreen": {
+    "pageTitle": "Hesap Nakit",
+    "totalCash": "Nakit Miktarı",
+    "userCash": "Hesap Nakit",
+    "labelCashAmount": "Nakit miktarını giriniz",
+    "cashCurrency": "Nakit Birimi",
     "addCashButton": "Nakit Ekle"
   },
-  "updatePassword" : {
-    "pageTitle" : "Şifre Güncelleme",
-    "newPassword" : "Yeni Şifre",
-    "newPasswordConfirm" : "Yeni Şifre Tekrar",
-    "updateButton":"Güncelle"
+  "updatePassword": {
+    "pageTitle": "Şifre Güncelleme",
+    "newPassword": "Yeni Şifre",
+    "newPasswordConfirm": "Yeni Şifre Tekrar",
+    "updateButton": "Güncelle"
   },
   "myCustomerPage": {
     "pageTitle": "Müşterilerim",
-    "name":"Ad",
-    "surname":"Soyad",
-    "phone" : "Telefon",
-    "proccess":"İşlem",
-    "mofalPage":"Müşteri Düzenle",
-    "saveButton":"Kaydet",
-    "cancelButton":"İptal"
+    "name": "Ad",
+    "surname": "Soyad",
+    "phone": "Telefon",
+    "proccess": "İşlem",
+    "mofalPage": "Müşteri Düzenle",
+    "saveButton": "Kaydet",
+    "cancelButton": "İptal"
   },
-  "homeCustomerListScreen":{
-    "pageTitle":"Müşteri Listesi",
-    "customers":"Müşteriler",
+  "homeCustomerListScreen": {
+    "pageTitle": "Müşteri Listesi",
+    "customers": "Müşteriler",
     "tl": "TL ₺",
     "usd": "Dolar $",
     "euro": "Euro €",
     "toman": "Tümen ₮",
     "afghani": "Afgani ؋",
-    "searchInput":"Müşteri Ara",
-    "addCustomer":"Müşteri Ekle",
-    "dataNotFound":"Veri Bulunamadı"
+    "searchInput": "Müşteri Ara",
+    "addCustomer": "Müşteri Ekle",
+    "dataNotFound": "Veri Bulunamadı"
   },
-  "homeCustomerDetail":{
-    "pageTitle":"Müşteri Detay",
-    "generalBalance":"Genel Bakiye",
-    "operations":"Operasyonlar",
-    "cashButton":"Aldım",
-    "debtButton":"Verdim",
+  "homeCustomerDetail": {
+    "pageTitle": "Müşteri Detay",
+    "generalBalance": "Genel Bakiye",
+    "operations": "Operasyonlar",
+    "cashButton": "Aldım",
+    "debtButton": "Verdim",
     "tl": "TL ₺",
     "usd": "Dolar $",
     "euro": "Euro €",
     "toman": "Tümen ₮",
     "afghani": "Afgani ؋",
-    "searchInput":"Arama"
+    "searchInput": "Arama"
   },
   "cashPage": {
     "pageTitle": "Nakit Al",
@@ -210,68 +211,110 @@
     "toman": "Tümen ₮",
     "afghani": "Afgani ؋",
     "borrowMoney": "Borç Ver"
-
   },
-  "editTransaction":{
-    "pageTitle":"İşlemler",
-    "addImage":"Resim Ekle",
-    "description":"Ayrıntıları girin",
-    "saveButton":"Kaydet"
+  "editTransaction": {
+    "pageTitle": "İşlemler",
+    "addImage": "Resim Ekle",
+    "description": "Ayrıntıları girin",
+    "saveButton": "Kaydet"
   },
   "accounPage": {
     "pageTitle": "Hesap Hareketleri",
-    "cashBalance":"Genel Bakiyesi",
-    "totalIn":"Toplam Giren",
-    "totalOut":"Toplam Çıkan",
-    "operations":"İşlemler",
-    "cashAmount":"Mevcut Nakit",
-    "debtAmount":"Borç Miktarı",
-    "emptyData":"Veri Yok",
-    "seeMore":"Devamını Gör",
-    "less":"Daha az",
+    "cashBalance": "Genel Bakiyesi",
+    "totalIn": "Toplam Giren",
+    "totalOut": "Toplam Çıkan",
+    "operations": "İşlemler",
+    "cashAmount": "Mevcut Nakit",
+    "debtAmount": "Borç Miktarı",
+    "emptyData": "Veri Yok",
+    "seeMore": "Devamını Gör",
+    "less": "Daha az",
     "tl": "TL ₺",
     "usd": "Dolar $",
     "euro": "Euro €",
     "toman": "Tümen ₮",
     "afghani": "Afgani ؋"
   },
-  "accountCash":{
-    "pageTitle":"Hesap Nakit",
-    "cashAmout":"Nakit Miktarı",
-    "cashCurrency":"Nakit Birimi",
-    "description":"Açıklama",
+  "accountCash": {
+    "pageTitle": "Hesap Nakit",
+    "cashAmout": "Nakit Miktarı",
+    "cashCurrency": "Nakit Birimi",
+    "description": "Açıklama",
     "tl": "TL ₺",
     "usd": "Dolar $",
     "euro": "Euro €",
     "toman": "Tümen ₮",
     "afghani": "Afgani ؋",
-    "addCashButton":"Nakit Ekle"
+    "addCashButton": "Nakit Ekle"
   },
-  "accountDebt":{
-    "pageTitle":"Hesap Nakit",
-    "cashAmout":"Nakit Miktarı",
-    "cashCurrency":"Nakit Birimi",
-    "description":"Açıklama",
+  "accountDebt": {
+    "pageTitle": "Hesap Nakit",
+    "cashAmout": "Nakit Miktarı",
+    "cashCurrency": "Nakit Birimi",
+    "description": "Açıklama",
     "tl": "TL ₺",
     "usd": "Dolar $",
     "euro": "Euro €",
     "toman": "Tümen ₮",
     "afghani": "Afgani ؋",
-    "addCashButton":"Nakit Ver"
+    "addCashButton": "Nakit Ver"
   },
-  "editAccountActivity":{
-    "pageTitle":"Hareketleri Düzenle",
-    "description":"Açıklama",
-    "saveButton":"Kaydet",
-    "deleteTitle":"Sil",
-    "deleteDescription":"Bu kaydı silmek istediğinize emin misiniz?",
-    "deleteYes":"Evet",
-    "deleteNo":"Hayır"
+  "editAccountActivity": {
+    "pageTitle": "Hareketleri Düzenle",
+    "description": "Açıklama",
+    "saveButton": "Kaydet",
+    "deleteTitle": "Sil",
+    "deleteDescription": "Bu kaydı silmek istediğinize emin misiniz?",
+    "deleteYes": "Evet",
+    "deleteNo": "Hayır"
   },
   "clock": {
-    "pageTitle":"Saat",
-    "format24":"24 Saat Formatı",
-    "format12":"12 Saat Formatı"
+    "pageTitle": "Saat",
+    "format24": "24 Saat Formatı",
+    "format12": "12 Saat Formatı"
+  },
+  "currencyConvert": {
+    "pageTitle": "Döviz Çeviri",
+    "warningLoading": "Kurlar yükleniyor...",
+    "errorLoading": "Kurlar yükleniyor...",
+    "amount": "Miktar",
+    "currency": "Para Birimi",
+    "translate": "Çevir",
+    "result": "Sonuç"
+  },
+  "createPdfButton": {
+    "reportTitle": "İşlem Geçmişi",
+    "reportDateLabel": "Rapor tarihi",
+    "customerLabel": "Müşteri",
+    "totalCashLabel": "Toplam Nakit",
+    "totalDebtLabel": "Toplam Borç",
+    "tableHeaders": {
+      "no": "#",
+      "date": "Tarih",
+      "transactionType": "İşlem Türü",
+      "amount": "Tutar",
+      "description": "Açıklama"
+    },
+    "transactionTypes": {
+      "cash": "Nakit",
+      "debt": "Borç"
+    },
+    "alertSharingNotAvailable": "Bu cihazda paylaşma özelliği desteklenmiyor.",
+    "alertPdfCreationError": "PDF oluşturulurken bir sorun oluştu.",
+    "buttonCreatePdf": "İşlem Raporu PDF Oluştur"
+  },
+    "transactionReceipt": {
+    "title": "İşlem Dekontu",
+    "reportDateLabel": "Rapor Oluşturulma Tarihi",
+    "customerName": "Müşteri Adı",
+    "phone": "Telefon",
+    "transactionNumber": "İşlem No",
+    "amountLabel": "İŞLEM TUTARI",
+    "description": "Açıklama",
+    "transactionDate": "İşlem Tarihi",
+    "footer": "MoneyTransfer",
+    "shareError": "Bu cihazda paylaşma özelliği desteklenmiyor.",
+    "pdfError": "PDF oluşturulurken bir sorun oluştu.",
+    "buttonCreatePdf": "İşlem Raporu PDF Oluştur"
   }
-
 }

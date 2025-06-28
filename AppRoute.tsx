@@ -34,6 +34,8 @@ import AccountActivity from "./screens/AccountActivity";
 import EditTransaction from "./screens/EditTransaction";
 import EditAccountActivity from "./screens/EditAccountActivity";
 import AddTransaction from "./screens/AddTransaction";
+import CreatePdfButton from "./screens/pdf/CreatePdfButton";
+import CurrencyConverter from "./screens/CurrencyConvert";
 
 const Stack = createStackNavigator();
 
@@ -102,6 +104,7 @@ const AppRoute: React.FC = () => {
 
             <Stack.Screen name="AddCustomer" component={AddCustomer} />
             <Stack.Screen name="DebtDetail" component={DebtDetail} />
+            <Stack.Screen name="CurrencyConverter" component={CurrencyConverter} />
           </>
         ) : (
           <>

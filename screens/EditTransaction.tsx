@@ -7,20 +7,23 @@ import {
   StyleSheet,
   Alert,
   Platform,
-  Image,
 } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { deleteTransaction, deleteUserClientTransaction, editTransaction, updateTransaction } from "../api/customer";
+import {
+  deleteUserClientTransaction,
+  updateTransaction,
+} from "../api/customer";
 import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from "expo-file-system";
 import { useTranslations } from "../hooks/useTranslation";
 import { LanguageContext } from "../contex/languageContext";
-import { toZonedTime } from 'date-fns-tz';
-import { getCurrentTimeForRegion } from "../utils/dateUtils";
+import { toZonedTime } from "date-fns-tz";
+import { TransactionDetailInfo } from "../interface/IPdfType";
+import { useUser } from "../contex/useContext";
+import { detailTransactionPDF } from "./pdf/TransactionDetayPdf";
 
 export interface TransactionFormData {
   id: number;
@@ -30,6 +33,10 @@ export interface TransactionFormData {
 }
 
 const EditTransaction = () => {
+  const { userData } = useUser();
+
+  console.log("userData console yazdırılıyor : ", userData);
+
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const route = useRoute();
   const {
@@ -55,6 +62,16 @@ const EditTransaction = () => {
     createdAt: debtIssuanceDate,
     description: description,
   });
+
+  const transactionInfo: TransactionDetailInfo = {
+    userName: userData?.name,
+    userSurname: userData?.surname,
+    userPhone: userData?.phone,
+    pdfTransactionAmount: formData.transactionAmount,
+    pdfTransactionType: transactionType,
+    pdfTransactionDescription: formData.description,
+    pdfTransactionDate: formData.createdAt,
+  };
 
   const t = useTranslations();
   const { activeLanguage } = useContext(LanguageContext);
@@ -88,7 +105,7 @@ const EditTransaction = () => {
       Alert.alert("Hata", "Beklenmeyen bir hata oluştu.");
       console.error(error);
     }
-  }
+  };
 
   const handleDateChange = (event: any, selectedDate?: Date) => {
     const currentDate = selectedDate || date;
@@ -114,8 +131,6 @@ const EditTransaction = () => {
       console.error(error);
     }
   };
-
-
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -175,7 +190,7 @@ const EditTransaction = () => {
           placeholder={t.editTransaction.description}
           value={formData.description}
           placeholderTextColor="#A0A0A0"
-          scrollEnabled={true} 
+          scrollEnabled={true}
           onChangeText={(text) =>
             setFormData({ ...formData, description: text })
           }
@@ -192,7 +207,7 @@ const EditTransaction = () => {
           color="white"
           onPress={() =>
             Alert.alert(
-          t.editAccountActivity.deleteTitle,
+              t.editAccountActivity.deleteTitle,
               t.editAccountActivity.deleteDescription,
               [
                 {
@@ -209,9 +224,28 @@ const EditTransaction = () => {
           }
         />
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.saveButton,
-        {backgroundColor:transactionType === 'debt' ? 'red' : 'green'}
-      ]} onPress={handleUpdate}>
+      <TouchableOpacity
+        style={styles.exportButton}
+        onPress={() => {
+          detailTransactionPDF(transactionInfo,t);
+        }}
+      >
+        <Ionicons
+          name="log-out-outline"
+          size={30}
+          color="white"
+          style={{ transform: [{ rotate: "-90deg" }] }}
+        />
+      </TouchableOpacity>
+
+
+      <TouchableOpacity
+        style={[
+          styles.saveButton,
+          { backgroundColor: transactionType === "debt" ? "red" : "green" },
+        ]}
+        onPress={handleUpdate}
+      >
         <Text style={styles.saveButtonText}>
           {t.editTransaction.saveButton}
         </Text>
@@ -278,15 +312,27 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontSize: 16,
   },
+  // saveButton: {
+  //   backgroundColor: "red",
+  //   padding: 15,
+  //   borderRadius: 10,
+  //   marginVertical: 10,
+  //   marginTop: 100,
+  //   width: "100%",
+  //   alignItems: "center",
+  // },
+
   saveButton: {
-    backgroundColor: "red",
-    padding: 15,
-    borderRadius: 10,
-    marginVertical: 10,
-    marginTop: 100,
-    width: "100%",
-    alignItems: "center",
-  },
+  backgroundColor: "red",
+  padding: 15,
+  borderRadius: 10,
+  width: "90%",
+  alignItems: "center",
+  position: "absolute",
+  bottom: 20, 
+  alignSelf: "center",
+},
+
   saveButtonText: {
     color: "white",
     fontSize: 18,
@@ -299,6 +345,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 20,
     right: 5,
+    width: "15%",
+    height: 50,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+
+  exportButton: {
+    position: "absolute",
+    backgroundColor: "#007AFF",
+    padding: 5,
+    borderRadius: 10,
+    marginVertical: 20,
+    right: 65,
     width: "15%",
     height: 50,
     alignItems: "center",

@@ -35,7 +35,8 @@
     "timeAndDate": "ساعت و تاریخ",
     "language": "زبان",
     "help": "کمک",
-    "logout": "خروج"
+    "logout": "خروج",
+    "exchangeRate": "تبدیل ارز"
   },
   "accountPageReceivablesTabMenu": {
     "receivables": "قابل دریافت ها",
@@ -271,5 +272,50 @@
     "pageTitle": "ساعت",
     "format24": "فرمت ۲۴ ساعته",
     "format12": "فرمت ۱۲ ساعته"
+  },
+    "currencyConvert": {
+    "pageTitle": "تبدیل ارز",
+    "warningLoading": "در حال بارگذاری نرخ‌ها...",
+    "errorLoading": "بارگذاری نرخ‌ها با خطا مواجه شد.",
+    "amount": "مقدار",
+    "currency": "واحد پول",
+    "translate": "تبدیل",
+    "result": "نتیجه"
+  },
+    "createPdfButton": {
+    "reportTitle": "تاریخچه تراکنش‌ها",
+    "reportDateLabel": "تاریخ گزارش",
+    "customerLabel": "مشتری",
+    "totalCashLabel": "جمع نقدی",
+    "totalDebtLabel": "جمع قرض",
+    "tableHeaders": {
+      "no": "#",
+      "date": "تاریخ",
+      "transactionType": "نوع تراکنش",
+      "amount": "مبلغ",
+      "description": "توضیحات"
+    },
+    "transactionTypes": {
+      "cash": " نقد",
+      "debt": "قرض"
+    },
+    "alertSharingNotAvailable": "ویژگی اشتراک‌گذاری در این دستگاه پشتیبانی نمی‌شود.",
+    "alertPdfCreationError": "خطا در ایجاد فایل PDF.",
+    "buttonCreatePdf": "ایجاد گزارش تراکنش‌ها به صورت PDF"
+  },
+    "transactionReceipt": {
+    "title": "رسید تراکنش",
+    "reportDateLabel": "تاریخ ایجاد گزارش",
+    "customerName": "نام مشتری",
+    "phone": "شماره تماس",
+    "transactionNumber": "شماره تراکنش",
+    "amountLabel": "مبلغ تراکنش",
+    "description": "توضیحات",
+    "transactionDate": "تاریخ تراکنش",
+    "footer": "مانی ترنسفر",
+    "shareError": "ویژگی اشتراک‌گذاری در این دستگاه پشتیبانی نمی‌شود.",
+    "pdfError": "در هنگام ایجاد PDF خطایی رخ داد.",
+    "buttonCreatePdf": "ایجاد PDF تراکنش"
   }
+
 }

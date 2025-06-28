@@ -24,11 +24,13 @@ export type RootStackParamList = {
     AddUserCashScreen:{transactionType : string};
     PasswordUpdateScreen : undefined
     HomeCustomerListScreen: undefined
-    HomeCustomerDetail: {customerId: number,customerName: string}
+    HomeCustomerDetail: {customerId: number,customerName: string,customerSurname:string,customerPhone:string}
     AccountActivityDeneme: undefined
     AccountActivity:undefined
+    CreatePdfButton:undefined
     EditAccountActivity: {id: number,totalCash:number,transactionType: string,description:string}
     EditTransaction:{recordId: number,debtAmount:number,transactionType: string,debtIssuanceDate:string,description:string}
+    CurrencCurrencyConverteryConverter:undefined
 
 }
 

@@ -35,7 +35,8 @@
     "timeAndDate": "Time and Date",
     "language": "Language",
     "help": "Help",
-    "logout": "Logout"
+    "logout": "Logout",
+    "exchangeRate": "Currency Conversion"
   },
 
   "accountPageReceivablesTabMenu": {
@@ -270,5 +271,49 @@
     "pageTitle": "Clock",
     "format24": "24-Hour Format",
     "format12": "12-Hour Format"
+  },
+    "currencyConvert": {
+    "pageTitle": "Currency Converter",
+    "warningLoading": "Loading exchange rates...",
+    "errorLoading": "Failed to load exchange rates.",
+    "amount": "Amount",
+    "currency": "Currency",
+    "translate": "Convert",
+    "result": "Result"
+  },
+  "createPdfButton": {
+    "reportTitle": "Transaction History",
+    "reportDateLabel": "Report Date",
+    "customerLabel": "Customer",
+    "totalCashLabel": "Total Cash",
+    "totalDebtLabel": "Total Debt",
+    "tableHeaders": {
+      "no": "#",
+      "date": "Date",
+      "transactionType": "Transaction Type",
+      "amount": "Amount",
+      "description": "Description"
+    },
+    "transactionTypes": {
+      "cash": "Cash",
+      "debt": "Debt"
+    },
+    "alertSharingNotAvailable": "Sharing feature is not available on this device.",
+    "alertPdfCreationError": "An error occurred while creating the PDF.",
+    "buttonCreatePdf": "Create Transaction Report PDF"
+  },
+    "transactionReceipt": {
+    "title": "Transaction Receipt",
+    "reportDateLabel": "Report Created At",
+    "customerName": "Customer Name",
+    "phone": "Phone",
+    "transactionNumber": "Transaction No",
+    "amountLabel": "TRANSACTION AMOUNT",
+    "description": "Description",
+    "transactionDate": "Transaction Date",
+    "footer": "MoneyTransfer",
+    "shareError": "Sharing feature is not available on this device.",
+    "pdfError": "An error occurred while generating the PDF.",
+    "buttonCreatePdf": "Generate Transaction PDF"
   }
 }

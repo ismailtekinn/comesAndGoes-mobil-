@@ -53,6 +53,7 @@ const HomeCustomerListScreen = () => {
   const filteredCustomers = customerss.filter(
     (customer) => customer.currency.toLowerCase() === paraBirimi.toLowerCase()
   );
+
   const handleAddCustomerClick = () => {
     navigation.navigate("AddCustomer");
   };
@@ -83,6 +84,7 @@ const HomeCustomerListScreen = () => {
   useEffect(() => {
     fetchCustomers();
   }, []);
+
 
   return (
     <View style={styles.container}>
@@ -130,6 +132,8 @@ const HomeCustomerListScreen = () => {
                     navigation.navigate("HomeCustomerDetail", {
                       customerId: customer.id,
                       customerName: customer.clientName,
+                      customerSurname: customer.clientSurname,
+                      customerPhone: customer.clientPhone,
                     });
                     setSearchText("");
                   }}
@@ -165,56 +169,6 @@ const HomeCustomerListScreen = () => {
           )}
         </View>
       )}
-      {/* <ScrollView
-        style={{ marginTop: 16 }}
-        contentContainerStyle={{ paddingBottom: 70 }}
-      >
-        {filteredCustomers.map((customer) => {
-          const firstLetter =
-            customer.clientName?.charAt(0)?.toUpperCase() || "";
-
-          return (
-            <TouchableOpacity
-              key={customer.id}
-              style={styles.customerCard}
-              onPress={() =>
-                navigation.navigate("HomeCustomerDetail", {
-                  customerId: customer.id,
-                  customerName: customer.clientName,
-                })
-              }
-            >
-              <View style={styles.circle}>
-                <Text style={styles.circleText}>{firstLetter}</Text>
-              </View>
-
-              <View style={{ flex: 1 }}>
-                <Text style={styles.customerName}>
-                  {customer.clientName} {customer.clientSurname}
-                </Text>
-                <Text style={styles.dateText}>{customer.date}</Text>
-              </View>
-
-              <Text
-                style={[
-                  styles.amountText,
-                  {
-                    color:
-                      customer.balance.type === "debt"
-                        ? "red"
-                        : customer.balance.type === "cash"
-                        ? "green"
-                        : "blue",
-                  },
-                ]}
-              >
-                {customer.balance.balance} {customer.balance.currency}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView> */}
-
       <ScrollView
         style={{ marginTop: 16 }}
         contentContainerStyle={{ paddingBottom: 70 }}
@@ -231,6 +185,8 @@ const HomeCustomerListScreen = () => {
                 navigation.navigate("HomeCustomerDetail", {
                   customerId: customer.id,
                   customerName: customer.clientName,
+                  customerSurname: customer.clientSurname,
+                  customerPhone: customer.clientPhone,
                 })
               }
             >

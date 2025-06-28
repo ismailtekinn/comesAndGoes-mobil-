@@ -7,6 +7,7 @@ import { useUser } from "../contex/useContext";
 import { useTranslations } from "../hooks/useTranslation";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
+
 export type RootStackParamList = {
   AccountInfoForm: undefined;
   Clock: undefined;
@@ -16,6 +17,7 @@ export type RootStackParamList = {
   MyCustomers: undefined;
   HomeCustomerListScreen: undefined;
   AccountActivity: undefined;
+  CurrencyConverter: undefined;
 };
 export interface ProcessSidebarProps {
   isSidebarOpen: boolean;
@@ -79,6 +81,14 @@ const ProcessSidebar: React.FC<ProcessSidebarProps> = ({
           <MaterialCommunityIcons name="calendar-clock" size={24} color="#2895fe" />
 
           <Text style={styles.menuText}>{t.homePageOtherMenu.timeAndDate}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menuItem}
+          onPress={() => navigation.navigate("CurrencyConverter")}
+        >
+          <MaterialCommunityIcons name="currency-usd" size={24} color="#2895fe" />
+
+          <Text style={styles.menuText}>{t.homePageOtherMenu.exchangeRate}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menuItem}
