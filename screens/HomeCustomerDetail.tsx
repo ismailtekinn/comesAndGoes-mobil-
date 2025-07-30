@@ -231,6 +231,9 @@ const customerInfo: IPdfCustomerInfo = {
                   transactionType: customer.transactionType,
                   debtIssuanceDate: customer.createdAt,
                   description: customer.description,
+                  customerName: customerName,
+                  customerSurname : customerSurname,
+                  customerPhone : customerPhone
                 })
               }
             >

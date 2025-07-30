@@ -165,11 +165,11 @@ return `
     <div class="transaction-info">
       <div class="info-row">
         <span class="info-label">${t.transactionReceipt.customerName}:</span>
-        <span class="info-value">${transactionInfo.userName ?? ""} ${transactionInfo.userSurname ?? ""}</span>
+        <span class="info-value">${transactionInfo.customerName ?? ""} ${transactionInfo.customerSurname ?? ""}</span>
       </div>
       <div class="info-row">
         <span class="info-label">${t.transactionReceipt.phone}:</span>
-        <span class="info-value">${transactionInfo.userPhone ?? "-"}</span>
+        <span class="info-value">${transactionInfo.customerPhone ?? "-"}</span>
       </div>
       <div class="info-row">
         <span class="info-label">${t.transactionReceipt.transactionNumber}:</span>

@@ -29,7 +29,7 @@ export type RootStackParamList = {
     AccountActivity:undefined
     CreatePdfButton:undefined
     EditAccountActivity: {id: number,totalCash:number,transactionType: string,description:string}
-    EditTransaction:{recordId: number,debtAmount:number,transactionType: string,debtIssuanceDate:string,description:string}
+    EditTransaction:{recordId: number,debtAmount:number,transactionType: string,debtIssuanceDate:string,description:string,customerName: string,customerSurname:string,customerPhone:string}
     CurrencCurrencyConverteryConverter:undefined
 
 }
@@ -42,6 +42,7 @@ export type User = {
     email: string;
     password: string;
     phone: number;
+    roleId:number;
   };
   
 

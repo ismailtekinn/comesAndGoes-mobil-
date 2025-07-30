@@ -89,7 +89,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
         setUserData,
         handleToken,
         isLoading, 
-        
       }}
     >
       {children}

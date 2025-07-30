@@ -2,38 +2,7 @@ import axios from "axios";
 import { API_URL } from "../constants/constant";
 import { Register, SignIn, UpdateUser } from "../types/authType";
 import Constants from "expo-constants";
-import https from "https";
 
-// export async function login(params: SignIn) {
-//   try {
-//     const url = API_URL + "api/login";
-//     // const url = `https://baysoftworks.com/api/login` ;
-//     console.log("backend url ekrana yazdırılıyor : ", url);
-//     const response = await fetch(url, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         phone: params.phone,
-//         password: params.password,
-//       }),
-//     });
-//     const result = await response.json();
-//     console.log("burası login methodu : ", result);
-
-//     // if (!result.isSuccess) {
-//     //   console.log("if içerisine giriş yapıldı :");
-//     //   const errorData = result.message;
-//     //   throw new Error(errorData.error || errorData);
-//     // }
-//     console.log("hata aldığım kısım: ", result);
-//     const responseData = await response.json();
-//     return responseData;
-//   } catch (error: any) {
-//     throw error;
-//   }
-// }
 
 export async function login(params: SignIn) {
   try {
@@ -53,7 +22,6 @@ export async function login(params: SignIn) {
     const result = await response.json();
     console.log("burası login methodu : ", result);
     if (!result.isSuccess) {
-      console.log("if içerisine giriş yapıldı :");
       const errorData = result.message;
       throw new Error(errorData.error || errorData);
     }
@@ -84,15 +52,37 @@ export async function register(params: Register) {
     }
 
     const responseData = await response.json();
-    console.log("Burası register methodu ", responseData.message);
     return responseData;
   } catch (error: any) {
     throw error;
   }
 }
 
+
+export async function userList(token: string) {
+  try {
+    const url = `${API_URL}api/auth/userList`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+         Authorization: `Bearer ${token}`,
+      },
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "getCustomerList failed");
+    }
+    
+    const customerList = await response.json();
+    return customerList;
+  } catch (error) {
+    console.error(error);
+    throw new Error("An error occurred while fetching the customer list");
+  }
+}
 export async function updateUser<T>(id : number, updatedFields: Partial<T>) {
-  console.log("Güncellenen veriler:", updatedFields);
 
   try {
     const url = API_URL + "api/comesandgoes/updateUser";
@@ -113,7 +103,6 @@ export async function updateUser<T>(id : number, updatedFields: Partial<T>) {
     }
 
     const responseData = await response.json();
-    console.log("Güncelleme başarılı:", responseData.message);
     return responseData;
   } catch (error: any) {
     throw error;
@@ -143,7 +132,6 @@ export async function fetchDogImage() {
     }
 
     const result = await response.json();
-    console.log("Gelen veri:", result);
     return result;
   } catch (error: unknown) {
     if (error instanceof Error) {

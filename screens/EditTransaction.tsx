@@ -45,12 +45,19 @@ const EditTransaction = () => {
     transactionType,
     debtIssuanceDate,
     description,
+    customerName,
+    customerSurname,
+    customerPhone,
   } = route.params as {
     recordId: number;
     debtAmount: number;
     transactionType: string;
     debtIssuanceDate: string;
     description: string;
+    customerId: number;
+    customerName: string;
+    customerSurname: string;
+    customerPhone: string;
   };
   const [date, setDate] = useState(new Date(debtIssuanceDate ?? new Date()));
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -71,6 +78,9 @@ const EditTransaction = () => {
     pdfTransactionType: transactionType,
     pdfTransactionDescription: formData.description,
     pdfTransactionDate: formData.createdAt,
+    customerName: customerName,
+    customerSurname: customerSurname,
+    customerPhone: customerPhone,
   };
 
   const t = useTranslations();
@@ -227,7 +237,7 @@ const EditTransaction = () => {
       <TouchableOpacity
         style={styles.exportButton}
         onPress={() => {
-          detailTransactionPDF(transactionInfo,t);
+          detailTransactionPDF(transactionInfo, t);
         }}
       >
         <Ionicons
@@ -237,7 +247,6 @@ const EditTransaction = () => {
           style={{ transform: [{ rotate: "-90deg" }] }}
         />
       </TouchableOpacity>
-
 
       <TouchableOpacity
         style={[
@@ -323,15 +332,15 @@ const styles = StyleSheet.create({
   // },
 
   saveButton: {
-  backgroundColor: "red",
-  padding: 15,
-  borderRadius: 10,
-  width: "90%",
-  alignItems: "center",
-  position: "absolute",
-  bottom: 20, 
-  alignSelf: "center",
-},
+    backgroundColor: "red",
+    padding: 15,
+    borderRadius: 10,
+    width: "90%",
+    alignItems: "center",
+    position: "absolute",
+    bottom: 20,
+    alignSelf: "center",
+  },
 
   saveButtonText: {
     color: "white",
